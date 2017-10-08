@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Daniel Padfield</title>
-    <link>/tags/</link>
+    <link>https://padpadpadpad.github.io/tags/</link>
     <description>Recent content in Tags on Daniel Padfield</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
@@ -12,47 +12,47 @@
     
     <item>
       <title>Content tagged as &#39;Academic&#39;</title>
-      <link>/tags/academic/</link>
+      <link>https://padpadpadpad.github.io/tags/academic/</link>
       <pubDate>Sun, 01 Jan 2017 00:00:00 +0000</pubDate>
       
-      <guid>/tags/academic/</guid>
+      <guid>https://padpadpadpad.github.io/tags/academic/</guid>
       <description>&lt;p&gt;Here is a list of all the content that has been tagged as &lt;em&gt;academic&lt;/em&gt;.&lt;/p&gt;
 </description>
     </item>
     
     <item>
       <title>Deep Learning</title>
-      <link>/tags/deep-learning/</link>
+      <link>https://padpadpadpad.github.io/tags/deep-learning/</link>
       <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
       
-      <guid>/tags/deep-learning/</guid>
+      <guid>https://padpadpadpad.github.io/tags/deep-learning/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Demo</title>
-      <link>/tags/demo/</link>
+      <link>https://padpadpadpad.github.io/tags/demo/</link>
       <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
       
-      <guid>/tags/demo/</guid>
+      <guid>https://padpadpadpad.github.io/tags/demo/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Nlsloop</title>
-      <link>/tags/nlsloop/</link>
+      <link>https://padpadpadpad.github.io/tags/nlsloop/</link>
       <pubDate>Thu, 08 Sep 2016 21:13:14 -0500</pubDate>
       
-      <guid>/tags/nlsloop/</guid>
+      <guid>https://padpadpadpad.github.io/tags/nlsloop/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Non Linear Regression</title>
-      <link>/tags/non-linear-regression/</link>
+      <link>https://padpadpadpad.github.io/tags/non-linear-regression/</link>
       <pubDate>Thu, 08 Sep 2016 21:13:14 -0500</pubDate>
       
-      <guid>/tags/non-linear-regression/</guid>
+      <guid>https://padpadpadpad.github.io/tags/non-linear-regression/</guid>
       <description></description>
     </item>
     

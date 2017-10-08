@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Daniel Padfield on Daniel Padfield</title>
-    <link>/</link>
+    <link>https://padpadpadpad.github.io/</link>
     <description>Recent content in Daniel Padfield on Daniel Padfield</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
@@ -12,29 +12,29 @@
     
     <item>
       <title>Metabolic compensation constrains the temperature dependence of gross primary production</title>
-      <link>/publication/metabolic_compensation_iceland/</link>
+      <link>https://padpadpadpad.github.io/publication/metabolic_compensation_iceland/</link>
       <pubDate>Thu, 31 Aug 2017 00:00:00 +0000</pubDate>
       
-      <guid>/publication/metabolic_compensation_iceland/</guid>
+      <guid>https://padpadpadpad.github.io/publication/metabolic_compensation_iceland/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Example Talk</title>
-      <link>/talk/example-talk/</link>
+      <link>https://padpadpadpad.github.io/talk/example-talk/</link>
       <pubDate>Sun, 01 Jan 2017 00:00:00 +0000</pubDate>
       
-      <guid>/talk/example-talk/</guid>
+      <guid>https://padpadpadpad.github.io/talk/example-talk/</guid>
       <description>&lt;p&gt;Embed your slides or video here using &lt;a href=&#34;https://gcushen.github.io/hugo-academic-demo/post/writing-markdown-latex/&#34; target=&#34;_blank&#34;&gt;shortcodes&lt;/a&gt;. Further details can easily be added using &lt;em&gt;Markdown&lt;/em&gt; and $\rm \LaTeX$ math code.&lt;/p&gt;
 </description>
     </item>
     
     <item>
       <title>Introducing nlsLoop</title>
-      <link>/post/introducing-nlsloop/</link>
+      <link>https://padpadpadpad.github.io/post/introducing-nlsloop/</link>
       <pubDate>Thu, 08 Sep 2016 21:13:14 -0500</pubDate>
       
-      <guid>/post/introducing-nlsloop/</guid>
+      <guid>https://padpadpadpad.github.io/post/introducing-nlsloop/</guid>
       <description>&lt;div id=&#34;introduction&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Introduction&lt;/h2&gt;
 &lt;p&gt;So you have data you want to fit to a non-linear model…&lt;/p&gt;
@@ -94,7 +94,7 @@ head(Chlorella_TRC)&lt;/code&gt;&lt;/pre&gt;
   theme_bw(base_size = 16, base_family = &amp;#39;Helvetica&amp;#39;) +
   ylab(&amp;#39;log Metabolic rate&amp;#39;) +
   xlab(&amp;#39;Assay temperature (ºC)&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2017-09-07-introducing-nlsloop_files/figure-html/first%20plot-1.png&#34; width=&#34;1152&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://padpadpadpad.github.io/post/2017-09-07-introducing-nlsloop_files/figure-html/first%20plot-1.png&#34; width=&#34;1152&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;The data follows a classic unimodal thermal performance curve and can be modelled using a modified version of the Sharpe-Schoolfield model&lt;sup&gt;[3]&lt;/sup&gt;. A function characterising the model is provided in the package as &lt;code&gt;schoolfield.high()&lt;/code&gt;. This is more about the fitting of non-linear curves than the model so that’s as in depth as I will go here!&lt;/p&gt;
 &lt;p&gt;The data has 60 separate curves and &lt;code&gt;id_col = curve_id&lt;/code&gt;. So lets fit the model!&lt;/p&gt;
 &lt;/div&gt;
@@ -118,7 +118,7 @@ head(Chlorella_TRC)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;##   curve_id      ln.c        Ea       Eh       Th      AIC  quasi.r2
 ## 1        1 -1.346211 0.9877307 4.332645 312.1887 48.01896 0.4608054
 ## 2        2 -1.349431 1.0653450 4.211374 312.6591 22.39398 0.8978426
-## 3        3 -1.815315 1.1155333 4.140395 310.9545 34.77114 0.7804032
+## 3        3 -1.815315 1.1155334 4.140395 310.9545 34.77114 0.7804032
 ## 4        4 -1.612615 1.0982576 3.025816 310.6412 31.04688 0.8709134
 ## 5        5 -1.767711 1.1244277 9.010641 317.0688 41.69970 0.7602547
 ## 6        6 -1.717258 1.1727047 4.077252 311.4596 37.03555 0.7289198&lt;/code&gt;&lt;/pre&gt;
@@ -130,7 +130,7 @@ head(Chlorella_TRC)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;plot_id_nlsLoop(raw_data = Chlorella_TRC, param_data = fits, id = &amp;#39;1&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## Warning: Removed 750 rows containing missing values (geom_path).&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## Warning: Removed 36 rows containing missing values (geom_point).&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2017-09-07-introducing-nlsloop_files/figure-html/first%20fit%20plot-1.png&#34; width=&#34;768&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://padpadpadpad.github.io/post/2017-09-07-introducing-nlsloop_files/figure-html/first%20fit%20plot-1.png&#34; width=&#34;768&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;Not a bad fit… Further to this, &lt;code&gt;plot_all_nlsLoop()&lt;/code&gt; will produce a pdf with each plot on a new sheet.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;plot_all_nlsLoop(&amp;#39;path/of/where/you/want/to/save/me.pdf&amp;#39;, raw_data = Chlorella_TRC, param_data = fits)&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
@@ -156,7 +156,7 @@ ggplot() +
   theme_bw(base_size = 16, base_family = &amp;#39;Helvetica&amp;#39;) +
   ylab(&amp;#39;log Metabolic rate&amp;#39;) +
   xlab(&amp;#39;Assay temperature (ºC)&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2017-09-07-introducing-nlsloop_files/figure-html/data%20wrangling-1.png&#34; width=&#34;1152&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://padpadpadpad.github.io/post/2017-09-07-introducing-nlsloop_files/figure-html/data%20wrangling-1.png&#34; width=&#34;1152&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;We can also start having a quick look at any differences between parameters…&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;gather(fits$params, &amp;#39;parameter&amp;#39;, &amp;#39;value&amp;#39;, c(ln.c, Ea, Eh, Th)) %&amp;gt;%
   ggplot(.) +
@@ -165,7 +165,7 @@ ggplot() +
   scale_color_manual(values = c(&amp;#39;green4&amp;#39;, &amp;#39;black&amp;#39;)) +
   scale_shape_manual(values = c(21, 24)) +
   theme_bw(base_size = 16, base_family = &amp;#39;Helvetica&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2017-09-07-introducing-nlsloop_files/figure-html/parameter%20plots-1.png&#34; width=&#34;960&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://padpadpadpad.github.io/post/2017-09-07-introducing-nlsloop_files/figure-html/parameter%20plots-1.png&#34; width=&#34;960&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;From here we can see that the activation energy (&lt;em&gt;E&lt;sub&gt;a&lt;/sub&gt;&lt;/em&gt;) in the model does not change systematically with growth temperature or whether it has acclimated or adapted to the growth temperature. However a body of work has shown that photosynthesis should be less sensitive to temperature change (a lower &lt;em&gt;E&lt;sub&gt;a&lt;/sub&gt;&lt;/em&gt;) than that of respiration.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(fits$params, aes(flux, Ea)) +
   geom_boxplot(aes(fill = flux, col = flux), outlier.shape = NA, width = 0.5) +
@@ -176,7 +176,7 @@ ggplot() +
   scale_fill_manual(values = c(&amp;#39;green4&amp;#39;, &amp;#39;black&amp;#39;)) +
   ylab(&amp;#39;Activation enrrgy (eV)&amp;#39;) +
   xlab(&amp;#39;Flux&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2017-09-07-introducing-nlsloop_files/figure-html/Ea%20plots-1.png&#34; width=&#34;768&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://padpadpadpad.github.io/post/2017-09-07-introducing-nlsloop_files/figure-html/Ea%20plots-1.png&#34; width=&#34;768&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;And as we can see it looks like we have a difference in the activation energies, with photosynthesis having a lower activation energy than respiration.&lt;/p&gt;
 &lt;p&gt;So from there we can start exploring our data and formally analysing our parameters! &lt;code&gt;nlsLoop&lt;/code&gt; allows us to have confidence in our fitting of all the curves and gives us an easy way of plotting and manipulating the data afterwards!&lt;/p&gt;
 &lt;p&gt;Happy model fitting. Any comments much appreciated.&lt;/p&gt;
@@ -193,10 +193,10 @@ ggplot() +
     
     <item>
       <title>Deep Learning</title>
-      <link>/project/deep-learning/</link>
+      <link>https://padpadpadpad.github.io/project/deep-learning/</link>
       <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
       
-      <guid>/project/deep-learning/</guid>
+      <guid>https://padpadpadpad.github.io/project/deep-learning/</guid>
       <description>&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis posuere tellus ac convallis placerat. Proin tincidunt magna sed ex sollicitudin condimentum. Sed ac faucibus dolor, scelerisque sollicitudin nisi. Cras purus urna, suscipit quis sapien eu, pulvinar tempor diam. Quisque risus orci, mollis id ante sit amet, gravida egestas nisl. Sed ac tempus magna. Proin in dui enim. Donec condimentum, sem id dapibus fringilla, tellus enim condimentum arcu, nec volutpat est felis vel metus. Vestibulum sit amet erat at nulla eleifend gravida.&lt;/p&gt;
 
 &lt;p&gt;Nullam vel molestie justo. Curabitur vitae efficitur leo. In hac habitasse platea dictumst. Sed pulvinar mauris dui, eget varius purus congue ac. Nulla euismod, lorem vel elementum dapibus, nunc justo porta mi, sed tempus est est vel tellus. Nam et enim eleifend, laoreet sem sit amet, elementum sem. Morbi ut leo congue, maximus velit ut, finibus arcu. In et libero cursus, rutrum risus non, molestie leo. Nullam congue quam et volutpat malesuada. Sed risus tortor, pulvinar et dictum nec, sodales non mi. Phasellus lacinia commodo laoreet. Nam mollis, erat in feugiat consectetur, purus eros egestas tellus, in auctor urna odio at nibh. Mauris imperdiet nisi ac magna convallis, at rhoncus ligula cursus.&lt;/p&gt;
@@ -211,10 +211,10 @@ ggplot() +
     
     <item>
       <title>External Project</title>
-      <link>/project/example-external-project/</link>
+      <link>https://padpadpadpad.github.io/project/example-external-project/</link>
       <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
       
-      <guid>/project/example-external-project/</guid>
+      <guid>https://padpadpadpad.github.io/project/example-external-project/</guid>
       <description></description>
     </item>
     
