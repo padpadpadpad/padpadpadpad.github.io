@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Publications on Daniel Padfield</title>
-    <link>https://padpadpadpad.github.io/publication/</link>
+    <link>/publication/</link>
     <description>Recent content in Publications on Daniel Padfield</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
@@ -12,10 +12,10 @@
     
     <item>
       <title>Metabolic compensation constrains the temperature dependence of gross primary production</title>
-      <link>https://padpadpadpad.github.io/publication/metabolic_compensation_iceland/</link>
+      <link>/publication/metabolic_compensation_iceland/</link>
       <pubDate>Thu, 31 Aug 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://padpadpadpad.github.io/publication/metabolic_compensation_iceland/</guid>
+      <guid>/publication/metabolic_compensation_iceland/</guid>
       <description></description>
     </item>
     
