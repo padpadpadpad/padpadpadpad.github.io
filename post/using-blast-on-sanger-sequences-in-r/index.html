@@ -231,7 +231,7 @@
     <div class="article-style" itemprop="articleBody">
       <div id="introduction" class="section level2">
 <h2>Introduction</h2>
-<p>Moving to a microbiology group has meand I now have loads of interesting genomic and sequencing data to play with!</p>
+<p>Moving to a microbiology group has meant I now have loads of interesting genomic and sequencing data to play with!</p>
 <p>One common task we have when we start with some new natural communities is to work out what is in there! We plate the samples out, look at their colony morphology, but colonies can be picked and sequenced using sanger sequencing. Once you have your sequencing data back, you can check your sequence against a database to look at the taxonomic identity of the picked colonies.</p>
 <p>I know that these sequences can be queried in <a href="https://blast.ncbi.nlm.nih.gov/Blast.cgi">BLAST</a>, where you enter a sequence and it returns matches from a database based on the percentage match. That is all pretty great but I am not about inputting 96 separate sequences into a website! So on Friday I explored the ways to do BLAST searches in a more automated way and came across <a href="https://github.com/mhahsler/rBLAST">rBLAST</a>. <code>rBLAST</code> is an R package that allows for local blast searches to be done in R.</p>
 <p>This blog post is the culmination of about 5 hours coding that explains how you can go from sequences in a folder, to a dataframe of species names to each sequence. To do this I use <code>rBLAST</code> to run the local BLAST search, assign taxonomy using the <code>taxise</code> package, as well as some tidyverse tools from <code>dplyr</code>, <code>tidyr</code> and <code>purrr</code> to make everything work smoothly.</p>
