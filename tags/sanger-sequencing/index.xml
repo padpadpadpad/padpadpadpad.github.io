@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Sanger Sequencing on Daniel Padfield</title>
-    <link>/tags/sanger-sequencing/</link>
+    <link>https://padpadpadpad.github.io/tags/sanger-sequencing/</link>
     <description>Recent content in Sanger Sequencing on Daniel Padfield</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
@@ -12,10 +12,10 @@
     
     <item>
       <title>Doing local BLAST searches on sanger sequence data in R</title>
-      <link>/post/using-blast-on-sanger-sequences-in-r/</link>
+      <link>https://padpadpadpad.github.io/post/using-blast-on-sanger-sequences-in-r/</link>
       <pubDate>Sun, 08 Oct 2017 00:00:00 +0000</pubDate>
       
-      <guid>/post/using-blast-on-sanger-sequences-in-r/</guid>
+      <guid>https://padpadpadpad.github.io/post/using-blast-on-sanger-sequences-in-r/</guid>
       <description>&lt;div id=&#34;introduction&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Introduction&lt;/h2&gt;
 &lt;p&gt;Moving to a microbiology group has meand I now have loads of interesting genomic and sequencing data to play with!&lt;/p&gt;
@@ -191,7 +191,7 @@ head(seq_IDs)&lt;/code&gt;&lt;/pre&gt;
 ## 5 species
 ## 6 species&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;And there you have it. We have a dataframe that now includes the species name of each of the returned hits for each file. Pretty neat if you ask me, and better than clicking over and over in BLAST on their website! This script is now ready to go again and again. Not bad for around 5 hours work! From this we can examine consensus within samples and look for variation across samples. The opportunities are endless.&lt;/p&gt;
-&lt;p&gt;Thanks for reading. A script containing only the code chunks used here can be found &lt;a href=&#34;&#34;&gt;here&lt;/a&gt; and the files can be found in the &lt;code&gt;data/20171008_sanger&lt;/code&gt; folder of my &lt;a href=&#34;https://github.com/padpadpadpad/blogdown_source&#34;&gt;GitHub blogdown repository&lt;/a&gt; if you want to run through my example completely. You will just have to change the directories where the files are (or preferably use R projects)!&lt;/p&gt;
+&lt;p&gt;Thanks for reading. A script containing only the code chunks used here can be found &lt;a href=&#34;https://gist.github.com/padpadpadpad/d2fe494b8392d0c84b40fe158caca834&#34;&gt;here&lt;/a&gt; and the files can be found in the &lt;code&gt;data/20171008_sanger&lt;/code&gt; folder of my &lt;a href=&#34;https://github.com/padpadpadpad/blogdown_source&#34;&gt;GitHub blogdown repository&lt;/a&gt; if you want to run through my example completely. You will just have to change the directories where the files are (or preferably use R projects)!&lt;/p&gt;
 &lt;/div&gt;
 </description>
     </item>
