@@ -7,8 +7,231 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2016 Daniel Padfield</copyright>
-    <lastBuildDate>Sun, 08 Oct 2017 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 07 Jan 2018 00:00:00 +0000</lastBuildDate>
     <atom:link href="/categories/r/" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Fitting non-linear regressions with broom, purrr and nls.multstart</title>
+      <link>https://padpadpadpad.github.io/post/fitting-non-linear-regressions-with-broom-purrr-and-nls.multstart/</link>
+      <pubDate>Sun, 07 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://padpadpadpad.github.io/post/fitting-non-linear-regressions-with-broom-purrr-and-nls.multstart/</guid>
+      <description>&lt;div id=&#34;introduction&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;With my research, I often use non-linear least squares regression to fit a model with biologically meaningful parameters to data. Specifically, I measure the thermal performance of phytoplankon growth, respiration and photosynthesis over a wide range of assay temperatures to see how the organisms are adapted to the temperatures they live at.&lt;/p&gt;
+&lt;p&gt;These thermal performance curves generally follow a unimodal shape and parameters for which are widely used in climate change research to predict whether organisms will be able to cope with increasing temperatures.&lt;/p&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;https://padpadpadpad.github.io/img/TPC.png&#34; alt=&#34;Example Thermal Performance Curve&#34; /&gt;
+&lt;p class=&#34;caption&#34;&gt;Example Thermal Performance Curve&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;These curves can be modelled with a variety of equations, such as the Sharpe-Schoolfield equation, which I have log-transformed here:&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[log(rate) = lnc + E(\frac{1}{T_{c}} - \frac{1}{kT}) - ln(1 + e^{E_h(\frac{1}{kT_h} - \frac{1}{kT})})\]&lt;/span&gt; where &lt;span class=&#34;math inline&#34;&gt;\(lnc\)&lt;/span&gt; is a normalisation constant at a common temperature, &lt;span class=&#34;math inline&#34;&gt;\(T_{c}\)&lt;/span&gt;, &lt;span class=&#34;math inline&#34;&gt;\(E\)&lt;/span&gt; is an activation energy that describes the rate of increase before the optimum temperature, &lt;span class=&#34;math inline&#34;&gt;\(T_{opt}\)&lt;/span&gt;. &lt;span class=&#34;math inline&#34;&gt;\(k\)&lt;/span&gt; is Boltzmann’s constant, &lt;span class=&#34;math inline&#34;&gt;\(E_{h}\)&lt;/span&gt; is the deactivation energy that controls the decline in rate past the optimum temperature and &lt;span class=&#34;math inline&#34;&gt;\(T_{h}\)&lt;/span&gt; is the temperature where, after the optimu, the rate is half of the maximal rate.&lt;/p&gt;
+&lt;p&gt;Say I want to fit the same equation to 10, 50, or 100s of these curves. I could loop through a call to &lt;strong&gt;nls&lt;/strong&gt;, &lt;strong&gt;nlsLM&lt;/strong&gt;, or use &lt;strong&gt;nlsList&lt;/strong&gt; from &lt;strong&gt;nlme&lt;/strong&gt;. However, non-linear least squares regression in R is sensitive to the start parameters, meaning that different start parameters can give different “best estimated parameters”. This becomes more likely when fitting more curves with only a single set of start parameters, where the variation in estimated parameter values is likely to be much larger. For example, some curves could have much higher rates (&lt;span class=&#34;math inline&#34;&gt;\(lnc\)&lt;/span&gt;), higher optimum temperatures (i.e. &lt;span class=&#34;math inline&#34;&gt;\(T_{h}\)&lt;/span&gt;) or have different values of temperature-dependence (&lt;span class=&#34;math inline&#34;&gt;\(E\)&lt;/span&gt;).&lt;/p&gt;
+&lt;p&gt;To combat this, I wrote an R package which allows for multiple start parameters for non-linear regression. I wrapped this method in an R package called &lt;a href=&#34;https://github.com/padpadpadpad/nlsLoop&#34;&gt;&lt;strong&gt;nlsLoop&lt;/strong&gt;&lt;/a&gt; and submitted it to The Journal of Open Source Software. Everything was good with the world and I went to a Christmas party.&lt;/p&gt;
+&lt;p&gt;The next day, I had an epiphany surrounding the redundancies and needless complexities of my R package, withdrew my submission and rewrote the entire package in a weekend to give rise to a single function package, &lt;strong&gt;nls.multstart::nls_multstart()&lt;/strong&gt;. Essentially since I first wrote &lt;strong&gt;nlsLoop&lt;/strong&gt; ~3 years ago I have realised that &lt;strong&gt;broom&lt;/strong&gt; and &lt;strong&gt;purrr&lt;/strong&gt; can do what I wrote clunkier functions to achieve. In contrast, &lt;a href=&#34;https://github.com/padpadpadpad/nls.multstart&#34;&gt;&lt;strong&gt;nls.multstart&lt;/strong&gt;&lt;/a&gt; works perfectly with the tools of the &lt;strong&gt;tidyverse&lt;/strong&gt; to fit multiple models.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;multiple-model-fitting-in-practice&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Multiple model fitting in practice&lt;/h2&gt;
+&lt;p&gt;Load in all packages that are used in this analysis. Packages can be installed from GitHub using &lt;strong&gt;devtools&lt;/strong&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# load packages
+library(nls.multstart) # devtools::install_github(&amp;#39;padpadpadpad/nls.multstart&amp;#39;)
+library(ggplot2)
+library(broom)
+library(purrr)
+library(dplyr)
+library(tidyr)
+library(nlstools)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We can then load in the data and have a look at it using &lt;strong&gt;glimpse()&lt;/strong&gt;. Here we shall use a dataset of thermal performance curves of metabolism of &lt;strong&gt;Chlorella vulgaris&lt;/strong&gt; from Padfield &lt;strong&gt;et al.&lt;/strong&gt; 2016.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# load in example data set
+data(&amp;quot;Chlorella_TRC&amp;quot;)
+
+glimpse(Chlorella_TRC)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Observations: 649
+## Variables: 7
+## $ curve_id    &amp;lt;dbl&amp;gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2,...
+## $ growth.temp &amp;lt;dbl&amp;gt; 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20...
+## $ process     &amp;lt;chr&amp;gt; &amp;quot;acclimation&amp;quot;, &amp;quot;acclimation&amp;quot;, &amp;quot;acclimation&amp;quot;, &amp;quot;accl...
+## $ flux        &amp;lt;chr&amp;gt; &amp;quot;respiration&amp;quot;, &amp;quot;respiration&amp;quot;, &amp;quot;respiration&amp;quot;, &amp;quot;resp...
+## $ temp        &amp;lt;dbl&amp;gt; 16, 19, 22, 25, 28, 31, 34, 37, 40, 43, 46, 49, 16...
+## $ K           &amp;lt;dbl&amp;gt; 289.15, 292.15, 295.15, 298.15, 301.15, 304.15, 30...
+## $ ln.rate     &amp;lt;dbl&amp;gt; -2.06257833, -1.32437939, -0.95416807, -0.79443675...&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Next we define the Sharpe-Schoolfield equation discussed earlier.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# define the Sharpe-Schoolfield equation
+schoolfield_high &amp;lt;- function(lnc, E, Eh, Th, temp, Tc) {
+  Tc &amp;lt;- 273.15 + Tc
+  k &amp;lt;- 8.62e-5
+  boltzmann.term &amp;lt;- lnc + log(exp(E/k*(1/Tc - 1/temp)))
+  inactivation.term &amp;lt;- log(1/(1 + exp(Eh/k*(1/Th - 1/temp))))
+  return(boltzmann.term + inactivation.term)
+  }&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;There are 60 curves in this dataset, 30 each of photosynthesis and respiration. The treatments are growth temperature (20, 23, 27, 30, 33 ºC) and adaptive process (acclimation or adaptation) that reflects the number of generations cultures were grown at each temperature.&lt;/p&gt;
+&lt;p&gt;We can see how &lt;strong&gt;nls_multstart()&lt;/strong&gt; works by subsetting the data for a single curve.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# subset dataset
+d_1 &amp;lt;- subset(Chlorella_TRC, curve_id == 1)
+
+# run nls_multstart
+fit &amp;lt;- nls_multstart(ln.rate ~ schoolfield_high(lnc, E, Eh, Th, temp = K, Tc = 20),
+                     data = d_1,
+                     iter = 500,
+                     param_bds = c(-10, 10, 0.1, 2, 0.5, 5, 285, 330),
+                     supp_errors = &amp;#39;Y&amp;#39;,
+                     AICc = &amp;#39;Y&amp;#39;,
+                     na.action = na.omit,
+                     lower = c(lnc = -10, E = 0, Eh = 0, Th = 0))
+
+fit&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Nonlinear regression model
+##   model: ln.rate ~ schoolfield_high(lnc, E, Eh, Th, temp = K, Tc = 20)
+##    data: data
+##      lnc        E       Eh       Th 
+##  -1.3462   0.9877   4.3326 312.1887 
+##  residual sum-of-squares: 7.257
+## 
+## Number of iterations to convergence: 14 
+## Achieved convergence tolerance: 1.49e-08&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;nls_multstart()&lt;/strong&gt; allows boundaries for each parameter to be set. A uniform distribution between these values is created and start values for each iteration of the fitting process are then picked randomly. The function returns the best available model by picking the model with the lowest AIC/AICc score. Additional info on the function can be found &lt;a href=&#34;https://github.com/padpadpadpad/nls.multstart&#34;&gt;here&lt;/a&gt; or by typing &lt;code&gt;?nls_multstart&lt;/code&gt; into the R console.&lt;/p&gt;
+&lt;p&gt;This fit can then be “tidied” in various ways using the R package &lt;strong&gt;broom&lt;/strong&gt;. Each different function in &lt;strong&gt;broom&lt;/strong&gt; returns a different set of information. &lt;strong&gt;tidy()&lt;/strong&gt; returns the estimated parameters, &lt;strong&gt;augment()&lt;/strong&gt; returns the predictions and &lt;strong&gt;glance()&lt;/strong&gt; returns information about the model such as the AIC score and whether the model has reached convergence. Confidence intervals of non-linear regression can also be estimated using &lt;strong&gt;nlstools::confint2()&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;The amazing thing about these tools is the ease at which they can then be used on multiple curves at once, an approach Hadley Wickham has previously &lt;a href=&#34;https://blog.rstudio.com/2016/02/02/tidyr-0-4-0/&#34;&gt;written about&lt;/a&gt;. The approach nests the data based on grouping variables using &lt;strong&gt;nest()&lt;/strong&gt;, then creates a list column of the best fit for each curve using &lt;strong&gt;map()&lt;/strong&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# fit over each set of groupings
+fits &amp;lt;- Chlorella_TRC %&amp;gt;%
+  group_by(., flux, growth.temp, process, curve_id) %&amp;gt;%
+  nest() %&amp;gt;%
+  mutate(fit = purrr::map(data, ~ nls_multstart(ln.rate ~ schoolfield_high(lnc, E, Eh, Th, temp = K, Tc = 20),
+                                   data = .x,
+                                   iter = 1000,
+                                   param_bds = c(-100, 100, 0.1, 2, 0.5, 10, 285, 330),
+                                   supp_errors = &amp;#39;Y&amp;#39;,
+                                   AICc = &amp;#39;Y&amp;#39;,
+                                   na.action = na.omit,
+                                   lower = c(lnc = -10, E = 0, Eh = 0, Th = 0))))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;If you are confused, then you are not alone. This took me a long time to understand and I imagine there are still better ways for me to do it! However, to check it has worked, we can look at a single fit to check it looks ok. We can also look at &lt;code&gt;fits&lt;/code&gt; to see that there is now a &lt;code&gt;fit&lt;/code&gt; list column containing each of the non-linear fits for each combination of our grouping variables.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# look at a single fit
+summary(fits$fit[[1]])&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Formula: ln.rate ~ schoolfield_high(lnc, E, Eh, Th, temp = K, Tc = 20)
+## 
+## Parameters:
+##     Estimate Std. Error t value Pr(&amp;gt;|t|)    
+## lnc  -1.3462     0.4656  -2.891   0.0202 *  
+## E     0.9877     0.4521   2.185   0.0604 .  
+## Eh    4.3326     1.4878   2.912   0.0195 *  
+## Th  312.1887     3.8782  80.499 6.32e-13 ***
+## ---
+## Signif. codes:  0 &amp;#39;***&amp;#39; 0.001 &amp;#39;**&amp;#39; 0.01 &amp;#39;*&amp;#39; 0.05 &amp;#39;.&amp;#39; 0.1 &amp;#39; &amp;#39; 1
+## 
+## Residual standard error: 0.9524 on 8 degrees of freedom
+## 
+## Number of iterations to convergence: 18 
+## Achieved convergence tolerance: 1.49e-08&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# look at output object
+select(fits, curve_id, data, fit)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 60 x 3
+##    curve_id data              fit      
+##       &amp;lt;dbl&amp;gt; &amp;lt;list&amp;gt;            &amp;lt;list&amp;gt;   
+##  1     1.00 &amp;lt;tibble [12 × 3]&amp;gt; &amp;lt;S3: nls&amp;gt;
+##  2     2.00 &amp;lt;tibble [12 × 3]&amp;gt; &amp;lt;S3: nls&amp;gt;
+##  3     3.00 &amp;lt;tibble [12 × 3]&amp;gt; &amp;lt;S3: nls&amp;gt;
+##  4     4.00 &amp;lt;tibble [9 × 3]&amp;gt;  &amp;lt;S3: nls&amp;gt;
+##  5     5.00 &amp;lt;tibble [12 × 3]&amp;gt; &amp;lt;S3: nls&amp;gt;
+##  6     6.00 &amp;lt;tibble [12 × 3]&amp;gt; &amp;lt;S3: nls&amp;gt;
+##  7     7.00 &amp;lt;tibble [12 × 3]&amp;gt; &amp;lt;S3: nls&amp;gt;
+##  8     8.00 &amp;lt;tibble [10 × 3]&amp;gt; &amp;lt;S3: nls&amp;gt;
+##  9     9.00 &amp;lt;tibble [8 × 3]&amp;gt;  &amp;lt;S3: nls&amp;gt;
+## 10    10.0  &amp;lt;tibble [10 × 3]&amp;gt; &amp;lt;S3: nls&amp;gt;
+## # ... with 50 more rows&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;These fits can be cleaned up using the &lt;strong&gt;broom&lt;/strong&gt; functions and &lt;strong&gt;purrr::map()&lt;/strong&gt; to iterate over the grouping variables.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# get summary info
+info &amp;lt;- fits %&amp;gt;%
+  unnest(fit %&amp;gt;% map(glance))
+
+# get params
+params &amp;lt;- fits %&amp;gt;%
+  unnest(fit %&amp;gt;% map(tidy))
+
+# get confidence intervals
+CI &amp;lt;- fits %&amp;gt;% 
+  unnest(fit %&amp;gt;% map(~ confint2(.x) %&amp;gt;%
+  data.frame() %&amp;gt;%
+  rename(., conf.low = X2.5.., conf.high = X97.5..))) %&amp;gt;%
+  group_by(., curve_id) %&amp;gt;%
+  mutate(., term = c(&amp;#39;lnc&amp;#39;, &amp;#39;E&amp;#39;, &amp;#39;Eh&amp;#39;, &amp;#39;Th&amp;#39;)) %&amp;gt;%
+  ungroup()
+
+# merge parameters and CI estimates
+params &amp;lt;- merge(params, CI, by = intersect(names(params), names(CI)))
+
+# get predictions
+preds &amp;lt;- fits %&amp;gt;%
+  unnest(fit %&amp;gt;% map(augment))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Looking at &lt;strong&gt;info&lt;/strong&gt; allows us to see if all the models converged.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;select(info, curve_id, logLik, AIC, BIC, deviance, df.residual)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 60 x 6
+##    curve_id  logLik   AIC   BIC deviance df.residual
+##       &amp;lt;dbl&amp;gt;   &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt;    &amp;lt;dbl&amp;gt;       &amp;lt;int&amp;gt;
+##  1     1.00 -14.0   38.0  40.4     7.26            8
+##  2     2.00 - 1.20  12.4  14.8     0.858           8
+##  3     3.00 - 7.39  24.8  27.2     2.41            8
+##  4     4.00 - 0.523 11.0  12.0     0.592           5
+##  5     5.00 -10.8   31.7  34.1     4.29            8
+##  6     6.00 - 8.52  27.0  29.5     2.91            8
+##  7     7.00 - 1.29  12.6  15.0     0.871           8
+##  8     8.00 -13.4   36.7  38.2     8.48            6
+##  9     9.00   1.82   6.36  6.76    0.297           4
+## 10    10.0  - 1.27  12.5  14.1     0.755           6
+## # ... with 50 more rows&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;When plotting non-linear fits, I prefer to have a smooth curve, even when there are not many points underlying the fit. This can be achieved by including &lt;code&gt;newdata&lt;/code&gt; in the &lt;strong&gt;augment()&lt;/strong&gt; function and creating a higher resolution set of predictor values.&lt;/p&gt;
+&lt;p&gt;However, when predicting for many different fits, it is not certain that each curve has the same range of predictor variables. We can get around this by setting the limits of each prediction by the &lt;strong&gt;min()&lt;/strong&gt; and &lt;strong&gt;max()&lt;/strong&gt; of the predictor variables.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# new data frame of predictions
+new_preds &amp;lt;- Chlorella_TRC %&amp;gt;%
+  do(., data.frame(K = seq(min(.$K), max(.$K), length.out = 150), stringsAsFactors = FALSE))
+
+# max and min for each curve
+max_min &amp;lt;- group_by(Chlorella_TRC, curve_id) %&amp;gt;%
+  summarise(., min_K = min(K), max_K = max(K)) %&amp;gt;%
+  ungroup()
+
+# create new predictions
+preds2 &amp;lt;- fits %&amp;gt;%
+  unnest(fit %&amp;gt;% map(augment, newdata = new_preds)) %&amp;gt;%
+  merge(., max_min, by = &amp;#39;curve_id&amp;#39;) %&amp;gt;%
+  group_by(., curve_id) %&amp;gt;%
+  filter(., K &amp;gt; unique(min_K) &amp;amp; K &amp;lt; unique(max_K)) %&amp;gt;%
+  rename(., ln.rate = .fitted) %&amp;gt;%
+  ungroup()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;These can then be plotted using &lt;strong&gt;ggplot2&lt;/strong&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# plot
+ggplot() +
+  geom_point(aes(K - 273.15, ln.rate, col = flux), size = 2, Chlorella_TRC) +
+  geom_line(aes(K - 273.15, ln.rate, col = flux, group = curve_id), alpha = 0.5, preds2) +
+  facet_wrap(~ growth.temp + process, labeller = labeller(.multi_line = FALSE)) +
+  scale_colour_manual(values = c(&amp;#39;green4&amp;#39;, &amp;#39;black&amp;#39;)) +
+  theme_bw(base_size = 12, base_family = &amp;#39;Helvetica&amp;#39;) +
+  ylab(&amp;#39;log Metabolic rate&amp;#39;) +
+  xlab(&amp;#39;Assay temperature (ºC)&amp;#39;) +
+  theme(legend.position = c(0.9, 0.15))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://padpadpadpad.github.io/post/2017-12-22-fitting-many-non-linear-regressions-with-broom-purrr-and-nls-multstart_files/figure-html/plot_many_fits-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;The confidence intervals of each parameter for each curve fit can also be easily visualised.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# plot
+ggplot(params, aes(col = flux)) +
+  geom_point(aes(curve_id, estimate)) +
+  facet_wrap(~ term, scale = &amp;#39;free_x&amp;#39;, ncol = 4) +
+  geom_linerange(aes(curve_id, ymin = conf.low, ymax = conf.high)) +
+  coord_flip() +
+  scale_color_manual(values = c(&amp;#39;green4&amp;#39;, &amp;#39;black&amp;#39;)) +
+  theme_bw(base_size = 12, base_family = &amp;#39;Helvetica&amp;#39;) +
+  theme(legend.position = &amp;#39;top&amp;#39;) +
+  xlab(&amp;#39;curve&amp;#39;) +
+  ylab(&amp;#39;parameter estimate&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://padpadpadpad.github.io/post/2017-12-22-fitting-many-non-linear-regressions-with-broom-purrr-and-nls-multstart_files/figure-html/confint_plot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;This method of modelling can be used for different data, different non-linear models (and linear models for that matter) and combined with the &lt;strong&gt;tidyverse&lt;/strong&gt; can make very useful visualisations.&lt;/p&gt;
+&lt;p&gt;The next stage of these curve fits is to try and better understand the uncertainty of these curve fits and their predictions. One approach to achieve this could be bootstrapping new datasets from the existing data. I hope to demonstrate how this could be done soon in another post.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;references&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;References&lt;/h2&gt;
+&lt;p&gt;[1] Padfield, D., Yvon-durocher, G., Buckling, A., Jennings, S. &amp;amp; Yvon-durocher, G. (2016). Rapid evolution of metabolic traits explains thermal adaptation in phytoplankton. Ecology Letters, 19(2), 133-142.&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
     
     <item>
       <title>Doing local BLAST searches on sanger sequence data in R</title>
@@ -192,229 +415,6 @@ head(seq_IDs)&lt;/code&gt;&lt;/pre&gt;
 ## 6 species&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;And there you have it. We have a dataframe that now includes the species name of each of the returned hits for each file. Pretty neat if you ask me, and better than clicking over and over in BLAST on their website! This script is now ready to go again and again. Not bad for around 5 hours work! From this we can examine consensus within samples and look for variation across samples. The opportunities are endless.&lt;/p&gt;
 &lt;p&gt;Thanks for reading. A script containing only the code chunks used here can be found &lt;a href=&#34;https://gist.github.com/padpadpadpad/d2fe494b8392d0c84b40fe158caca834&#34;&gt;here&lt;/a&gt; and the files can be found in the &lt;code&gt;data/20171008_sanger&lt;/code&gt; folder of my &lt;a href=&#34;https://github.com/padpadpadpad/blogdown_source&#34;&gt;GitHub blogdown repository&lt;/a&gt; if you want to run through my example completely. You will just have to change the directories where the files are (or preferably use R projects)!&lt;/p&gt;
-&lt;/div&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Fitting non-linear regressions with broom, purrr and nls.multstart</title>
-      <link>https://padpadpadpad.github.io/post/fitting-non-linear-regressions-with-broom-purrr-and-nls.multstart/</link>
-      <pubDate>Sat, 07 Jan 2017 00:00:00 +0000</pubDate>
-      
-      <guid>https://padpadpadpad.github.io/post/fitting-non-linear-regressions-with-broom-purrr-and-nls.multstart/</guid>
-      <description>&lt;div id=&#34;introduction&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Introduction&lt;/h2&gt;
-&lt;p&gt;With my research, I often use non-linear least squares regression to fit a model with biologically meaningful parameters to data. Specifically, I measure the thermal performance of phytoplankon growth, respiration and photosynthesis over a wide range of assay temperatures to see how the organisms are adapted to the temperatures they live at.&lt;/p&gt;
-&lt;p&gt;These thermal performance curves generally follow a unimodal shape and parameters for which are widely used in climate change research to predict whether organisms will be able to cope with increasing temperatures.&lt;/p&gt;
-&lt;div class=&#34;figure&#34;&gt;
-&lt;img src=&#34;https://padpadpadpad.github.io/img/TPC.png&#34; alt=&#34;Example Thermal Performance Curve&#34; /&gt;
-&lt;p class=&#34;caption&#34;&gt;Example Thermal Performance Curve&lt;/p&gt;
-&lt;/div&gt;
-&lt;p&gt;These curves can be modelled with a variety of equations, such as the Sharpe-Schoolfield equation, which I have log-transformed here:&lt;/p&gt;
-&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[log(rate) = lnc + E(\frac{1}{T_{c}} - \frac{1}{kT}) - ln(1 + e^{E_h(\frac{1}{kT_h} - \frac{1}{kT})})\]&lt;/span&gt; where &lt;span class=&#34;math inline&#34;&gt;\(lnc\)&lt;/span&gt; is a normalisation constant at a common temperature, &lt;span class=&#34;math inline&#34;&gt;\(T_{c}\)&lt;/span&gt;, &lt;span class=&#34;math inline&#34;&gt;\(E\)&lt;/span&gt; is an activation energy that describes the rate of increase before the optimum temperature, &lt;span class=&#34;math inline&#34;&gt;\(T_{opt}\)&lt;/span&gt;. &lt;span class=&#34;math inline&#34;&gt;\(k\)&lt;/span&gt; is Boltzmann’s constant, &lt;span class=&#34;math inline&#34;&gt;\(E_{h}\)&lt;/span&gt; is the deactivation energy that controls the decline in rate past the optimum temperature and &lt;span class=&#34;math inline&#34;&gt;\(T_{h}\)&lt;/span&gt; is the temperature where, after the optimu, the rate is half of the maximal rate.&lt;/p&gt;
-&lt;p&gt;Say I want to fit the same equation to 10, 50, or 100s of these curves. I could loop through a call to &lt;strong&gt;nls&lt;/strong&gt;, &lt;strong&gt;nlsLM&lt;/strong&gt;, or use &lt;strong&gt;nlsList&lt;/strong&gt; from &lt;strong&gt;nlme&lt;/strong&gt;. However, non-linear least squares regression in R is sensitive to the start parameters, meaning that different start parameters can give different “best estimated parameters”. This becomes more likely when fitting more curves with only a single set of start parameters, where the variation in estimated parameter values is likely to be much larger. For example, some curves could have much higher rates (&lt;span class=&#34;math inline&#34;&gt;\(lnc\)&lt;/span&gt;), higher optimum temperatures (i.e. &lt;span class=&#34;math inline&#34;&gt;\(T_{h}\)&lt;/span&gt;) or have different values of temperature-dependence (&lt;span class=&#34;math inline&#34;&gt;\(E\)&lt;/span&gt;).&lt;/p&gt;
-&lt;p&gt;To combat this, I wrote an R package which allows for multiple start parameters for non-linear regression. I wrapped this method in an R package called &lt;a href=&#34;https://github.com/padpadpadpad/nlsLoop&#34;&gt;&lt;strong&gt;nlsLoop&lt;/strong&gt;&lt;/a&gt; and submitted it to The Journal of Open Source Software. Everything was good with the world and I went to a Christmas party.&lt;/p&gt;
-&lt;p&gt;The next day, I had an epiphany surrounding the redundancies and needless complexities of my R package, withdrew my submission and rewrote the entire package in a weekend to give rise to a single function package, &lt;strong&gt;nls.multstart::nls_multstart()&lt;/strong&gt;. Essentially since I first wrote &lt;strong&gt;nlsLoop&lt;/strong&gt; ~3 years ago I have realised that &lt;strong&gt;broom&lt;/strong&gt; and &lt;strong&gt;purrr&lt;/strong&gt; can do what I wrote clunkier functions to achieve. In contrast, &lt;a href=&#34;https://github.com/padpadpadpad/nls.multstart&#34;&gt;&lt;strong&gt;nls.multstart&lt;/strong&gt;&lt;/a&gt; works perfectly with the tools of the &lt;strong&gt;tidyverse&lt;/strong&gt; to fit multiple models.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;multiple-model-fitting-in-practice&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Multiple model fitting in practice&lt;/h2&gt;
-&lt;p&gt;Load in all packages that are used in this analysis. Packages can be installed from GitHub using &lt;strong&gt;devtools&lt;/strong&gt;.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# load packages
-library(nls.multstart) # devtools::install_github(&amp;#39;padpadpadpad/nls.multstart&amp;#39;)
-library(ggplot2)
-library(broom)
-library(purrr)
-library(dplyr)
-library(tidyr)
-library(nlstools)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;We can then load in the data and have a look at it using &lt;strong&gt;glimpse()&lt;/strong&gt;. Here we shall use a dataset of thermal performance curves of metabolism of &lt;strong&gt;Chlorella vulgaris&lt;/strong&gt; from Padfield &lt;strong&gt;et al.&lt;/strong&gt; 2016.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# load in example data set
-data(&amp;quot;Chlorella_TRC&amp;quot;)
-
-glimpse(Chlorella_TRC)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## Observations: 649
-## Variables: 7
-## $ curve_id    &amp;lt;dbl&amp;gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2,...
-## $ growth.temp &amp;lt;dbl&amp;gt; 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20...
-## $ process     &amp;lt;chr&amp;gt; &amp;quot;acclimation&amp;quot;, &amp;quot;acclimation&amp;quot;, &amp;quot;acclimation&amp;quot;, &amp;quot;accl...
-## $ flux        &amp;lt;chr&amp;gt; &amp;quot;respiration&amp;quot;, &amp;quot;respiration&amp;quot;, &amp;quot;respiration&amp;quot;, &amp;quot;resp...
-## $ temp        &amp;lt;dbl&amp;gt; 16, 19, 22, 25, 28, 31, 34, 37, 40, 43, 46, 49, 16...
-## $ K           &amp;lt;dbl&amp;gt; 289.15, 292.15, 295.15, 298.15, 301.15, 304.15, 30...
-## $ ln.rate     &amp;lt;dbl&amp;gt; -2.06257833, -1.32437939, -0.95416807, -0.79443675...&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Next we define the Sharpe-Schoolfield equation discussed earlier.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# define the Sharpe-Schoolfield equation
-schoolfield_high &amp;lt;- function(lnc, E, Eh, Th, temp, Tc) {
-  Tc &amp;lt;- 273.15 + Tc
-  k &amp;lt;- 8.62e-5
-  boltzmann.term &amp;lt;- lnc + log(exp(E/k*(1/Tc - 1/temp)))
-  inactivation.term &amp;lt;- log(1/(1 + exp(Eh/k*(1/Th - 1/temp))))
-  return(boltzmann.term + inactivation.term)
-  }&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;There are 60 curves in this dataset, 30 each of photosynthesis and respiration. The treatments are growth temperature (20, 23, 27, 30, 33 ºC) and adaptive process (acclimation or adaptation) that reflects the number of generations cultures were grown at each temperature.&lt;/p&gt;
-&lt;p&gt;We can see how &lt;strong&gt;nls_multstart()&lt;/strong&gt; works by subsetting the data for a single curve.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# subset dataset
-d_1 &amp;lt;- subset(Chlorella_TRC, curve_id == 1)
-
-# run nls_multstart
-fit &amp;lt;- nls_multstart(ln.rate ~ schoolfield_high(lnc, E, Eh, Th, temp = K, Tc = 20),
-                     data = d_1,
-                     iter = 500,
-                     param_bds = c(-10, 10, 0.1, 2, 0.5, 5, 285, 330),
-                     supp_errors = &amp;#39;Y&amp;#39;,
-                     AICc = &amp;#39;Y&amp;#39;,
-                     na.action = na.omit,
-                     lower = c(lnc = -10, E = 0, Eh = 0, Th = 0))
-
-fit&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## Nonlinear regression model
-##   model: ln.rate ~ schoolfield_high(lnc, E, Eh, Th, temp = K, Tc = 20)
-##    data: data
-##      lnc        E       Eh       Th 
-##  -1.3462   0.9877   4.3326 312.1887 
-##  residual sum-of-squares: 7.257
-## 
-## Number of iterations to convergence: 15 
-## Achieved convergence tolerance: 1.49e-08&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;strong&gt;nls_multstart()&lt;/strong&gt; allows boundaries for each parameter to be set. A uniform distribution between these values is created and start values for each iteration of the fitting process are then picked randomly. The function returns the best available model by picking the model with the lowest AIC/AICc score. Additional info on the function can be found &lt;a href=&#34;https://github.com/padpadpadpad/nls.multstart&#34;&gt;here&lt;/a&gt; or by typing &lt;code&gt;?nls_multstart&lt;/code&gt; into the R console.&lt;/p&gt;
-&lt;p&gt;This fit can then be “tidied” in various ways using the R package &lt;strong&gt;broom&lt;/strong&gt;. Each different function in &lt;strong&gt;broom&lt;/strong&gt; returns a different set of information. &lt;strong&gt;tidy()&lt;/strong&gt; returns the estimated parameters, &lt;strong&gt;augment()&lt;/strong&gt; returns the predictions and &lt;strong&gt;glance()&lt;/strong&gt; returns information about the model such as the AIC score and whether the model has reached convergence. Confidence intervals of non-linear regression can also be estimated using &lt;strong&gt;nlstools::confint2()&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;The amazing thing about these tools is the ease at which they can then be used on multiple curves at once, an approach Hadley Wickham has previously &lt;a href=&#34;https://blog.rstudio.com/2016/02/02/tidyr-0-4-0/&#34;&gt;written about&lt;/a&gt;. The approach nests the data based on grouping variables using &lt;strong&gt;nest()&lt;/strong&gt;, then creates a list column of the best fit for each curve using &lt;strong&gt;map()&lt;/strong&gt;.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# fit over each set of groupings
-fits &amp;lt;- Chlorella_TRC %&amp;gt;%
-  group_by(., flux, growth.temp, process, curve_id) %&amp;gt;%
-  nest() %&amp;gt;%
-  mutate(fit = purrr::map(data, ~ nls_multstart(ln.rate ~ schoolfield_high(lnc, E, Eh, Th, temp = K, Tc = 20),
-                                   data = .x,
-                                   iter = 1000,
-                                   param_bds = c(-100, 100, 0.1, 2, 0.5, 10, 285, 330),
-                                   supp_errors = &amp;#39;Y&amp;#39;,
-                                   AICc = &amp;#39;Y&amp;#39;,
-                                   na.action = na.omit,
-                                   lower = c(lnc = -10, E = 0, Eh = 0, Th = 0))))&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;If you are confused, then you are not alone. This took me a long time to understand and I imagine there are still better ways for me to do it! However, to check it has worked, we can look at a single fit to check it looks ok. We can also look at &lt;code&gt;fits&lt;/code&gt; to see that there is now a &lt;code&gt;fit&lt;/code&gt; list column containing each of the non-linear fits for each combination of our grouping variables.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# look at a single fit
-summary(fits$fit[[1]])&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## 
-## Formula: ln.rate ~ schoolfield_high(lnc, E, Eh, Th, temp = K, Tc = 20)
-## 
-## Parameters:
-##     Estimate Std. Error t value Pr(&amp;gt;|t|)    
-## lnc  -1.3462     0.4656  -2.891   0.0202 *  
-## E     0.9877     0.4521   2.185   0.0604 .  
-## Eh    4.3326     1.4878   2.912   0.0195 *  
-## Th  312.1887     3.8782  80.499 6.32e-13 ***
-## ---
-## Signif. codes:  0 &amp;#39;***&amp;#39; 0.001 &amp;#39;**&amp;#39; 0.01 &amp;#39;*&amp;#39; 0.05 &amp;#39;.&amp;#39; 0.1 &amp;#39; &amp;#39; 1
-## 
-## Residual standard error: 0.9524 on 8 degrees of freedom
-## 
-## Number of iterations to convergence: 20 
-## Achieved convergence tolerance: 1.49e-08&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# look at output object
-select(fits, curve_id, data, fit)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## # A tibble: 60 x 3
-##    curve_id data              fit      
-##       &amp;lt;dbl&amp;gt; &amp;lt;list&amp;gt;            &amp;lt;list&amp;gt;   
-##  1     1.00 &amp;lt;tibble [12 × 3]&amp;gt; &amp;lt;S3: nls&amp;gt;
-##  2     2.00 &amp;lt;tibble [12 × 3]&amp;gt; &amp;lt;S3: nls&amp;gt;
-##  3     3.00 &amp;lt;tibble [12 × 3]&amp;gt; &amp;lt;S3: nls&amp;gt;
-##  4     4.00 &amp;lt;tibble [9 × 3]&amp;gt;  &amp;lt;S3: nls&amp;gt;
-##  5     5.00 &amp;lt;tibble [12 × 3]&amp;gt; &amp;lt;S3: nls&amp;gt;
-##  6     6.00 &amp;lt;tibble [12 × 3]&amp;gt; &amp;lt;S3: nls&amp;gt;
-##  7     7.00 &amp;lt;tibble [12 × 3]&amp;gt; &amp;lt;S3: nls&amp;gt;
-##  8     8.00 &amp;lt;tibble [10 × 3]&amp;gt; &amp;lt;S3: nls&amp;gt;
-##  9     9.00 &amp;lt;tibble [8 × 3]&amp;gt;  &amp;lt;S3: nls&amp;gt;
-## 10    10.0  &amp;lt;tibble [10 × 3]&amp;gt; &amp;lt;S3: nls&amp;gt;
-## # ... with 50 more rows&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;These fits can be cleaned up using the &lt;strong&gt;broom&lt;/strong&gt; functions and &lt;strong&gt;purrr::map()&lt;/strong&gt; to iterate over the grouping variables.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# get summary info
-info &amp;lt;- fits %&amp;gt;%
-  unnest(fit %&amp;gt;% map(glance))
-
-# get params
-params &amp;lt;- fits %&amp;gt;%
-  unnest(fit %&amp;gt;% map(tidy))
-
-# get confidence intervals
-CI &amp;lt;- fits %&amp;gt;% 
-  unnest(fit %&amp;gt;% map(~ confint2(.x) %&amp;gt;%
-  data.frame() %&amp;gt;%
-  rename(., conf.low = X2.5.., conf.high = X97.5..))) %&amp;gt;%
-  group_by(., curve_id) %&amp;gt;%
-  mutate(., term = c(&amp;#39;lnc&amp;#39;, &amp;#39;E&amp;#39;, &amp;#39;Eh&amp;#39;, &amp;#39;Th&amp;#39;)) %&amp;gt;%
-  ungroup()
-
-# merge parameters and CI estimates
-params &amp;lt;- merge(params, CI, by = intersect(names(params), names(CI)))
-
-# get predictions
-preds &amp;lt;- fits %&amp;gt;%
-  unnest(fit %&amp;gt;% map(augment))&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Looking at &lt;strong&gt;info&lt;/strong&gt; allows us to see if all the models converged.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;select(info, curve_id, logLik, AIC, BIC, deviance, df.residual)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## # A tibble: 60 x 6
-##    curve_id  logLik   AIC   BIC deviance df.residual
-##       &amp;lt;dbl&amp;gt;   &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt;    &amp;lt;dbl&amp;gt;       &amp;lt;int&amp;gt;
-##  1     1.00 -14.0   38.0  40.4     7.26            8
-##  2     2.00 - 1.20  12.4  14.8     0.858           8
-##  3     3.00 - 7.39  24.8  27.2     2.41            8
-##  4     4.00 - 0.523 11.0  12.0     0.592           5
-##  5     5.00 -10.8   31.7  34.1     4.29            8
-##  6     6.00 - 8.52  27.0  29.5     2.91            8
-##  7     7.00 - 1.29  12.6  15.0     0.871           8
-##  8     8.00 -13.4   36.7  38.2     8.48            6
-##  9     9.00   1.82   6.36  6.76    0.297           4
-## 10    10.0  - 1.27  12.5  14.1     0.755           6
-## # ... with 50 more rows&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;When plotting non-linear fits, I prefer to have a smooth curve, even when there are not many points underlying the fit. This can be achieved by including &lt;code&gt;newdata&lt;/code&gt; in the &lt;strong&gt;augment()&lt;/strong&gt; function and creating a higher resolution set of predictor values.&lt;/p&gt;
-&lt;p&gt;However, when predicting for many different fits, it is not certain that each curve has the same range of predictor variables. We can get around this by setting the limits of each prediction by the &lt;strong&gt;min()&lt;/strong&gt; and &lt;strong&gt;max()&lt;/strong&gt; of the predictor variables.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# new data frame of predictions
-new_preds &amp;lt;- Chlorella_TRC %&amp;gt;%
-  do(., data.frame(K = seq(min(.$K), max(.$K), length.out = 150), stringsAsFactors = FALSE))
-
-# max and min for each curve
-max_min &amp;lt;- group_by(Chlorella_TRC, curve_id) %&amp;gt;%
-  summarise(., min_K = min(K), max_K = max(K)) %&amp;gt;%
-  ungroup()
-
-# create new predictions
-preds2 &amp;lt;- fits %&amp;gt;%
-  unnest(fit %&amp;gt;% map(augment, newdata = new_preds)) %&amp;gt;%
-  merge(., max_min, by = &amp;#39;curve_id&amp;#39;) %&amp;gt;%
-  group_by(., curve_id) %&amp;gt;%
-  filter(., K &amp;gt; unique(min_K) &amp;amp; K &amp;lt; unique(max_K)) %&amp;gt;%
-  rename(., ln.rate = .fitted) %&amp;gt;%
-  ungroup()&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;These can then be plotted using &lt;strong&gt;ggplot2&lt;/strong&gt;.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# plot
-ggplot() +
-  geom_point(aes(K - 273.15, ln.rate, col = flux), size = 2, Chlorella_TRC) +
-  geom_line(aes(K - 273.15, ln.rate, col = flux, group = curve_id), alpha = 0.5, preds2) +
-  facet_wrap(~ growth.temp + process, labeller = labeller(.multi_line = FALSE)) +
-  scale_colour_manual(values = c(&amp;#39;green4&amp;#39;, &amp;#39;black&amp;#39;)) +
-  theme_bw(base_size = 12, base_family = &amp;#39;Helvetica&amp;#39;) +
-  ylab(&amp;#39;log Metabolic rate&amp;#39;) +
-  xlab(&amp;#39;Assay temperature (ºC)&amp;#39;) +
-  theme(legend.position = c(0.9, 0.15))&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://padpadpadpad.github.io/post/2017-12-22-fitting-many-non-linear-regressions-with-broom-purrr-and-nls-multstart_files/figure-html/plot_many_fits-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;The confidence intervals of each parameter for each curve fit can also be easily visualised.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# plot
-ggplot(params, aes(col = flux)) +
-  geom_point(aes(curve_id, estimate)) +
-  facet_wrap(~ term, scale = &amp;#39;free_x&amp;#39;, ncol = 4) +
-  geom_linerange(aes(curve_id, ymin = conf.low, ymax = conf.high)) +
-  coord_flip() +
-  scale_color_manual(values = c(&amp;#39;green4&amp;#39;, &amp;#39;black&amp;#39;)) +
-  theme_bw(base_size = 12, base_family = &amp;#39;Helvetica&amp;#39;) +
-  theme(legend.position = &amp;#39;top&amp;#39;) +
-  xlab(&amp;#39;curve&amp;#39;) +
-  ylab(&amp;#39;parameter estimate&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://padpadpadpad.github.io/post/2017-12-22-fitting-many-non-linear-regressions-with-broom-purrr-and-nls-multstart_files/figure-html/confint_plot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;This method of modelling can be used for different data, different non-linear models (and linear models for that matter) and combined with the &lt;strong&gt;tidyverse&lt;/strong&gt; can make very useful visualisations.&lt;/p&gt;
-&lt;p&gt;The next stage of these curve fits is to try and better understand the uncertainty of these curve fits and their predictions. One approach to achieve this could be bootstrapping new datasets from the existing data. I hope to demonstrate how this could be done soon in another post.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;references&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;References&lt;/h2&gt;
-&lt;p&gt;[1] Padfield, D., Yvon-durocher, G., Buckling, A., Jennings, S. &amp;amp; Yvon-durocher, G. (2016). Rapid evolution of metabolic traits explains thermal adaptation in phytoplankton. Ecology Letters, 19(2), 133-142.&lt;/p&gt;
 &lt;/div&gt;
 </description>
     </item>

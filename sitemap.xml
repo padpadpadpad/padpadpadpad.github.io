@@ -5,6 +5,15 @@
     
     <url>
     
+      <loc>https://padpadpadpad.github.io/post/fitting-non-linear-regressions-with-broom-purrr-and-nls.multstart/</loc>
+      <lastmod>2018-01-07T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>https://padpadpadpad.github.io/post/using-blast-on-sanger-sequences-in-r/</loc>
       <lastmod>2017-10-08T00:00:00+00:00</lastmod>
     </url>
@@ -16,15 +25,6 @@
     
       <loc>https://padpadpadpad.github.io/publication/metabolic_compensation_iceland/</loc>
       <lastmod>2017-08-31T00:00:00+00:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>https://padpadpadpad.github.io/post/fitting-non-linear-regressions-with-broom-purrr-and-nls.multstart/</loc>
-      <lastmod>2017-01-07T00:00:00+00:00</lastmod>
     </url>
     
   
@@ -115,7 +115,7 @@
     <url>
     
       <loc>https://padpadpadpad.github.io/tags/broom/</loc>
-      <lastmod>2017-01-07T00:00:00+00:00</lastmod>
+      <lastmod>2018-01-07T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -194,7 +194,7 @@
     <url>
     
       <loc>https://padpadpadpad.github.io/tags/nonlinear-regression/</loc>
-      <lastmod>2017-01-07T00:00:00+00:00</lastmod>
+      <lastmod>2018-01-07T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -223,17 +223,7 @@
     <url>
     
       <loc>https://padpadpadpad.github.io/tags/purrr/</loc>
-      <lastmod>2017-01-07T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>https://padpadpadpad.github.io/tags/r/</loc>
-      <lastmod>2017-10-08T00:00:00+00:00</lastmod>
+      <lastmod>2018-01-07T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -243,7 +233,17 @@
     <url>
     
       <loc>https://padpadpadpad.github.io/categories/r/</loc>
-      <lastmod>2017-10-08T00:00:00+00:00</lastmod>
+      <lastmod>2018-01-07T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://padpadpadpad.github.io/tags/r/</loc>
+      <lastmod>2018-01-07T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -283,7 +283,7 @@
     <url>
     
       <loc>https://padpadpadpad.github.io/tags/tidy/</loc>
-      <lastmod>2017-01-07T00:00:00+00:00</lastmod>
+      <lastmod>2018-01-07T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
