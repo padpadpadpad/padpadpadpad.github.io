@@ -26,7 +26,7 @@
 &lt;/div&gt;
 &lt;p&gt;These curves can be modelled with a variety of equations, such as the Sharpe-Schoolfield equation, which I have log-transformed here:&lt;/p&gt;
 &lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[log(rate) = lnc + E(\frac{1}{T_{c}} - \frac{1}{kT}) - ln(1 + e^{E_h(\frac{1}{kT_h} - \frac{1}{kT})})\]&lt;/span&gt; where &lt;span class=&#34;math inline&#34;&gt;\(lnc\)&lt;/span&gt; is a normalisation constant at a common temperature, &lt;span class=&#34;math inline&#34;&gt;\(T_{c}\)&lt;/span&gt;, &lt;span class=&#34;math inline&#34;&gt;\(E\)&lt;/span&gt; is an activation energy that describes the rate of increase before the optimum temperature, &lt;span class=&#34;math inline&#34;&gt;\(T_{opt}\)&lt;/span&gt;. &lt;span class=&#34;math inline&#34;&gt;\(k\)&lt;/span&gt; is Boltzmann’s constant, &lt;span class=&#34;math inline&#34;&gt;\(E_{h}\)&lt;/span&gt; is the deactivation energy that controls the decline in rate past the optimum temperature and &lt;span class=&#34;math inline&#34;&gt;\(T_{h}\)&lt;/span&gt; is the temperature where, after the optimu, the rate is half of the maximal rate.&lt;/p&gt;
-&lt;p&gt;Say I want to fit the same equation to 10, 50, or 100s of these curves. I could loop through a call to &lt;strong&gt;nls&lt;/strong&gt;, &lt;strong&gt;nlsLM&lt;/strong&gt;, or use &lt;strong&gt;nlsList&lt;/strong&gt; from &lt;strong&gt;nlme&lt;/strong&gt;. However, non-linear least squares regression in R is sensitive to the start parameters, meaning that different start parameters can give different “best estimated parameters”. This becomes more likely when fitting more curves with only a single set of start parameters, where the variation in estimated parameter values is likely to be much larger. For example, some curves could have much higher rates (&lt;span class=&#34;math inline&#34;&gt;\(lnc\)&lt;/span&gt;), higher optimum temperatures (i.e. &lt;span class=&#34;math inline&#34;&gt;\(T_{h}\)&lt;/span&gt;) or have different values of temperature-dependence (&lt;span class=&#34;math inline&#34;&gt;\(E\)&lt;/span&gt;).&lt;/p&gt;
+&lt;p&gt;Say I want to fit the same equation to 10, 50, or 100s of these curves. I could loop through a call to &lt;strong&gt;nls()&lt;/strong&gt;, &lt;strong&gt;nlsLM()&lt;/strong&gt;, or use &lt;strong&gt;nlsList()&lt;/strong&gt; from &lt;strong&gt;nlme&lt;/strong&gt;. However, non-linear least squares regression in R is sensitive to the start parameters, meaning that different start parameters can give different “best estimated parameters”. This becomes more likely when fitting more curves with only a single set of start parameters, where the variation in estimated parameter values is likely to be much larger. For example, some curves could have much higher rates (&lt;span class=&#34;math inline&#34;&gt;\(lnc\)&lt;/span&gt;), higher optimum temperatures (i.e. &lt;span class=&#34;math inline&#34;&gt;\(T_{h}\)&lt;/span&gt;) or have different values of temperature-dependence (&lt;span class=&#34;math inline&#34;&gt;\(E\)&lt;/span&gt;).&lt;/p&gt;
 &lt;p&gt;To combat this, I wrote an R package which allows for multiple start parameters for non-linear regression. I wrapped this method in an R package called &lt;a href=&#34;https://github.com/padpadpadpad/nlsLoop&#34;&gt;&lt;strong&gt;nlsLoop&lt;/strong&gt;&lt;/a&gt; and submitted it to The Journal of Open Source Software. Everything was good with the world and I went to a Christmas party.&lt;/p&gt;
 &lt;p&gt;The next day, I had an epiphany surrounding the redundancies and needless complexities of my R package, withdrew my submission and rewrote the entire package in a weekend to give rise to a single function package, &lt;strong&gt;nls.multstart::nls_multstart()&lt;/strong&gt;. Essentially since I first wrote &lt;strong&gt;nlsLoop&lt;/strong&gt; ~3 years ago I have realised that &lt;strong&gt;broom&lt;/strong&gt; and &lt;strong&gt;purrr&lt;/strong&gt; can do what I wrote clunkier functions to achieve. In contrast, &lt;a href=&#34;https://github.com/padpadpadpad/nls.multstart&#34;&gt;&lt;strong&gt;nls.multstart&lt;/strong&gt;&lt;/a&gt; works perfectly with the tools of the &lt;strong&gt;tidyverse&lt;/strong&gt; to fit multiple models.&lt;/p&gt;
 &lt;/div&gt;
@@ -87,7 +87,7 @@ fit&lt;/code&gt;&lt;/pre&gt;
 ##  -1.3462   0.9877   4.3326 312.1887 
 ##  residual sum-of-squares: 7.257
 ## 
-## Number of iterations to convergence: 14 
+## Number of iterations to convergence: 17 
 ## Achieved convergence tolerance: 1.49e-08&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;strong&gt;nls_multstart()&lt;/strong&gt; allows boundaries for each parameter to be set. A uniform distribution between these values is created and start values for each iteration of the fitting process are then picked randomly. The function returns the best available model by picking the model with the lowest AIC/AICc score. Additional info on the function can be found &lt;a href=&#34;https://github.com/padpadpadpad/nls.multstart&#34;&gt;here&lt;/a&gt; or by typing &lt;code&gt;?nls_multstart&lt;/code&gt; into the R console.&lt;/p&gt;
 &lt;p&gt;This fit can then be “tidied” in various ways using the R package &lt;strong&gt;broom&lt;/strong&gt;. Each different function in &lt;strong&gt;broom&lt;/strong&gt; returns a different set of information. &lt;strong&gt;tidy()&lt;/strong&gt; returns the estimated parameters, &lt;strong&gt;augment()&lt;/strong&gt; returns the predictions and &lt;strong&gt;glance()&lt;/strong&gt; returns information about the model such as the AIC score and whether the model has reached convergence. Confidence intervals of non-linear regression can also be estimated using &lt;strong&gt;nlstools::confint2()&lt;/strong&gt;&lt;/p&gt;
@@ -121,7 +121,7 @@ summary(fits$fit[[1]])&lt;/code&gt;&lt;/pre&gt;
 ## 
 ## Residual standard error: 0.9524 on 8 degrees of freedom
 ## 
-## Number of iterations to convergence: 18 
+## Number of iterations to convergence: 14 
 ## Achieved convergence tolerance: 1.49e-08&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# look at output object
 select(fits, curve_id, data, fit)&lt;/code&gt;&lt;/pre&gt;
@@ -514,9 +514,9 @@ schoolfield_high &amp;lt;- function(lnc, E, Eh, Th, temp, Tc) {
 &lt;pre&gt;&lt;code&gt;##   curve_id       lnc         E       Eh       Th      AIC  quasi_r2
 ## 1        1 -1.346211 0.9877307 4.332645 312.1887 48.01896 0.4608054
 ## 2        2 -1.349431 1.0653450 4.211374 312.6591 22.39398 0.8978426
-## 3        3 -1.815315 1.1155334 4.140395 310.9545 34.77114 0.7804032
+## 3        3 -1.815315 1.1155333 4.140395 310.9545 34.77114 0.7804032
 ## 4        4 -1.612615 1.0982576 3.025816 310.6412 31.04688 0.8709134
-## 5        5 -1.767711 1.1244277 9.010641 317.0688 41.69970 0.7602547
+## 5        5 -1.767711 1.1244277 9.010640 317.0688 41.69970 0.7602547
 ## 6        6 -1.717258 1.1727047 4.077252 311.4596 37.03555 0.7289198&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Having all of these in a single &lt;code&gt;nlsLoop&lt;/code&gt; object allows a simple plotting method to assess how good our fits to the data are. One of the best ways to assess non-linear model is by &lt;strong&gt;ACTUALLY LOOKING&lt;/strong&gt; at how well every model fits its respective raw data.&lt;/p&gt;
 &lt;/div&gt;

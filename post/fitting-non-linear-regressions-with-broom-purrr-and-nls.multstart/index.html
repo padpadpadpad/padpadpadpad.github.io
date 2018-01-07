@@ -239,7 +239,7 @@
 </div>
 <p>These curves can be modelled with a variety of equations, such as the Sharpe-Schoolfield equation, which I have log-transformed here:</p>
 <p><span class="math display">\[log(rate) = lnc + E(\frac{1}{T_{c}} - \frac{1}{kT}) - ln(1 + e^{E_h(\frac{1}{kT_h} - \frac{1}{kT})})\]</span> where <span class="math inline">\(lnc\)</span> is a normalisation constant at a common temperature, <span class="math inline">\(T_{c}\)</span>, <span class="math inline">\(E\)</span> is an activation energy that describes the rate of increase before the optimum temperature, <span class="math inline">\(T_{opt}\)</span>. <span class="math inline">\(k\)</span> is Boltzmann’s constant, <span class="math inline">\(E_{h}\)</span> is the deactivation energy that controls the decline in rate past the optimum temperature and <span class="math inline">\(T_{h}\)</span> is the temperature where, after the optimu, the rate is half of the maximal rate.</p>
-<p>Say I want to fit the same equation to 10, 50, or 100s of these curves. I could loop through a call to <strong>nls</strong>, <strong>nlsLM</strong>, or use <strong>nlsList</strong> from <strong>nlme</strong>. However, non-linear least squares regression in R is sensitive to the start parameters, meaning that different start parameters can give different “best estimated parameters”. This becomes more likely when fitting more curves with only a single set of start parameters, where the variation in estimated parameter values is likely to be much larger. For example, some curves could have much higher rates (<span class="math inline">\(lnc\)</span>), higher optimum temperatures (i.e. <span class="math inline">\(T_{h}\)</span>) or have different values of temperature-dependence (<span class="math inline">\(E\)</span>).</p>
+<p>Say I want to fit the same equation to 10, 50, or 100s of these curves. I could loop through a call to <strong>nls()</strong>, <strong>nlsLM()</strong>, or use <strong>nlsList()</strong> from <strong>nlme</strong>. However, non-linear least squares regression in R is sensitive to the start parameters, meaning that different start parameters can give different “best estimated parameters”. This becomes more likely when fitting more curves with only a single set of start parameters, where the variation in estimated parameter values is likely to be much larger. For example, some curves could have much higher rates (<span class="math inline">\(lnc\)</span>), higher optimum temperatures (i.e. <span class="math inline">\(T_{h}\)</span>) or have different values of temperature-dependence (<span class="math inline">\(E\)</span>).</p>
 <p>To combat this, I wrote an R package which allows for multiple start parameters for non-linear regression. I wrapped this method in an R package called <a href="https://github.com/padpadpadpad/nlsLoop"><strong>nlsLoop</strong></a> and submitted it to The Journal of Open Source Software. Everything was good with the world and I went to a Christmas party.</p>
 <p>The next day, I had an epiphany surrounding the redundancies and needless complexities of my R package, withdrew my submission and rewrote the entire package in a weekend to give rise to a single function package, <strong>nls.multstart::nls_multstart()</strong>. Essentially since I first wrote <strong>nlsLoop</strong> ~3 years ago I have realised that <strong>broom</strong> and <strong>purrr</strong> can do what I wrote clunkier functions to achieve. In contrast, <a href="https://github.com/padpadpadpad/nls.multstart"><strong>nls.multstart</strong></a> works perfectly with the tools of the <strong>tidyverse</strong> to fit multiple models.</p>
 </div>
@@ -300,7 +300,7 @@ fit</code></pre>
 ##  -1.3462   0.9877   4.3326 312.1887 
 ##  residual sum-of-squares: 7.257
 ## 
-## Number of iterations to convergence: 14 
+## Number of iterations to convergence: 17 
 ## Achieved convergence tolerance: 1.49e-08</code></pre>
 <p><strong>nls_multstart()</strong> allows boundaries for each parameter to be set. A uniform distribution between these values is created and start values for each iteration of the fitting process are then picked randomly. The function returns the best available model by picking the model with the lowest AIC/AICc score. Additional info on the function can be found <a href="https://github.com/padpadpadpad/nls.multstart">here</a> or by typing <code>?nls_multstart</code> into the R console.</p>
 <p>This fit can then be “tidied” in various ways using the R package <strong>broom</strong>. Each different function in <strong>broom</strong> returns a different set of information. <strong>tidy()</strong> returns the estimated parameters, <strong>augment()</strong> returns the predictions and <strong>glance()</strong> returns information about the model such as the AIC score and whether the model has reached convergence. Confidence intervals of non-linear regression can also be estimated using <strong>nlstools::confint2()</strong></p>
@@ -334,7 +334,7 @@ summary(fits$fit[[1]])</code></pre>
 ## 
 ## Residual standard error: 0.9524 on 8 degrees of freedom
 ## 
-## Number of iterations to convergence: 18 
+## Number of iterations to convergence: 14 
 ## Achieved convergence tolerance: 1.49e-08</code></pre>
 <pre class="r"><code># look at output object
 select(fits, curve_id, data, fit)</code></pre>
