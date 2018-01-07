@@ -45,9 +45,7 @@
 &lt;h2&gt;Using nlsLoop&lt;/h2&gt;
 &lt;div id=&#34;load-in-packages-and-install-nlsloop&#34; class=&#34;section level4&#34;&gt;
 &lt;h4&gt;1. Load in packages and install nlsLoop&lt;/h4&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;devtools::install_github(&amp;#39;padpadpadpad/nlsLoop&amp;#39;)
-
-library(nlsLoop)
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(nlsLoop) # devtools::install_github(&amp;#39;padpadpadpad/nlsLoop&amp;#39;)
 library(dplyr)
 library(magrittr)
 library(tidyr)
@@ -67,6 +65,14 @@ head(Chlorella_TRC)&lt;/code&gt;&lt;/pre&gt;
 ## 4        1          20 acclimation respiration   25 298.15 -0.7944367
 ## 5        1          20 acclimation respiration   28 301.15 -0.1820364
 ## 6        1          20 acclimation respiration   31 304.15  0.1742401&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# define the Sharpe-Schoolfield equation
+schoolfield_high &amp;lt;- function(lnc, E, Eh, Th, temp, Tc) {
+    Tc &amp;lt;- 273.15 + Tc
+    k &amp;lt;- 8.62e-05
+    boltzmann.term &amp;lt;- lnc + log(exp(E/k * (1/Tc - 1/temp)))
+    inactivation.term &amp;lt;- log(1/(1 + exp(Eh/k * (1/Th - 1/temp))))
+    return(boltzmann.term + inactivation.term)
+}&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;As you can see, and read about in the &lt;a href=&#34;http://onlinelibrary.wiley.com/doi/10.1111/ele.12545/full&#34;&gt;paper&lt;/a&gt; (&lt;strong&gt;YES, THIS IS A PLUG&lt;/strong&gt;), we have rates of metabolism for both photosynthesis and respiration across 5 different growth temperatures after both 10 (acclimation) and 100 (adaptation) generations of growth, so we can have a go at an initial plot accordingly…&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(Chlorella_TRC) +
   geom_point(aes(temp, ln.rate, col = growth.temp), shape = 21, size = 2, alpha = 0.5) +
@@ -82,13 +88,13 @@ head(Chlorella_TRC)&lt;/code&gt;&lt;/pre&gt;
 &lt;div id=&#34;run-nlsloop&#34; class=&#34;section level4&#34;&gt;
 &lt;h4&gt;3. Run nlsLoop&lt;/h4&gt;
 &lt;p&gt;&lt;code&gt;nlsLoop::nlsLoop()&lt;/code&gt; uses &lt;code&gt;minpack.lm::nlsLM()&lt;/code&gt; to fit each individual curve allows addiitional arguments such as &lt;code&gt;lower&lt;/code&gt; and &lt;code&gt;na.action&lt;/code&gt; accordingly. The best fit for each factor level is determined using AIC scores and if the best fit does not change for 100 “tries” then it will move onto the next level of the factor.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;fits &amp;lt;- nlsLoop(ln.rate ~ schoolfield.high(ln.c, Ea, Eh, Th, temp = K, Tc = 20),
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;fits &amp;lt;- nlsLoop(ln.rate ~ schoolfield_high(lnc, E, Eh, Th, temp = K, Tc = 20),
                      data = Chlorella_TRC,
                      tries = 500,
                      id_col = &amp;#39;curve_id&amp;#39;,
                      param_bds = c(-10, 10, 0.1, 2, 0.5, 5, 285, 330),
                      r2 = &amp;#39;Y&amp;#39;,
-                     supp.errors = &amp;#39;Y&amp;#39;,
+                     supp_errors = &amp;#39;Y&amp;#39;,
                      AICc = &amp;#39;Y&amp;#39;,
                      na.action = na.omit,
                      lower = c(ln.c=-10, Ea=0, Eh=0, Th=0))&lt;/code&gt;&lt;/pre&gt;
@@ -96,10 +102,10 @@ head(Chlorella_TRC)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;The result of this returns an &lt;code&gt;nlsLoop&lt;/code&gt; object that is made up of &lt;code&gt;params&lt;/code&gt; which has all of our parameter values for each individual fit and &lt;code&gt;predictions&lt;/code&gt; which is a high resolution predicted dataframe to allow for a smooth curve on a plot (which we will come to later).&lt;/p&gt;
 &lt;p&gt;These can be accessed simply using &lt;code&gt;fits$params&lt;/code&gt; or &lt;code&gt;fits$predictions&lt;/code&gt;.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;head(fits$params)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;##   curve_id      ln.c        Ea       Eh       Th      AIC  quasi.r2
+&lt;pre&gt;&lt;code&gt;##   curve_id       lnc         E       Eh       Th      AIC  quasi_r2
 ## 1        1 -1.346211 0.9877307 4.332645 312.1887 48.01896 0.4608054
 ## 2        2 -1.349431 1.0653450 4.211374 312.6591 22.39398 0.8978426
-## 3        3 -1.815315 1.1155333 4.140395 310.9545 34.77114 0.7804032
+## 3        3 -1.815315 1.1155334 4.140395 310.9545 34.77114 0.7804032
 ## 4        4 -1.612615 1.0982576 3.025816 310.6412 31.04688 0.8709134
 ## 5        5 -1.767711 1.1244277 9.010641 317.0688 41.69970 0.7602547
 ## 6        6 -1.717258 1.1727047 4.077252 311.4596 37.03555 0.7289198&lt;/code&gt;&lt;/pre&gt;
@@ -108,12 +114,10 @@ head(Chlorella_TRC)&lt;/code&gt;&lt;/pre&gt;
 &lt;div id=&#34;plotting&#34; class=&#34;section level4&#34;&gt;
 &lt;h4&gt;4. Plotting&lt;/h4&gt;
 &lt;p&gt;Firstly lets have a look at a single level of &lt;code&gt;curve_id&lt;/code&gt;, a function called &lt;code&gt;plot_id_nlsLoop()&lt;/code&gt; allows this.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;plot_id_nlsLoop(raw_data = Chlorella_TRC, param_data = fits, id = &amp;#39;1&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## Warning: Removed 750 rows containing missing values (geom_path).&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## Warning: Removed 36 rows containing missing values (geom_point).&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;plot_id_nlsLoop(data = Chlorella_TRC, param_data = fits, id = &amp;#39;1&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;https://padpadpadpad.github.io/post/2017-09-07-introducing-nlsloop_files/figure-html/first%20fit%20plot-1.png&#34; width=&#34;768&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;Not a bad fit… Further to this, &lt;code&gt;plot_all_nlsLoop()&lt;/code&gt; will produce a pdf with each plot on a new sheet.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;plot_all_nlsLoop(&amp;#39;path/of/where/you/want/to/save/me.pdf&amp;#39;, raw_data = Chlorella_TRC, param_data = fits)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;plot_all_nlsLoop(&amp;#39;path/of/where/you/want/to/save/me.pdf&amp;#39;, data = Chlorella_TRC, param_data = fits)&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div id=&#34;exploratory-analysis&#34; class=&#34;section level4&#34;&gt;
 &lt;h4&gt;5. Exploratory analysis&lt;/h4&gt;
@@ -139,7 +143,7 @@ ggplot() +
   xlab(&amp;#39;Assay temperature (ºC)&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;https://padpadpadpad.github.io/post/2017-09-07-introducing-nlsloop_files/figure-html/data%20wrangling-1.png&#34; width=&#34;1152&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;We can also start having a quick look at any differences between parameters…&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;gather(fits$params, &amp;#39;parameter&amp;#39;, &amp;#39;value&amp;#39;, c(ln.c, Ea, Eh, Th)) %&amp;gt;%
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;gather(fits$params, &amp;#39;parameter&amp;#39;, &amp;#39;value&amp;#39;, c(lnc, E, Eh, Th)) %&amp;gt;%
   ggplot(.) +
   geom_point(aes(growth.temp, value, col = flux, shape = process), fill = &amp;#39;white&amp;#39;, size = 2, position = position_dodge(width = 0.25)) +
   facet_wrap(~ parameter, scales = &amp;#39;free_y&amp;#39;) +
@@ -148,10 +152,10 @@ ggplot() +
   theme_bw(base_size = 16, base_family = &amp;#39;Helvetica&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;https://padpadpadpad.github.io/post/2017-09-07-introducing-nlsloop_files/figure-html/parameter%20plots-1.png&#34; width=&#34;960&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;From here we can see that the activation energy (&lt;em&gt;E&lt;sub&gt;a&lt;/sub&gt;&lt;/em&gt;) in the model does not change systematically with growth temperature or whether it has acclimated or adapted to the growth temperature. However a body of work has shown that photosynthesis should be less sensitive to temperature change (a lower &lt;em&gt;E&lt;sub&gt;a&lt;/sub&gt;&lt;/em&gt;) than that of respiration.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(fits$params, aes(flux, Ea)) +
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(fits$params, aes(flux, E)) +
   geom_boxplot(aes(fill = flux, col = flux), outlier.shape = NA, width = 0.5) +
   stat_summary(geom = &amp;#39;crossbar&amp;#39;, fatten = 0, color = &amp;#39;white&amp;#39;, width = 0.5, fun.data = function(x){ return(c(y=median(x), ymin=median(x), ymax=median(x)))}) +
-  geom_jitter(aes(flux, Ea, col = flux), shape = 21, fill =&amp;#39;white&amp;#39;, width = 0.25, height = 0) +
+  geom_jitter(aes(flux, E, col = flux), shape = 21, fill =&amp;#39;white&amp;#39;, width = 0.25, height = 0) +
   theme_bw(base_size = 16, base_family = &amp;#39;Helvetica&amp;#39;) +
   scale_color_manual(values = c(&amp;#39;green4&amp;#39;, &amp;#39;black&amp;#39;)) +
   scale_fill_manual(values = c(&amp;#39;green4&amp;#39;, &amp;#39;black&amp;#39;)) +

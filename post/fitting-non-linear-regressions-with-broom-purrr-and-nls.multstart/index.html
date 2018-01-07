@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme" content="hugo-academic">
+  <meta name="generator" content="Hugo 0.26" />
+  <meta name="author" content="Daniel Padfield">
+  <meta name="description" content="Research Scientist">
+
+  
+  
+  
+    
+  
+  
+    
+    
+    <link rel="stylesheet" href="/css/highlight.min.css">
+    
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha512-6MXa8B6uaO18Hid6blRMetEIoPqHf7Ux1tnyIQdpt9qI5OACx7C+O3IVTr98vwGnlcg0LOLa02i9Y1HpVhlfiw==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.1/css/academicons.min.css" integrity="sha512-NThgw3XKQ1absAahW6to7Ey42uycrVvfNfyjqcFNgCmOCQ5AR4AO0SiXrN+8ZtYeappp56lk1WtvjVmEa+VR6A==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous">
+  
+  
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather%7CRoboto+Mono">
+  <link rel="stylesheet" href="/css/hugo-academic.css">
+  
+
+  
+
+  <link rel="alternate" href="https://padpadpadpad.github.io/index.xml" type="application/rss+xml" title="Daniel Padfield">
+  <link rel="feed" href="https://padpadpadpad.github.io/index.xml" type="application/rss+xml" title="Daniel Padfield">
+
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/apple-touch-icon.png">
+
+  <link rel="canonical" href="https://padpadpadpad.github.io/post/fitting-non-linear-regressions-with-broom-purrr-and-nls.multstart/">
+
+  
+
+  <title>Fitting non-linear regressions with broom, purrr and nls.multstart | Daniel Padfield</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#navbar-main" data-offset="71">
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target=".navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">Daniel Padfield</a>
+    </div>
+
+    
+    <div class="collapse navbar-collapse">
+
+      
+      <ul class="nav navbar-nav navbar-right">
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#posts">
+            
+            <span>Home</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#about">
+            
+            <span>About me</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#publications">
+            
+            <span>Publications</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#contact">
+            
+            <span>Contact</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+
+
+  <div class="article-container">
+    <h1 itemprop="name">Fitting non-linear regressions with broom, purrr and nls.multstart</h1>
+    
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="2017-01-07 00:00:00 &#43;0000 UTC" itemprop="datePublished">
+      Sat, Jan 7, 2017
+    </time>
+  </span>
+
+  
+  
+  
+  <span class="article-categories">
+    <i class="fa fa-folder"></i>
+    
+    <a href="/categories/r">R</a
+    >
+    
+  </span>
+  
+  
+
+  
+  
+  
+  <span class="article-tags">
+    <i class="fa fa-tags"></i>
+    
+    <a href="/tags/r">R</a
+    >, 
+    
+    <a href="/tags/nonlinear-regression">nonlinear regression</a
+    >, 
+    
+    <a href="/tags/broom">broom</a
+    >, 
+    
+    <a href="/tags/purrr">purrr</a
+    >, 
+    
+    <a href="/tags/tidy">tidy</a
+    >
+    
+  </span>
+  
+  
+
+  
+  
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fpadpadpadpad.github.io%2fpost%2ffitting-non-linear-regressions-with-broom-purrr-and-nls.multstart%2f"
+         target="_blank">
+        <i class="fa fa-facebook"></i>
+      </a>
+    </li>
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=Fitting%20non-linear%20regressions%20with%20broom%2c%20purrr%20and%20nls.multstart&amp;url=https%3a%2f%2fpadpadpadpad.github.io%2fpost%2ffitting-non-linear-regressions-with-broom-purrr-and-nls.multstart%2f"
+         target="_blank">
+        <i class="fa fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fpadpadpadpad.github.io%2fpost%2ffitting-non-linear-regressions-with-broom-purrr-and-nls.multstart%2f&amp;title=Fitting%20non-linear%20regressions%20with%20broom%2c%20purrr%20and%20nls.multstart"
+         target="_blank">
+        <i class="fa fa-linkedin"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=https%3a%2f%2fpadpadpadpad.github.io%2fpost%2ffitting-non-linear-regressions-with-broom-purrr-and-nls.multstart%2f&amp;title=Fitting%20non-linear%20regressions%20with%20broom%2c%20purrr%20and%20nls.multstart"
+         target="_blank">
+        <i class="fa fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=Fitting%20non-linear%20regressions%20with%20broom%2c%20purrr%20and%20nls.multstart&amp;body=https%3a%2f%2fpadpadpadpad.github.io%2fpost%2ffitting-non-linear-regressions-with-broom-purrr-and-nls.multstart%2f">
+        <i class="fa fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+    <div class="article-style" itemprop="articleBody">
+      <div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>With my research, I often use non-linear least squares regression to fit a model with biologically meaningful parameters to data. Specifically, I measure the thermal performance of phytoplankon growth, respiration and photosynthesis over a wide range of assay temperatures to see how the organisms are adapted to the temperatures they live at.</p>
+<p>These thermal performance curves generally follow a unimodal shape and parameters for which are widely used in climate change research to predict whether organisms will be able to cope with increasing temperatures.</p>
+<div class="figure">
+<img src="/img/TPC.png" alt="Example Thermal Performance Curve" />
+<p class="caption">Example Thermal Performance Curve</p>
+</div>
+<p>These curves can be modelled with a variety of equations, such as the Sharpe-Schoolfield equation, which I have log-transformed here:</p>
+<p><span class="math display">\[log(rate) = lnc + E(\frac{1}{T_{c}} - \frac{1}{kT}) - ln(1 + e^{E_h(\frac{1}{kT_h} - \frac{1}{kT})})\]</span> where <span class="math inline">\(lnc\)</span> is a normalisation constant at a common temperature, <span class="math inline">\(T_{c}\)</span>, <span class="math inline">\(E\)</span> is an activation energy that describes the rate of increase before the optimum temperature, <span class="math inline">\(T_{opt}\)</span>. <span class="math inline">\(k\)</span> is Boltzmann’s constant, <span class="math inline">\(E_{h}\)</span> is the deactivation energy that controls the decline in rate past the optimum temperature and <span class="math inline">\(T_{h}\)</span> is the temperature where, after the optimu, the rate is half of the maximal rate.</p>
+<p>Say I want to fit the same equation to 10, 50, or 100s of these curves. I could loop through a call to <strong>nls</strong>, <strong>nlsLM</strong>, or use <strong>nlsList</strong> from <strong>nlme</strong>. However, non-linear least squares regression in R is sensitive to the start parameters, meaning that different start parameters can give different “best estimated parameters”. This becomes more likely when fitting more curves with only a single set of start parameters, where the variation in estimated parameter values is likely to be much larger. For example, some curves could have much higher rates (<span class="math inline">\(lnc\)</span>), higher optimum temperatures (i.e. <span class="math inline">\(T_{h}\)</span>) or have different values of temperature-dependence (<span class="math inline">\(E\)</span>).</p>
+<p>To combat this, I wrote an R package which allows for multiple start parameters for non-linear regression. I wrapped this method in an R package called <a href="https://github.com/padpadpadpad/nlsLoop"><strong>nlsLoop</strong></a> and submitted it to The Journal of Open Source Software. Everything was good with the world and I went to a Christmas party.</p>
+<p>The next day, I had an epiphany surrounding the redundancies and needless complexities of my R package, withdrew my submission and rewrote the entire package in a weekend to give rise to a single function package, <strong>nls.multstart::nls_multstart()</strong>. Essentially since I first wrote <strong>nlsLoop</strong> ~3 years ago I have realised that <strong>broom</strong> and <strong>purrr</strong> can do what I wrote clunkier functions to achieve. In contrast, <a href="https://github.com/padpadpadpad/nls.multstart"><strong>nls.multstart</strong></a> works perfectly with the tools of the <strong>tidyverse</strong> to fit multiple models.</p>
+</div>
+<div id="multiple-model-fitting-in-practice" class="section level2">
+<h2>Multiple model fitting in practice</h2>
+<p>Load in all packages that are used in this analysis. Packages can be installed from GitHub using <strong>devtools</strong>.</p>
+<pre class="r"><code># load packages
+library(nls.multstart) # devtools::install_github(&#39;padpadpadpad/nls.multstart&#39;)
+library(ggplot2)
+library(broom)
+library(purrr)
+library(dplyr)
+library(tidyr)
+library(nlstools)</code></pre>
+<p>We can then load in the data and have a look at it using <strong>glimpse()</strong>. Here we shall use a dataset of thermal performance curves of metabolism of <strong>Chlorella vulgaris</strong> from Padfield <strong>et al.</strong> 2016.</p>
+<pre class="r"><code># load in example data set
+data(&quot;Chlorella_TRC&quot;)
+
+glimpse(Chlorella_TRC)</code></pre>
+<pre><code>## Observations: 649
+## Variables: 7
+## $ curve_id    &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2,...
+## $ growth.temp &lt;dbl&gt; 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20...
+## $ process     &lt;chr&gt; &quot;acclimation&quot;, &quot;acclimation&quot;, &quot;acclimation&quot;, &quot;accl...
+## $ flux        &lt;chr&gt; &quot;respiration&quot;, &quot;respiration&quot;, &quot;respiration&quot;, &quot;resp...
+## $ temp        &lt;dbl&gt; 16, 19, 22, 25, 28, 31, 34, 37, 40, 43, 46, 49, 16...
+## $ K           &lt;dbl&gt; 289.15, 292.15, 295.15, 298.15, 301.15, 304.15, 30...
+## $ ln.rate     &lt;dbl&gt; -2.06257833, -1.32437939, -0.95416807, -0.79443675...</code></pre>
+<p>Next we define the Sharpe-Schoolfield equation discussed earlier.</p>
+<pre class="r"><code># define the Sharpe-Schoolfield equation
+schoolfield_high &lt;- function(lnc, E, Eh, Th, temp, Tc) {
+  Tc &lt;- 273.15 + Tc
+  k &lt;- 8.62e-5
+  boltzmann.term &lt;- lnc + log(exp(E/k*(1/Tc - 1/temp)))
+  inactivation.term &lt;- log(1/(1 + exp(Eh/k*(1/Th - 1/temp))))
+  return(boltzmann.term + inactivation.term)
+  }</code></pre>
+<p>There are 60 curves in this dataset, 30 each of photosynthesis and respiration. The treatments are growth temperature (20, 23, 27, 30, 33 ºC) and adaptive process (acclimation or adaptation) that reflects the number of generations cultures were grown at each temperature.</p>
+<p>We can see how <strong>nls_multstart()</strong> works by subsetting the data for a single curve.</p>
+<pre class="r"><code># subset dataset
+d_1 &lt;- subset(Chlorella_TRC, curve_id == 1)
+
+# run nls_multstart
+fit &lt;- nls_multstart(ln.rate ~ schoolfield_high(lnc, E, Eh, Th, temp = K, Tc = 20),
+                     data = d_1,
+                     iter = 500,
+                     param_bds = c(-10, 10, 0.1, 2, 0.5, 5, 285, 330),
+                     supp_errors = &#39;Y&#39;,
+                     AICc = &#39;Y&#39;,
+                     na.action = na.omit,
+                     lower = c(lnc = -10, E = 0, Eh = 0, Th = 0))
+
+fit</code></pre>
+<pre><code>## Nonlinear regression model
+##   model: ln.rate ~ schoolfield_high(lnc, E, Eh, Th, temp = K, Tc = 20)
+##    data: data
+##      lnc        E       Eh       Th 
+##  -1.3462   0.9877   4.3326 312.1887 
+##  residual sum-of-squares: 7.257
+## 
+## Number of iterations to convergence: 15 
+## Achieved convergence tolerance: 1.49e-08</code></pre>
+<p><strong>nls_multstart()</strong> allows boundaries for each parameter to be set. A uniform distribution between these values is created and start values for each iteration of the fitting process are then picked randomly. The function returns the best available model by picking the model with the lowest AIC/AICc score. Additional info on the function can be found <a href="https://github.com/padpadpadpad/nls.multstart">here</a> or by typing <code>?nls_multstart</code> into the R console.</p>
+<p>This fit can then be “tidied” in various ways using the R package <strong>broom</strong>. Each different function in <strong>broom</strong> returns a different set of information. <strong>tidy()</strong> returns the estimated parameters, <strong>augment()</strong> returns the predictions and <strong>glance()</strong> returns information about the model such as the AIC score and whether the model has reached convergence. Confidence intervals of non-linear regression can also be estimated using <strong>nlstools::confint2()</strong></p>
+<p>The amazing thing about these tools is the ease at which they can then be used on multiple curves at once, an approach Hadley Wickham has previously <a href="https://blog.rstudio.com/2016/02/02/tidyr-0-4-0/">written about</a>. The approach nests the data based on grouping variables using <strong>nest()</strong>, then creates a list column of the best fit for each curve using <strong>map()</strong>.</p>
+<pre class="r"><code># fit over each set of groupings
+fits &lt;- Chlorella_TRC %&gt;%
+  group_by(., flux, growth.temp, process, curve_id) %&gt;%
+  nest() %&gt;%
+  mutate(fit = purrr::map(data, ~ nls_multstart(ln.rate ~ schoolfield_high(lnc, E, Eh, Th, temp = K, Tc = 20),
+                                   data = .x,
+                                   iter = 1000,
+                                   param_bds = c(-100, 100, 0.1, 2, 0.5, 10, 285, 330),
+                                   supp_errors = &#39;Y&#39;,
+                                   AICc = &#39;Y&#39;,
+                                   na.action = na.omit,
+                                   lower = c(lnc = -10, E = 0, Eh = 0, Th = 0))))</code></pre>
+<p>If you are confused, then you are not alone. This took me a long time to understand and I imagine there are still better ways for me to do it! However, to check it has worked, we can look at a single fit to check it looks ok. We can also look at <code>fits</code> to see that there is now a <code>fit</code> list column containing each of the non-linear fits for each combination of our grouping variables.</p>
+<pre class="r"><code># look at a single fit
+summary(fits$fit[[1]])</code></pre>
+<pre><code>## 
+## Formula: ln.rate ~ schoolfield_high(lnc, E, Eh, Th, temp = K, Tc = 20)
+## 
+## Parameters:
+##     Estimate Std. Error t value Pr(&gt;|t|)    
+## lnc  -1.3462     0.4656  -2.891   0.0202 *  
+## E     0.9877     0.4521   2.185   0.0604 .  
+## Eh    4.3326     1.4878   2.912   0.0195 *  
+## Th  312.1887     3.8782  80.499 6.32e-13 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.9524 on 8 degrees of freedom
+## 
+## Number of iterations to convergence: 20 
+## Achieved convergence tolerance: 1.49e-08</code></pre>
+<pre class="r"><code># look at output object
+select(fits, curve_id, data, fit)</code></pre>
+<pre><code>## # A tibble: 60 x 3
+##    curve_id data              fit      
+##       &lt;dbl&gt; &lt;list&gt;            &lt;list&gt;   
+##  1     1.00 &lt;tibble [12 × 3]&gt; &lt;S3: nls&gt;
+##  2     2.00 &lt;tibble [12 × 3]&gt; &lt;S3: nls&gt;
+##  3     3.00 &lt;tibble [12 × 3]&gt; &lt;S3: nls&gt;
+##  4     4.00 &lt;tibble [9 × 3]&gt;  &lt;S3: nls&gt;
+##  5     5.00 &lt;tibble [12 × 3]&gt; &lt;S3: nls&gt;
+##  6     6.00 &lt;tibble [12 × 3]&gt; &lt;S3: nls&gt;
+##  7     7.00 &lt;tibble [12 × 3]&gt; &lt;S3: nls&gt;
+##  8     8.00 &lt;tibble [10 × 3]&gt; &lt;S3: nls&gt;
+##  9     9.00 &lt;tibble [8 × 3]&gt;  &lt;S3: nls&gt;
+## 10    10.0  &lt;tibble [10 × 3]&gt; &lt;S3: nls&gt;
+## # ... with 50 more rows</code></pre>
+<p>These fits can be cleaned up using the <strong>broom</strong> functions and <strong>purrr::map()</strong> to iterate over the grouping variables.</p>
+<pre class="r"><code># get summary info
+info &lt;- fits %&gt;%
+  unnest(fit %&gt;% map(glance))
+
+# get params
+params &lt;- fits %&gt;%
+  unnest(fit %&gt;% map(tidy))
+
+# get confidence intervals
+CI &lt;- fits %&gt;% 
+  unnest(fit %&gt;% map(~ confint2(.x) %&gt;%
+  data.frame() %&gt;%
+  rename(., conf.low = X2.5.., conf.high = X97.5..))) %&gt;%
+  group_by(., curve_id) %&gt;%
+  mutate(., term = c(&#39;lnc&#39;, &#39;E&#39;, &#39;Eh&#39;, &#39;Th&#39;)) %&gt;%
+  ungroup()
+
+# merge parameters and CI estimates
+params &lt;- merge(params, CI, by = intersect(names(params), names(CI)))
+
+# get predictions
+preds &lt;- fits %&gt;%
+  unnest(fit %&gt;% map(augment))</code></pre>
+<p>Looking at <strong>info</strong> allows us to see if all the models converged.</p>
+<pre class="r"><code>select(info, curve_id, logLik, AIC, BIC, deviance, df.residual)</code></pre>
+<pre><code>## # A tibble: 60 x 6
+##    curve_id  logLik   AIC   BIC deviance df.residual
+##       &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;       &lt;int&gt;
+##  1     1.00 -14.0   38.0  40.4     7.26            8
+##  2     2.00 - 1.20  12.4  14.8     0.858           8
+##  3     3.00 - 7.39  24.8  27.2     2.41            8
+##  4     4.00 - 0.523 11.0  12.0     0.592           5
+##  5     5.00 -10.8   31.7  34.1     4.29            8
+##  6     6.00 - 8.52  27.0  29.5     2.91            8
+##  7     7.00 - 1.29  12.6  15.0     0.871           8
+##  8     8.00 -13.4   36.7  38.2     8.48            6
+##  9     9.00   1.82   6.36  6.76    0.297           4
+## 10    10.0  - 1.27  12.5  14.1     0.755           6
+## # ... with 50 more rows</code></pre>
+<p>When plotting non-linear fits, I prefer to have a smooth curve, even when there are not many points underlying the fit. This can be achieved by including <code>newdata</code> in the <strong>augment()</strong> function and creating a higher resolution set of predictor values.</p>
+<p>However, when predicting for many different fits, it is not certain that each curve has the same range of predictor variables. We can get around this by setting the limits of each prediction by the <strong>min()</strong> and <strong>max()</strong> of the predictor variables.</p>
+<pre class="r"><code># new data frame of predictions
+new_preds &lt;- Chlorella_TRC %&gt;%
+  do(., data.frame(K = seq(min(.$K), max(.$K), length.out = 150), stringsAsFactors = FALSE))
+
+# max and min for each curve
+max_min &lt;- group_by(Chlorella_TRC, curve_id) %&gt;%
+  summarise(., min_K = min(K), max_K = max(K)) %&gt;%
+  ungroup()
+
+# create new predictions
+preds2 &lt;- fits %&gt;%
+  unnest(fit %&gt;% map(augment, newdata = new_preds)) %&gt;%
+  merge(., max_min, by = &#39;curve_id&#39;) %&gt;%
+  group_by(., curve_id) %&gt;%
+  filter(., K &gt; unique(min_K) &amp; K &lt; unique(max_K)) %&gt;%
+  rename(., ln.rate = .fitted) %&gt;%
+  ungroup()</code></pre>
+<p>These can then be plotted using <strong>ggplot2</strong>.</p>
+<pre class="r"><code># plot
+ggplot() +
+  geom_point(aes(K - 273.15, ln.rate, col = flux), size = 2, Chlorella_TRC) +
+  geom_line(aes(K - 273.15, ln.rate, col = flux, group = curve_id), alpha = 0.5, preds2) +
+  facet_wrap(~ growth.temp + process, labeller = labeller(.multi_line = FALSE)) +
+  scale_colour_manual(values = c(&#39;green4&#39;, &#39;black&#39;)) +
+  theme_bw(base_size = 12, base_family = &#39;Helvetica&#39;) +
+  ylab(&#39;log Metabolic rate&#39;) +
+  xlab(&#39;Assay temperature (ºC)&#39;) +
+  theme(legend.position = c(0.9, 0.15))</code></pre>
+<p><img src="/post/2017-12-22-fitting-many-non-linear-regressions-with-broom-purrr-and-nls-multstart_files/figure-html/plot_many_fits-1.png" width="672" /></p>
+<p>The confidence intervals of each parameter for each curve fit can also be easily visualised.</p>
+<pre class="r"><code># plot
+ggplot(params, aes(col = flux)) +
+  geom_point(aes(curve_id, estimate)) +
+  facet_wrap(~ term, scale = &#39;free_x&#39;, ncol = 4) +
+  geom_linerange(aes(curve_id, ymin = conf.low, ymax = conf.high)) +
+  coord_flip() +
+  scale_color_manual(values = c(&#39;green4&#39;, &#39;black&#39;)) +
+  theme_bw(base_size = 12, base_family = &#39;Helvetica&#39;) +
+  theme(legend.position = &#39;top&#39;) +
+  xlab(&#39;curve&#39;) +
+  ylab(&#39;parameter estimate&#39;)</code></pre>
+<p><img src="/post/2017-12-22-fitting-many-non-linear-regressions-with-broom-purrr-and-nls-multstart_files/figure-html/confint_plot-1.png" width="672" /></p>
+<p>This method of modelling can be used for different data, different non-linear models (and linear models for that matter) and combined with the <strong>tidyverse</strong> can make very useful visualisations.</p>
+<p>The next stage of these curve fits is to try and better understand the uncertainty of these curve fits and their predictions. One approach to achieve this could be bootstrapping new datasets from the existing data. I hope to demonstrate how this could be done soon in another post.</p>
+</div>
+<div id="references" class="section level2">
+<h2>References</h2>
+<p>[1] Padfield, D., Yvon-durocher, G., Buckling, A., Jennings, S. &amp; Yvon-durocher, G. (2016). Rapid evolution of metabolic traits explains thermal adaptation in phytoplankton. Ecology Letters, 19(2), 133-142.</p>
+</div>
+
+    </div>
+  </div>
+
+</article>
+
+<div class="container">
+  <nav>
+  <ul class="pager">
+    
+    <li class="previous"><a href="https://padpadpadpad.github.io/post/introducing-nlsloop/"><span
+      aria-hidden="true">&larr;</span> Introducing nlsLoop</a></li>
+    
+
+    
+    <li class="next"><a href="https://padpadpadpad.github.io/post/using-blast-on-sanger-sequences-in-r/">Doing local BLAST searches on sanger sequence data in R <span
+      aria-hidden="true">&rarr;</span></a></li>
+    
+  </ul>
+</nav>
+
+</div>
+
+<div class="article-container">
+  
+<section id="comments">
+  <div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "danpadgithub" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="powered-by">
+
+      &copy; 2016 Daniel Padfield &middot; 
+
+      Powered by the <a href="https://github.com/gcushen/hugo-academic" target="_blank">Academic
+      theme</a> for <a href="http://gohugo.io" target="_blank">Hugo</a>.
+
+      <span class="pull-right" aria-hidden="true">
+        <a href="#" id="back_to_top">
+          <span class="button_icon">
+            <i class="fa fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+
+    </p>
+  </div>
+</footer>
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js" integrity="sha512-jGsMH83oKe9asCpkOVkBnUrDDTp8wl+adkB2D+//JtlxO4SrLoJdhbOysIFQJloQFD+C4Fl1rMsQZF76JjV0eQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.2/imagesloaded.pkgd.min.js" integrity="sha512-iHzEu7GbSc705hE2skyH6/AlTpOfBmkx7nUqTLGzPYR+C1tRaItbRlJ7hT/D3YQ9SV0fqLKzp4XY9wKulTBGTw==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/TweenMax.min.js" integrity="sha512-Z5heTz36xTemt1TbtbfXtTq5lMfYnOkXM2/eWcTTiLU01+Sw4ku1i7vScDc8fWhrP2abz9GQzgKH5NGBLoYlAw==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/plugins/ScrollToPlugin.min.js" integrity="sha512-CDeU7pRtkPX6XJtF/gcFWlEwyaX7mcAp5sO3VIu/ylsdR74wEw4wmBpD5yYTrmMAiAboi9thyBUr1vXRPA7t0Q==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha512-iztkobsvnjKfAtTNdHkGVjAYTrrtlC7mGp/54c40wowO7LhURYl3gVzzcEqGl/qKXQltJ2HwMrdLcNUdo+N/RQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.4/isotope.pkgd.min.js" integrity="sha512-VDBOIlDbuC4VWxGJNmuFRQ0Li0SKkDpmGyuhAG5LTDLd/dJ/S0WMVxriR2Y+CyPL5gzjpN4f/6iqWVBJlht0tQ==" crossorigin="anonymous"></script>
+    
+    <script src="/js/hugo-academic.js"></script>
+    
+
+    
+    
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+
+      
+
+      
+
+      <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_CHTML" integrity="sha512-tOav5w1OjvsSJzePRtt2uQPFwBoHt1VZcUq8l8nm5284LEKE9FSJBQryzMBzHxY5P0zRdNqEcpLIRVYFNgu1jw==" crossorigin="anonymous"></script>
+    
+    
+
+  </body>
+</html>
+
