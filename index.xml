@@ -87,7 +87,7 @@ fit&lt;/code&gt;&lt;/pre&gt;
 ##  -1.3462   0.9877   4.3326 312.1887 
 ##  residual sum-of-squares: 7.257
 ## 
-## Number of iterations to convergence: 17 
+## Number of iterations to convergence: 16 
 ## Achieved convergence tolerance: 1.49e-08&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;strong&gt;nls_multstart()&lt;/strong&gt; allows boundaries for each parameter to be set. A uniform distribution between these values is created and start values for each iteration of the fitting process are then picked randomly. The function returns the best available model by picking the model with the lowest AIC/AICc score. Additional info on the function can be found &lt;a href=&#34;https://github.com/padpadpadpad/nls.multstart&#34;&gt;here&lt;/a&gt; or by typing &lt;code&gt;?nls_multstart&lt;/code&gt; into the R console.&lt;/p&gt;
 &lt;p&gt;This fit can then be “tidied” in various ways using the R package &lt;strong&gt;broom&lt;/strong&gt;. Each different function in &lt;strong&gt;broom&lt;/strong&gt; returns a different set of information. &lt;strong&gt;tidy()&lt;/strong&gt; returns the estimated parameters, &lt;strong&gt;augment()&lt;/strong&gt; returns the predictions and &lt;strong&gt;glance()&lt;/strong&gt; returns information about the model such as the AIC score and whether the model has reached convergence. Confidence intervals of non-linear regression can also be estimated using &lt;strong&gt;nlstools::confint2()&lt;/strong&gt;&lt;/p&gt;
@@ -121,7 +121,7 @@ summary(fits$fit[[1]])&lt;/code&gt;&lt;/pre&gt;
 ## 
 ## Residual standard error: 0.9524 on 8 degrees of freedom
 ## 
-## Number of iterations to convergence: 14 
+## Number of iterations to convergence: 20 
 ## Achieved convergence tolerance: 1.49e-08&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# look at output object
 select(fits, curve_id, data, fit)&lt;/code&gt;&lt;/pre&gt;
@@ -533,9 +533,9 @@ schoolfield_high &amp;lt;- function(lnc, E, Eh, Th, temp, Tc) {
 &lt;pre&gt;&lt;code&gt;##   curve_id       lnc         E       Eh       Th      AIC  quasi_r2
 ## 1        1 -1.346211 0.9877307 4.332645 312.1887 48.01896 0.4608054
 ## 2        2 -1.349431 1.0653450 4.211374 312.6591 22.39398 0.8978426
-## 3        3 -1.815315 1.1155333 4.140395 310.9545 34.77114 0.7804032
+## 3        3 -1.815315 1.1155334 4.140395 310.9545 34.77114 0.7804032
 ## 4        4 -1.612615 1.0982576 3.025816 310.6412 31.04688 0.8709134
-## 5        5 -1.767711 1.1244277 9.010640 317.0688 41.69970 0.7602547
+## 5        5 -1.767711 1.1244277 9.010641 317.0688 41.69970 0.7602547
 ## 6        6 -1.717258 1.1727047 4.077252 311.4596 37.03555 0.7289198&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Having all of these in a single &lt;code&gt;nlsLoop&lt;/code&gt; object allows a simple plotting method to assess how good our fits to the data are. One of the best ways to assess non-linear model is by &lt;strong&gt;ACTUALLY LOOKING&lt;/strong&gt; at how well every model fits its respective raw data.&lt;/p&gt;
 &lt;/div&gt;
