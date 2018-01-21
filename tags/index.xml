@@ -30,9 +30,18 @@
     </item>
     
     <item>
+      <title>Bootstrap</title>
+      <link>https://padpadpadpad.github.io/tags/bootstrap/</link>
+      <pubDate>Sun, 21 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://padpadpadpad.github.io/tags/bootstrap/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Broom</title>
       <link>https://padpadpadpad.github.io/tags/broom/</link>
-      <pubDate>Sun, 07 Jan 2018 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 21 Jan 2018 00:00:00 +0000</pubDate>
       
       <guid>https://padpadpadpad.github.io/tags/broom/</guid>
       <description></description>
@@ -66,6 +75,15 @@
     </item>
     
     <item>
+      <title>Modelr</title>
+      <link>https://padpadpadpad.github.io/tags/modelr/</link>
+      <pubDate>Sun, 21 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://padpadpadpad.github.io/tags/modelr/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Nlsloop</title>
       <link>https://padpadpadpad.github.io/tags/nlsloop/</link>
       <pubDate>Thu, 08 Sep 2016 21:13:14 -0500</pubDate>
@@ -86,7 +104,7 @@
     <item>
       <title>Nonlinear Regression</title>
       <link>https://padpadpadpad.github.io/tags/nonlinear-regression/</link>
-      <pubDate>Sun, 07 Jan 2018 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 21 Jan 2018 00:00:00 +0000</pubDate>
       
       <guid>https://padpadpadpad.github.io/tags/nonlinear-regression/</guid>
       <description></description>
@@ -95,7 +113,7 @@
     <item>
       <title>Purrr</title>
       <link>https://padpadpadpad.github.io/tags/purrr/</link>
-      <pubDate>Sun, 07 Jan 2018 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 21 Jan 2018 00:00:00 +0000</pubDate>
       
       <guid>https://padpadpadpad.github.io/tags/purrr/</guid>
       <description></description>
@@ -104,7 +122,7 @@
     <item>
       <title>R</title>
       <link>https://padpadpadpad.github.io/tags/r/</link>
-      <pubDate>Sun, 07 Jan 2018 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 21 Jan 2018 00:00:00 +0000</pubDate>
       
       <guid>https://padpadpadpad.github.io/tags/r/</guid>
       <description></description>
@@ -125,15 +143,6 @@
       <pubDate>Sun, 08 Oct 2017 00:00:00 +0000</pubDate>
       
       <guid>https://padpadpadpad.github.io/tags/taxize/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Tidy</title>
-      <link>https://padpadpadpad.github.io/tags/tidy/</link>
-      <pubDate>Sun, 07 Jan 2018 00:00:00 +0000</pubDate>
-      
-      <guid>https://padpadpadpad.github.io/tags/tidy/</guid>
       <description></description>
     </item>
     

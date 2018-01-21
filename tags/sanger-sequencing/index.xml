@@ -149,20 +149,24 @@ seq_IDs &amp;lt;- select(seq_IDs, num, QueryID, SubjectID, Perc.Ident)
 # approach - nest each row in a list and call the API separately - return NA if it does not work
 seq_IDs_nest &amp;lt;- seq_IDs %&amp;gt;%
   nest(., SubjectID) %&amp;gt;%
-  mutate(., uid = map(data, possibly(genbank2uid, otherwise = NA, quiet = TRUE)))
+  mutate(., uid = map(data, possibly(genbank2uid, otherwise = NA, quiet = TRUE))) %&amp;gt;%
+  # take just the first element of the list
+  mutate(., uid = map(uid, 1))
 
 # unnest these columns to get the dataframes out. There shall be warnings but they are ok as the correct uids are preserved
 seq_IDs &amp;lt;- seq_IDs_nest %&amp;gt;%
   unnest(data, uid)
 
 head(seq_IDs)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;##   num    QueryID Perc.Ident     uid   SubjectID
-## 1   1 file_3.seq     97.403 1775474 NR_134828.1
-## 2   2 file_4.seq     97.854 1649133 NR_145922.1
-## 3   3 file_4.seq     97.854  123899 NR_118635.1
-## 4   4 file_4.seq     97.854 1287737 NR_117708.1
-## 5   5 file_4.seq     97.854 1287736 NR_117707.1
-## 6   6 file_4.seq     97.854 1287735 NR_117706.1&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 6 x 5
+##     num QueryID    Perc.Ident uid     SubjectID  
+##   &amp;lt;int&amp;gt; &amp;lt;chr&amp;gt;           &amp;lt;dbl&amp;gt; &amp;lt;chr&amp;gt;   &amp;lt;chr&amp;gt;      
+## 1     1 file_3.seq       97.4 1775474 NR_134828.1
+## 2     2 file_4.seq       97.9 1649133 NR_145922.1
+## 3     3 file_4.seq       97.9 123899  NR_118635.1
+## 4     4 file_4.seq       97.9 1287737 NR_117708.1
+## 5     5 file_4.seq       97.9 1287736 NR_117707.1
+## 6     6 file_4.seq       97.9 1287735 NR_117706.1&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Now we have the NCBI taxon summary ID, we can go ahead and get the taxonomy of each row, in much the same way as we got the NCBI taxon summary ID from the GenBank ID.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# now nest uids of each row and run the get_taxon_summary API call on each list element
 seq_IDs_nest &amp;lt;- seq_IDs %&amp;gt;%
@@ -176,20 +180,15 @@ seq_IDs &amp;lt;- seq_IDs_nest %&amp;gt;%
 
 # lets have a look
 head(seq_IDs)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;##   num    QueryID Perc.Ident   SubjectID     uid                       name
-## 1   1 file_3.seq     97.403 NR_134828.1 1775474    Variovorax guangxiensis
-## 2   2 file_4.seq     97.854 NR_145922.1 1649133      Bordetella tumulicola
-## 3   3 file_4.seq     97.854 NR_118635.1  123899        Bordetella trematum
-## 4   4 file_4.seq     97.854 NR_117708.1 1287737      Achromobacter anxifer
-## 5   5 file_4.seq     97.854 NR_117707.1 1287736 Achromobacter aegrifaciens
-## 6   6 file_4.seq     97.854 NR_117706.1 1287735     Achromobacter insuavis
-##      rank
-## 1 species
-## 2 species
-## 3 species
-## 4 species
-## 5 species
-## 6 species&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 6 x 7
+##     num QueryID    Perc.Ident SubjectID   uid     name              rank  
+##   &amp;lt;int&amp;gt; &amp;lt;chr&amp;gt;           &amp;lt;dbl&amp;gt; &amp;lt;chr&amp;gt;       &amp;lt;chr&amp;gt;   &amp;lt;chr&amp;gt;             &amp;lt;chr&amp;gt; 
+## 1     1 file_3.seq       97.4 NR_134828.1 1775474 Variovorax guang… speci…
+## 2     2 file_4.seq       97.9 NR_145922.1 1649133 Bordetella tumul… speci…
+## 3     3 file_4.seq       97.9 NR_118635.1 123899  Bordetella trema… speci…
+## 4     4 file_4.seq       97.9 NR_117708.1 1287737 Achromobacter an… speci…
+## 5     5 file_4.seq       97.9 NR_117707.1 1287736 Achromobacter ae… speci…
+## 6     6 file_4.seq       97.9 NR_117706.1 1287735 Achromobacter in… speci…&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;And there you have it. We have a dataframe that now includes the species name of each of the returned hits for each file. Pretty neat if you ask me, and better than clicking over and over in BLAST on their website! This script is now ready to go again and again. Not bad for around 5 hours work! From this we can examine consensus within samples and look for variation across samples. The opportunities are endless.&lt;/p&gt;
 &lt;p&gt;Thanks for reading. A script containing only the code chunks used here can be found &lt;a href=&#34;https://gist.github.com/padpadpadpad/d2fe494b8392d0c84b40fe158caca834&#34;&gt;here&lt;/a&gt; and the files can be found in the &lt;code&gt;data/20171008_sanger&lt;/code&gt; folder of my &lt;a href=&#34;https://github.com/padpadpadpad/blogdown_source&#34;&gt;GitHub blogdown repository&lt;/a&gt; if you want to run through my example completely. You will just have to change the directories where the files are (or preferably use R projects)!&lt;/p&gt;
 &lt;/div&gt;
