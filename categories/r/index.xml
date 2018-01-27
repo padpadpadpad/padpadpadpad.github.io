@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>R on Daniel Padfield</title>
-    <link>https://padpadpadpad.github.io/categories/r/</link>
+    <link>/categories/r/</link>
     <description>Recent content in R on Daniel Padfield</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
@@ -12,10 +12,10 @@
     
     <item>
       <title>Bootstrap non-linear regression with purrr and modelr</title>
-      <link>https://padpadpadpad.github.io/post/bootstrapping-non-linear-regressions-with-purrr/</link>
+      <link>/post/bootstrapping-non-linear-regressions-with-purrr/</link>
       <pubDate>Sun, 21 Jan 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://padpadpadpad.github.io/post/bootstrapping-non-linear-regressions-with-purrr/</guid>
+      <guid>/post/bootstrapping-non-linear-regressions-with-purrr/</guid>
       <description>&lt;div id=&#34;introduction&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Introduction&lt;/h2&gt;
 &lt;p&gt;For my first academic publication, a reviewer asked for the &lt;span class=&#34;math inline&#34;&gt;\(r^{2}\)&lt;/span&gt; values of the thermal performance curves I fitted using non-linear regression. I bowed to the request as is often the case with reviewer comments, but would now resist as the &lt;span class=&#34;math inline&#34;&gt;\(r^{2}\)&lt;/span&gt; is not necessarily an effective goodness of fit measure for non-linear regression (see this &lt;a href=&#34;https://stackoverflow.com/questions/14530770/calculating-r2-for-a-nonlinear-model&#34;&gt;SO answer&lt;/a&gt;). It does raise the question of how to determine how well a biologically meaningful model fits the data it is fitted to. I generally just plot every curve to its data, but it tells me nothing of the uncertainty around the curve.&lt;/p&gt;
@@ -71,7 +71,7 @@ ggplot(d_examp, aes(K - 273.15, ln.rate)) +
   ylab(&amp;#39;log Metabolic rate&amp;#39;) +
   xlab(&amp;#39;Assay temperature (ºC)&amp;#39;) +
   theme_bw(base_size = 12, base_family = &amp;#39;Helvetica&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://padpadpadpad.github.io/post/2017-12-22-bootstrapping-non-linear-models-with-broom_files/figure-html/filter_data_and_plot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2017-12-22-bootstrapping-non-linear-models-with-broom_files/figure-html/filter_data_and_plot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;We can use &lt;strong&gt;nls_multstart()&lt;/strong&gt;, that allows for &lt;a href=&#34;https://github.com/padpadpadpad/nls.multstart&#34;&gt;multiple start parameters&lt;/a&gt;, to fit a single model to the data. We can then use &lt;strong&gt;tidy()&lt;/strong&gt; and &lt;strong&gt;augment()&lt;/strong&gt; from &lt;strong&gt;broom&lt;/strong&gt; to get the parameters and predictions of the model.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# run nls_multstart
 fit &amp;lt;- nls_multstart(ln.rate ~ schoolfield_high(lnc, E, Eh, Th, temp = K, Tc = 20),
@@ -95,7 +95,7 @@ ggplot(d_examp, aes(K - 273.15, ln.rate)) +
   xlab(&amp;#39;Assay temperature (ºC)&amp;#39;) +
   theme_bw(base_size = 12, base_family = &amp;#39;Helvetica&amp;#39;) +
   ggtitle(&amp;#39;Single TPC with fitted model&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://padpadpadpad.github.io/post/2017-12-22-bootstrapping-non-linear-models-with-broom_files/figure-html/run_nls_mulstart-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2017-12-22-bootstrapping-non-linear-models-with-broom_files/figure-html/run_nls_mulstart-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;This fit provides p-values and confidence intervals can be calculated using &lt;strong&gt;nlstools::confint2()&lt;/strong&gt;. However, bootstrapping can provide confidence intervals around predictions and for estimated parameters.&lt;/p&gt;
 &lt;p&gt;The &lt;strong&gt;bootstrap()&lt;/strong&gt; function in &lt;strong&gt;modelr&lt;/strong&gt; samples bootstrap replicates (here we do 200), each of which is randomly sampled with replacement. This creates a list column in our &lt;strong&gt;tibble&lt;/strong&gt; called &lt;code&gt;strap&lt;/code&gt; which contains the bootsrapped dataset, and a new column called &lt;code&gt;boot_num&lt;/code&gt; that is the number of that bootstrap (from 1 to 200).&lt;/p&gt;
 &lt;p&gt;We can then create a new list column of the fit for each &lt;code&gt;strap&lt;/code&gt; using &lt;strong&gt;purrr::map()&lt;/strong&gt;.&lt;/p&gt;
@@ -155,7 +155,7 @@ p2 &amp;lt;- ggplot() +
   
 # plot both
 p1 + p2&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://padpadpadpad.github.io/post/2017-12-22-bootstrapping-non-linear-models-with-broom_files/figure-html/get_confidence_intervals-1.png&#34; width=&#34;768&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2017-12-22-bootstrapping-non-linear-models-with-broom_files/figure-html/get_confidence_intervals-1.png&#34; width=&#34;768&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;We can smooth our predictions over smaller increments of our predictor variable by passing a new dataset to &lt;strong&gt;augment()&lt;/strong&gt;. Alongside this, for every value of the predictor we can calculate the 2.5% and 97.5% quantiles which gives confidence bands around the predictions.&lt;/p&gt;
 &lt;p&gt;Personally I prefer this approach rather than plotting each bootstrapped replicate.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# new data frame of predictions
@@ -184,7 +184,7 @@ ggplot() +
   xlab(&amp;#39;Assay temperature (ºC)&amp;#39;) +
   theme_bw(base_size = 12, base_family = &amp;#39;Helvetica&amp;#39;) +
   ggtitle(&amp;#39;Single TPC with confidence intervals&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://padpadpadpad.github.io/post/2017-12-22-bootstrapping-non-linear-models-with-broom_files/figure-html/plot_smooth_preds-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2017-12-22-bootstrapping-non-linear-models-with-broom_files/figure-html/plot_smooth_preds-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;This is starting to look pretty nice, and is a great approach to visualising uncertainty of non-linear regressions for many types of data.&lt;/p&gt;
 &lt;p&gt;From &lt;code&gt;params_boot&lt;/code&gt; we can calculate confidence intervals of each estimated parameter by taking the desired quantiles of the data. This can be compared the output from &lt;strong&gt;confint2()&lt;/strong&gt; from &lt;strong&gt;nlstools&lt;/strong&gt;.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# calculate confidence intervals of estimated parameters using confint2()
@@ -215,7 +215,7 @@ ggplot(confint, aes(method, estimate, col = method)) +
   theme_bw() +
   theme(legend.position = &amp;#39;none&amp;#39;) +
   ggtitle(&amp;#39;Comparison of confidence interval calculation for estimated parameters&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://padpadpadpad.github.io/post/2017-12-22-bootstrapping-non-linear-models-with-broom_files/figure-html/confint-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2017-12-22-bootstrapping-non-linear-models-with-broom_files/figure-html/confint-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;Bootstrapping gives similar mean estimates, but gives wider, asymmetric, confidence intervals compared to those calculated using &lt;strong&gt;nlstools::confint2()&lt;/strong&gt;. In this instance this could be because I am only running 200 bootstrap replicates, whereas the number of bootstraps done in published analyses are commonly around 10,000.&lt;/p&gt;
 &lt;p&gt;Crucially, bootstrapping allows the calculation of confidence intervals for parameters derived from the model that were not present in the initial fitting process. For example, the optimum temperature of a thermal performance curve, &lt;span class=&#34;math inline&#34;&gt;\(T_{opt}\)&lt;/span&gt; is calculated as:&lt;/p&gt;
 &lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[T_{opt} = \frac{E_{h}T_{h}}{E_{h} + k T_{h} ln(\frac{E_{h}}{E} - 1)}\]&lt;/span&gt; We can calculate &lt;span class=&#34;math inline&#34;&gt;\(T_{opt}\)&lt;/span&gt; for each iteration of the bootstrap and then plot the distribution of derived parameters. This can be done by using &lt;strong&gt;tidyr::spread()&lt;/strong&gt; to have a column for each estimated parameter, and then calculate &lt;code&gt;Topt&lt;/code&gt; for each &lt;code&gt;boot_num&lt;/code&gt;.&lt;/p&gt;
@@ -233,7 +233,7 @@ ggplot(Topt_boot, aes(Topt - 273.15)) +
   geom_histogram(col = &amp;#39;black&amp;#39;, fill = &amp;#39;white&amp;#39;) +
   xlab(&amp;#39;Optimum Temperature (ºC)&amp;#39;) +
   ggtitle(&amp;#39;Distribution of optimum temperatures via bootstrapping&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://padpadpadpad.github.io/post/2017-12-22-bootstrapping-non-linear-models-with-broom_files/figure-html/Topt-1.png&#34; width=&#34;672&#34; /&gt; Bootstrapping allows us to get uncertainty estimates for parameters outside of the original curve fitting process!&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2017-12-22-bootstrapping-non-linear-models-with-broom_files/figure-html/Topt-1.png&#34; width=&#34;672&#34; /&gt; Bootstrapping allows us to get uncertainty estimates for parameters outside of the original curve fitting process!&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;bootstrapping-multiple-curves&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Bootstrapping multiple curves&lt;/h2&gt;
@@ -312,7 +312,7 @@ ggplot(Chlorella_TRC, aes(K - 273.15, ln.rate, group = flux)) +
   theme_bw(base_size = 12, base_family = &amp;#39;Helvetica&amp;#39;) +
   theme(legend.position = c(0.9, 0.15)) +
   ggtitle(&amp;#39;Multiple TPCs with confidence intervals&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://padpadpadpad.github.io/post/2017-12-22-bootstrapping-non-linear-models-with-broom_files/figure-html/plot_many-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2017-12-22-bootstrapping-non-linear-models-with-broom_files/figure-html/plot_many-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;When in doubt, it seems that &lt;strong&gt;purrr&lt;/strong&gt; has the answer. Bootstrapping is a super useful method for visualising the uncertainty of predictions for non-linear regressions, and better allow us to understand how well a particular model fits the data. The &lt;strong&gt;tidyverse&lt;/strong&gt;, as usual, provides a set of tools that makes this method easy to understand and implement, sort of.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;next-steps&#34; class=&#34;section level2&#34;&gt;
@@ -324,16 +324,16 @@ ggplot(Chlorella_TRC, aes(K - 273.15, ln.rate, group = flux)) +
     
     <item>
       <title>Fitting non-linear regressions with broom, purrr and nls.multstart</title>
-      <link>https://padpadpadpad.github.io/post/fitting-non-linear-regressions-with-broom-purrr-and-nls.multstart/</link>
+      <link>/post/fitting-non-linear-regressions-with-broom-purrr-and-nls.multstart/</link>
       <pubDate>Sun, 07 Jan 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://padpadpadpad.github.io/post/fitting-non-linear-regressions-with-broom-purrr-and-nls.multstart/</guid>
+      <guid>/post/fitting-non-linear-regressions-with-broom-purrr-and-nls.multstart/</guid>
       <description>&lt;div id=&#34;introduction&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Introduction&lt;/h2&gt;
 &lt;p&gt;With my research, I often use non-linear least squares regression to fit a model with biologically meaningful parameters to data. Specifically, I measure the thermal performance of phytoplankon growth, respiration and photosynthesis over a wide range of assay temperatures to see how the organisms are adapted to the temperatures they live at.&lt;/p&gt;
 &lt;p&gt;These thermal performance curves generally follow a unimodal shape and parameters for which are widely used in climate change research to predict whether organisms will be able to cope with increasing temperatures.&lt;/p&gt;
 &lt;div class=&#34;figure&#34;&gt;
-&lt;img src=&#34;https://padpadpadpad.github.io/img/TPC.png&#34; alt=&#34;Example Thermal Performance Curve&#34; /&gt;
+&lt;img src=&#34;/img/TPC.png&#34; alt=&#34;Example Thermal Performance Curve&#34; /&gt;
 &lt;p class=&#34;caption&#34;&gt;Example Thermal Performance Curve&lt;/p&gt;
 &lt;/div&gt;
 &lt;p&gt;These curves can be modelled with a variety of equations, such as the Sharpe-Schoolfield equation, which I have log-transformed here:&lt;/p&gt;
@@ -399,7 +399,7 @@ fit&lt;/code&gt;&lt;/pre&gt;
 ##  -1.3462   0.9877   4.3326 312.1887 
 ##  residual sum-of-squares: 7.257
 ## 
-## Number of iterations to convergence: 18 
+## Number of iterations to convergence: 19 
 ## Achieved convergence tolerance: 1.49e-08&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;strong&gt;nls_multstart()&lt;/strong&gt; allows boundaries for each parameter to be set. A uniform distribution between these values is created and start values for each iteration of the fitting process are then picked randomly. The function returns the best available model by picking the model with the lowest AIC/AICc score. Additional info on the function can be found &lt;a href=&#34;https://github.com/padpadpadpad/nls.multstart&#34;&gt;here&lt;/a&gt; or by typing &lt;code&gt;?nls_multstart&lt;/code&gt; into the R console.&lt;/p&gt;
 &lt;p&gt;This fit can then be “tidied” in various ways using the R package &lt;strong&gt;broom&lt;/strong&gt;. Each different function in &lt;strong&gt;broom&lt;/strong&gt; returns a different set of information. &lt;strong&gt;tidy()&lt;/strong&gt; returns the estimated parameters, &lt;strong&gt;augment()&lt;/strong&gt; returns the predictions and &lt;strong&gt;glance()&lt;/strong&gt; returns information about the model such as the AIC score and whether the model has reached convergence. Confidence intervals of non-linear regression can also be estimated using &lt;strong&gt;nlstools::confint2()&lt;/strong&gt;&lt;/p&gt;
@@ -433,7 +433,7 @@ summary(fits$fit[[1]])&lt;/code&gt;&lt;/pre&gt;
 ## 
 ## Residual standard error: 0.9524 on 8 degrees of freedom
 ## 
-## Number of iterations to convergence: 15 
+## Number of iterations to convergence: 16 
 ## Achieved convergence tolerance: 1.49e-08&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# look at output object
 select(fits, curve_id, data, fit)&lt;/code&gt;&lt;/pre&gt;
@@ -521,7 +521,7 @@ ggplot() +
   ylab(&amp;#39;log Metabolic rate&amp;#39;) +
   xlab(&amp;#39;Assay temperature (ºC)&amp;#39;) +
   theme(legend.position = c(0.9, 0.15))&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://padpadpadpad.github.io/post/2017-12-22-fitting-many-non-linear-regressions-with-broom-purrr-and-nls-multstart_files/figure-html/plot_many_fits-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2017-12-22-fitting-many-non-linear-regressions-with-broom-purrr-and-nls-multstart_files/figure-html/plot_many_fits-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;The confidence intervals of each parameter for each curve fit can also be easily visualised.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# plot
 ggplot(params, aes(col = flux)) +
@@ -534,7 +534,7 @@ ggplot(params, aes(col = flux)) +
   theme(legend.position = &amp;#39;top&amp;#39;) +
   xlab(&amp;#39;curve&amp;#39;) +
   ylab(&amp;#39;parameter estimate&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://padpadpadpad.github.io/post/2017-12-22-fitting-many-non-linear-regressions-with-broom-purrr-and-nls-multstart_files/figure-html/confint_plot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2017-12-22-fitting-many-non-linear-regressions-with-broom-purrr-and-nls-multstart_files/figure-html/confint_plot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;This method of modelling can be used for different data, different non-linear models (and linear models for that matter) and combined with the &lt;strong&gt;tidyverse&lt;/strong&gt; can make very useful visualisations.&lt;/p&gt;
 &lt;p&gt;The next stage of these curve fits is to try and better understand the uncertainty of these curve fits and their predictions. One approach to achieve this could be bootstrapping new datasets from the existing data. I hope to demonstrate how this could be done soon in another post.&lt;/p&gt;
 &lt;/div&gt;
@@ -547,10 +547,10 @@ ggplot(params, aes(col = flux)) +
     
     <item>
       <title>Doing local BLAST searches on sanger sequence data in R</title>
-      <link>https://padpadpadpad.github.io/post/using-blast-on-sanger-sequences-in-r/</link>
+      <link>/post/using-blast-on-sanger-sequences-in-r/</link>
       <pubDate>Sun, 08 Oct 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://padpadpadpad.github.io/post/using-blast-on-sanger-sequences-in-r/</guid>
+      <guid>/post/using-blast-on-sanger-sequences-in-r/</guid>
       <description>&lt;div id=&#34;introduction&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Introduction&lt;/h2&gt;
 &lt;p&gt;Moving to a microbiology group has meant I now have loads of interesting genomic and sequencing data to play with!&lt;/p&gt;
@@ -732,10 +732,10 @@ head(seq_IDs)&lt;/code&gt;&lt;/pre&gt;
     
     <item>
       <title>Introducing nlsLoop</title>
-      <link>https://padpadpadpad.github.io/post/introducing-nlsloop/</link>
+      <link>/post/introducing-nlsloop/</link>
       <pubDate>Thu, 08 Sep 2016 21:13:14 -0500</pubDate>
       
-      <guid>https://padpadpadpad.github.io/post/introducing-nlsloop/</guid>
+      <guid>/post/introducing-nlsloop/</guid>
       <description>&lt;div id=&#34;introduction&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Introduction&lt;/h2&gt;
 &lt;p&gt;So you have data you want to fit to a non-linear model…&lt;/p&gt;
@@ -801,7 +801,7 @@ schoolfield_high &amp;lt;- function(lnc, E, Eh, Th, temp, Tc) {
   theme_bw(base_size = 16, base_family = &amp;#39;Helvetica&amp;#39;) +
   ylab(&amp;#39;log Metabolic rate&amp;#39;) +
   xlab(&amp;#39;Assay temperature (ºC)&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://padpadpadpad.github.io/post/2017-09-07-introducing-nlsloop_files/figure-html/first%20plot-1.png&#34; width=&#34;1152&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2017-09-07-introducing-nlsloop_files/figure-html/first%20plot-1.png&#34; width=&#34;1152&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;The data follows a classic unimodal thermal performance curve and can be modelled using a modified version of the Sharpe-Schoolfield model&lt;sup&gt;[3]&lt;/sup&gt;. A function characterising the model is provided in the package as &lt;code&gt;schoolfield.high()&lt;/code&gt;. This is more about the fitting of non-linear curves than the model so that’s as in depth as I will go here!&lt;/p&gt;
 &lt;p&gt;The data has 60 separate curves and &lt;code&gt;id_col = curve_id&lt;/code&gt;. So lets fit the model!&lt;/p&gt;
 &lt;/div&gt;
@@ -823,11 +823,11 @@ schoolfield_high &amp;lt;- function(lnc, E, Eh, Th, temp, Tc) {
 &lt;p&gt;These can be accessed simply using &lt;code&gt;fits$params&lt;/code&gt; or &lt;code&gt;fits$predictions&lt;/code&gt;.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;head(fits$params)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;##   curve_id       lnc         E       Eh       Th      AIC  quasi_r2
-## 1        1 -1.346211 0.9877306 4.332645 312.1887 48.01896 0.4608054
+## 1        1 -1.346211 0.9877307 4.332645 312.1887 48.01896 0.4608054
 ## 2        2 -1.349431 1.0653450 4.211374 312.6591 22.39398 0.8978426
 ## 3        3 -1.815315 1.1155334 4.140395 310.9545 34.77114 0.7804032
 ## 4        4 -1.612615 1.0982576 3.025816 310.6412 31.04688 0.8709134
-## 5        5 -1.767711 1.1244277 9.010641 317.0688 41.69970 0.7602547
+## 5        5 -1.767711 1.1244277 9.010640 317.0688 41.69970 0.7602547
 ## 6        6 -1.717258 1.1727047 4.077252 311.4596 37.03555 0.7289198&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Having all of these in a single &lt;code&gt;nlsLoop&lt;/code&gt; object allows a simple plotting method to assess how good our fits to the data are. One of the best ways to assess non-linear model is by &lt;strong&gt;ACTUALLY LOOKING&lt;/strong&gt; at how well every model fits its respective raw data.&lt;/p&gt;
 &lt;/div&gt;
@@ -835,7 +835,7 @@ schoolfield_high &amp;lt;- function(lnc, E, Eh, Th, temp, Tc) {
 &lt;h4&gt;4. Plotting&lt;/h4&gt;
 &lt;p&gt;Firstly lets have a look at a single level of &lt;code&gt;curve_id&lt;/code&gt;, a function called &lt;code&gt;plot_id_nlsLoop()&lt;/code&gt; allows this.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;plot_id_nlsLoop(data = Chlorella_TRC, param_data = fits, id = &amp;#39;1&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://padpadpadpad.github.io/post/2017-09-07-introducing-nlsloop_files/figure-html/first%20fit%20plot-1.png&#34; width=&#34;768&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2017-09-07-introducing-nlsloop_files/figure-html/first%20fit%20plot-1.png&#34; width=&#34;768&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;Not a bad fit… Further to this, &lt;code&gt;plot_all_nlsLoop()&lt;/code&gt; will produce a pdf with each plot on a new sheet.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;plot_all_nlsLoop(&amp;#39;path/of/where/you/want/to/save/me.pdf&amp;#39;, data = Chlorella_TRC, param_data = fits)&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
@@ -861,7 +861,7 @@ ggplot() +
   theme_bw(base_size = 16, base_family = &amp;#39;Helvetica&amp;#39;) +
   ylab(&amp;#39;log Metabolic rate&amp;#39;) +
   xlab(&amp;#39;Assay temperature (ºC)&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://padpadpadpad.github.io/post/2017-09-07-introducing-nlsloop_files/figure-html/data%20wrangling-1.png&#34; width=&#34;1152&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2017-09-07-introducing-nlsloop_files/figure-html/data%20wrangling-1.png&#34; width=&#34;1152&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;We can also start having a quick look at any differences between parameters…&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;gather(fits$params, &amp;#39;parameter&amp;#39;, &amp;#39;value&amp;#39;, c(lnc, E, Eh, Th)) %&amp;gt;%
   ggplot(.) +
@@ -870,7 +870,7 @@ ggplot() +
   scale_color_manual(values = c(&amp;#39;green4&amp;#39;, &amp;#39;black&amp;#39;)) +
   scale_shape_manual(values = c(21, 24)) +
   theme_bw(base_size = 16, base_family = &amp;#39;Helvetica&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://padpadpadpad.github.io/post/2017-09-07-introducing-nlsloop_files/figure-html/parameter%20plots-1.png&#34; width=&#34;960&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2017-09-07-introducing-nlsloop_files/figure-html/parameter%20plots-1.png&#34; width=&#34;960&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;From here we can see that the activation energy (&lt;em&gt;E&lt;sub&gt;a&lt;/sub&gt;&lt;/em&gt;) in the model does not change systematically with growth temperature or whether it has acclimated or adapted to the growth temperature. However a body of work has shown that photosynthesis should be less sensitive to temperature change (a lower &lt;em&gt;E&lt;sub&gt;a&lt;/sub&gt;&lt;/em&gt;) than that of respiration.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(fits$params, aes(flux, E)) +
   geom_boxplot(aes(fill = flux, col = flux), outlier.shape = NA, width = 0.5) +
@@ -881,7 +881,7 @@ ggplot() +
   scale_fill_manual(values = c(&amp;#39;green4&amp;#39;, &amp;#39;black&amp;#39;)) +
   ylab(&amp;#39;Activation enrrgy (eV)&amp;#39;) +
   xlab(&amp;#39;Flux&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://padpadpadpad.github.io/post/2017-09-07-introducing-nlsloop_files/figure-html/Ea%20plots-1.png&#34; width=&#34;768&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2017-09-07-introducing-nlsloop_files/figure-html/Ea%20plots-1.png&#34; width=&#34;768&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;And as we can see it looks like we have a difference in the activation energies, with photosynthesis having a lower activation energy than respiration.&lt;/p&gt;
 &lt;p&gt;So from there we can start exploring our data and formally analysing our parameters! &lt;code&gt;nlsLoop&lt;/code&gt; allows us to have confidence in our fitting of all the curves and gives us an easy way of plotting and manipulating the data afterwards!&lt;/p&gt;
 &lt;p&gt;Happy model fitting. Any comments much appreciated.&lt;/p&gt;
