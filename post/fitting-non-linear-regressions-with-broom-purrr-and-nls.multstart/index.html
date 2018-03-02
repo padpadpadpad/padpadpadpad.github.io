@@ -46,13 +46,13 @@
     
   
 
-  <link rel="alternate" href="/index.xml" type="application/rss+xml" title="Daniel Padfield">
-  <link rel="feed" href="/index.xml" type="application/rss+xml" title="Daniel Padfield">
+  <link rel="alternate" href="https://padpadpadpad.github.io/index.xml" type="application/rss+xml" title="Daniel Padfield">
+  <link rel="feed" href="https://padpadpadpad.github.io/index.xml" type="application/rss+xml" title="Daniel Padfield">
 
   <link rel="icon" type="image/png" href="/img/icon.png">
   <link rel="apple-touch-icon" type="image/png" href="/img/apple-touch-icon.png">
 
-  <link rel="canonical" href="/post/fitting-non-linear-regressions-with-broom-purrr-and-nls.multstart/">
+  <link rel="canonical" href="https://padpadpadpad.github.io/post/fitting-non-linear-regressions-with-broom-purrr-and-nls.multstart/">
 
   
 
@@ -201,35 +201,35 @@
   <ul class="share">
     <li>
       <a class="facebook"
-         href="https://www.facebook.com/sharer.php?u=%2fpost%2ffitting-non-linear-regressions-with-broom-purrr-and-nls.multstart%2f"
+         href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fpadpadpadpad.github.io%2fpost%2ffitting-non-linear-regressions-with-broom-purrr-and-nls.multstart%2f"
          target="_blank">
         <i class="fa fa-facebook"></i>
       </a>
     </li>
     <li>
       <a class="twitter"
-         href="https://twitter.com/intent/tweet?text=Fitting%20non-linear%20regressions%20with%20broom%2c%20purrr%20and%20nls.multstart&amp;url=%2fpost%2ffitting-non-linear-regressions-with-broom-purrr-and-nls.multstart%2f"
+         href="https://twitter.com/intent/tweet?text=Fitting%20non-linear%20regressions%20with%20broom%2c%20purrr%20and%20nls.multstart&amp;url=https%3a%2f%2fpadpadpadpad.github.io%2fpost%2ffitting-non-linear-regressions-with-broom-purrr-and-nls.multstart%2f"
          target="_blank">
         <i class="fa fa-twitter"></i>
       </a>
     </li>
     <li>
       <a class="linkedin"
-         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=%2fpost%2ffitting-non-linear-regressions-with-broom-purrr-and-nls.multstart%2f&amp;title=Fitting%20non-linear%20regressions%20with%20broom%2c%20purrr%20and%20nls.multstart"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fpadpadpadpad.github.io%2fpost%2ffitting-non-linear-regressions-with-broom-purrr-and-nls.multstart%2f&amp;title=Fitting%20non-linear%20regressions%20with%20broom%2c%20purrr%20and%20nls.multstart"
          target="_blank">
         <i class="fa fa-linkedin"></i>
       </a>
     </li>
     <li>
       <a class="weibo"
-         href="http://service.weibo.com/share/share.php?url=%2fpost%2ffitting-non-linear-regressions-with-broom-purrr-and-nls.multstart%2f&amp;title=Fitting%20non-linear%20regressions%20with%20broom%2c%20purrr%20and%20nls.multstart"
+         href="http://service.weibo.com/share/share.php?url=https%3a%2f%2fpadpadpadpad.github.io%2fpost%2ffitting-non-linear-regressions-with-broom-purrr-and-nls.multstart%2f&amp;title=Fitting%20non-linear%20regressions%20with%20broom%2c%20purrr%20and%20nls.multstart"
          target="_blank">
         <i class="fa fa-weibo"></i>
       </a>
     </li>
     <li>
       <a class="email"
-         href="mailto:?subject=Fitting%20non-linear%20regressions%20with%20broom%2c%20purrr%20and%20nls.multstart&amp;body=%2fpost%2ffitting-non-linear-regressions-with-broom-purrr-and-nls.multstart%2f">
+         href="mailto:?subject=Fitting%20non-linear%20regressions%20with%20broom%2c%20purrr%20and%20nls.multstart&amp;body=https%3a%2f%2fpadpadpadpad.github.io%2fpost%2ffitting-non-linear-regressions-with-broom-purrr-and-nls.multstart%2f">
         <i class="fa fa-envelope"></i>
       </a>
     </li>
@@ -242,7 +242,8 @@
 </div>
 
     <div class="article-style" itemprop="articleBody">
-      <div id="introduction" class="section level2">
+      <p><em>This post was updated on the 02/03/2018 to reflect changes to nls.multstart.</em></p>
+<div id="introduction" class="section level2">
 <h2>Introduction</h2>
 <p>With my research, I often use non-linear least squares regression to fit a model with biologically meaningful parameters to data. Specifically, I measure the thermal performance of phytoplankon growth, respiration and photosynthesis over a wide range of assay temperatures to see how the organisms are adapted to the temperatures they live at.</p>
 <p>These thermal performance curves generally follow a unimodal shape and parameters for which are widely used in climate change research to predict whether organisms will be able to cope with increasing temperatures.</p>
@@ -299,9 +300,9 @@ d_1 &lt;- subset(Chlorella_TRC, curve_id == 1)
 fit &lt;- nls_multstart(ln.rate ~ schoolfield_high(lnc, E, Eh, Th, temp = K, Tc = 20),
                      data = d_1,
                      iter = 500,
-                     param_bds = c(-10, 10, 0.1, 2, 0.5, 5, 285, 330),
+                     start_lower = c(lnc = -10, E = 0.1, Eh = 0.2, Th = 285),
+                     start_upper = c(lnc = 10, E = 2, Eh = 5, Th = 330),
                      supp_errors = &#39;Y&#39;,
-                     AICc = &#39;Y&#39;,
                      na.action = na.omit,
                      lower = c(lnc = -10, E = 0, Eh = 0, Th = 0))
 
@@ -313,9 +314,9 @@ fit</code></pre>
 ##  -1.3462   0.9877   4.3326 312.1887 
 ##  residual sum-of-squares: 7.257
 ## 
-## Number of iterations to convergence: 19 
+## Number of iterations to convergence: 10 
 ## Achieved convergence tolerance: 1.49e-08</code></pre>
-<p><strong>nls_multstart()</strong> allows boundaries for each parameter to be set. A uniform distribution between these values is created and start values for each iteration of the fitting process are then picked randomly. The function returns the best available model by picking the model with the lowest AIC/AICc score. Additional info on the function can be found <a href="https://github.com/padpadpadpad/nls.multstart">here</a> or by typing <code>?nls_multstart</code> into the R console.</p>
+<p><strong>nls_multstart()</strong> allows boundaries for each parameter to be set. A uniform distribution between these values is created and start values for each iteration of the fitting process are then picked randomly. The function returns the best available model by picking the model with the lowest AIC score. Additional info on the function can be found <a href="https://github.com/padpadpadpad/nls.multstart">here</a> or by typing <code>?nls_multstart</code> into the R console.</p>
 <p>This fit can then be “tidied” in various ways using the R package <strong>broom</strong>. Each different function in <strong>broom</strong> returns a different set of information. <strong>tidy()</strong> returns the estimated parameters, <strong>augment()</strong> returns the predictions and <strong>glance()</strong> returns information about the model such as the AIC score and whether the model has reached convergence. Confidence intervals of non-linear regression can also be estimated using <strong>nlstools::confint2()</strong></p>
 <p>The amazing thing about these tools is the ease at which they can then be used on multiple curves at once, an approach Hadley Wickham has previously <a href="https://blog.rstudio.com/2016/02/02/tidyr-0-4-0/">written about</a>. The approach nests the data based on grouping variables using <strong>nest()</strong>, then creates a list column of the best fit for each curve using <strong>map()</strong>.</p>
 <pre class="r"><code># fit over each set of groupings
@@ -325,9 +326,9 @@ fits &lt;- Chlorella_TRC %&gt;%
   mutate(fit = purrr::map(data, ~ nls_multstart(ln.rate ~ schoolfield_high(lnc, E, Eh, Th, temp = K, Tc = 20),
                                    data = .x,
                                    iter = 1000,
-                                   param_bds = c(-100, 100, 0.1, 2, 0.5, 10, 285, 330),
+                                   start_lower = c(lnc = -10, E = 0.1, Eh = 0.2, Th = 285),
+                                   start_upper = c(lnc = 10, E = 2, Eh = 5, Th = 330),
                                    supp_errors = &#39;Y&#39;,
-                                   AICc = &#39;Y&#39;,
                                    na.action = na.omit,
                                    lower = c(lnc = -10, E = 0, Eh = 0, Th = 0))))</code></pre>
 <p>If you are confused, then you are not alone. This took me a long time to understand and I imagine there are still better ways for me to do it! However, to check it has worked, we can look at a single fit to check it looks ok. We can also look at <code>fits</code> to see that there is now a <code>fit</code> list column containing each of the non-linear fits for each combination of our grouping variables.</p>
@@ -347,7 +348,7 @@ summary(fits$fit[[1]])</code></pre>
 ## 
 ## Residual standard error: 0.9524 on 8 degrees of freedom
 ## 
-## Number of iterations to convergence: 16 
+## Number of iterations to convergence: 19 
 ## Achieved convergence tolerance: 1.49e-08</code></pre>
 <pre class="r"><code># look at output object
 select(fits, curve_id, data, fit)</code></pre>
@@ -466,12 +467,12 @@ ggplot(params, aes(col = flux)) +
   <nav>
   <ul class="pager">
     
-    <li class="previous"><a href="/post/using-blast-on-sanger-sequences-in-r/"><span
+    <li class="previous"><a href="https://padpadpadpad.github.io/post/using-blast-on-sanger-sequences-in-r/"><span
       aria-hidden="true">&larr;</span> Doing local BLAST searches on sanger sequence data in R</a></li>
     
 
     
-    <li class="next"><a href="/post/bootstrapping-non-linear-regressions-with-purrr/">Bootstrap non-linear regression with purrr and modelr <span
+    <li class="next"><a href="https://padpadpadpad.github.io/post/bootstrapping-non-linear-regressions-with-purrr/">Bootstrap non-linear regression with purrr and modelr <span
       aria-hidden="true">&rarr;</span></a></li>
     
   </ul>
