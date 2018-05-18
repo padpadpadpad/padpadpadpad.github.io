@@ -5,6 +5,15 @@
     
     <url>
     
+      <loc>https://padpadpadpad.github.io/post/animate-your-strava-activities-using-rstrava-and-gganimate/</loc>
+      <lastmod>2018-05-18T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>https://padpadpadpad.github.io/post/bootstrapping-non-linear-regressions-with-purrr/</loc>
       <lastmod>2018-01-21T00:00:00+00:00</lastmod>
     </url>
@@ -192,6 +201,16 @@
     
     <url>
     
+      <loc>https://padpadpadpad.github.io/tags/gganimate/</loc>
+      <lastmod>2018-05-18T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>https://padpadpadpad.github.io/tags/modelr/</loc>
       <lastmod>2018-01-21T00:00:00+00:00</lastmod>
       <priority>0</priority>
@@ -262,7 +281,7 @@
     <url>
     
       <loc>https://padpadpadpad.github.io/tags/r/</loc>
-      <lastmod>2018-01-21T00:00:00+00:00</lastmod>
+      <lastmod>2018-05-18T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -272,7 +291,17 @@
     <url>
     
       <loc>https://padpadpadpad.github.io/categories/r/</loc>
-      <lastmod>2018-01-21T00:00:00+00:00</lastmod>
+      <lastmod>2018-05-18T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://padpadpadpad.github.io/tags/rstrava/</loc>
+      <lastmod>2018-05-18T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -283,6 +312,26 @@
     
       <loc>https://padpadpadpad.github.io/tags/sanger-sequencing/</loc>
       <lastmod>2017-10-08T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://padpadpadpad.github.io/tags/strava/</loc>
+      <lastmod>2018-05-18T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>https://padpadpadpad.github.io/categories/strava/</loc>
+      <lastmod>2018-05-18T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
