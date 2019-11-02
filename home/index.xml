@@ -13,6 +13,17 @@
     
     
     <item>
+      <title></title>
+      <link>https://padpadpadpad.github.io/home/about/</link>
+      <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://padpadpadpad.github.io/home/about/</guid>
+      <description>Who am I? I&amp;rsquo;m an ecologist studying how organisms adapt to change and how ecological processes scale from the very small (metabolism of a single cell) to the very big (ecosystem functions such as primary production).
+I am interested in how and why communities coexist, and the feedbacks and indirect effects between ecological and evolutionary processes on species interactions within communities.
+The aim of this blog I aim to use this blog to post helpful R scripts, hopefully describe the work I do in an understandable way and write about the challenges of coping in academia while looking after a chronically ill partner.</description>
+    </item>
+    
+    <item>
       <title>Recent Posts</title>
       <link>https://padpadpadpad.github.io/home/posts/</link>
       <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
@@ -22,23 +33,14 @@
     </item>
     
     <item>
-      <title></title>
-      <link>https://padpadpadpad.github.io/home/about/</link>
-      <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
-      
-      <guid>https://padpadpadpad.github.io/home/about/</guid>
-      <description>Who am I? I&amp;rsquo;m an ecologist studying how organisms adapt to change and how ecological processes scale from the very small (metabolism of a single cell) to the very big (ecosystem functions such as primary production).
-I am interested in how and why communities coexist, and the feedbacks and indirect effects between ecological and evolutionary processes on species interactions within communities.
-The aim of this blog This blog will hopefully serve as a platform for me to be me, mainly blogging about R and my research interests (and probably football).</description>
-    </item>
-    
-    <item>
       <title>Publications</title>
       <link>https://padpadpadpad.github.io/home/publications/</link>
       <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
       
       <guid>https://padpadpadpad.github.io/home/publications/</guid>
-      <description>2018  C-E. Schaum, C. Lowe, J.S. Ólafsson, D. Padfield, and G. Yvon-Durocher (2018) Temperature-driven selection on metabolic traits increases the strength of an algal-grazer interaction in naturally warmed streams. Global Change Biology doi:10.1111/gcb.14033  2017  D. Padfield, C. Lowe, A. Buckling, Student Research Team, R. Ffrench-Constant, S. Jennings, F. Shelley, and G. Yvon-durocher (2017) Metabolic compensation constrains the temperature dependence of gross primary production. Ecology Letters. doi:10.1111/ele.12820  2016  D.</description>
+      <description>2019  Padfield, D., Castledine, M., &amp;amp; Buckling, A. (2019) Temperature-dependent changes to host-parasite interactions alter the thermal performance of a bacterial host. ISME doi pending
+ Hesse, E., Padfield, D., Bayer, F., Van Veen, E.M., Bryan, C.G., &amp;amp; Buckling, A. (2019) Anthropogenic remediation of heavy metals selects against natural microbial remediation. Proceedings of the Royal Society 286(1905) doi:10.1098/rspb.2019.0804
+ Castledine, M., Buckling, A., &amp;amp; Padfield, D. (2019) A shared coevolutionary history does not alter the outcome of coalescence in experimental populations of Pseudomonas fluorescens.</description>
     </item>
     
     <item>
