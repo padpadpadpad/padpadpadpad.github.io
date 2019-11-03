@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Homes on Daniel Padfield</title>
-    <link>/home/</link>
+    <link>https://padpadpadpad.github.io/home/</link>
     <description>Recent content in Homes on Daniel Padfield</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2016 Daniel Padfield</copyright>
     <lastBuildDate>Wed, 20 Apr 2016 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/home/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://padpadpadpad.github.io/home/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title></title>
-      <link>/home/about/</link>
+      <link>https://padpadpadpad.github.io/home/about/</link>
       <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
       
-      <guid>/home/about/</guid>
+      <guid>https://padpadpadpad.github.io/home/about/</guid>
       <description>Who am I? I&amp;rsquo;m an ecologist studying how organisms adapt to change and how ecological processes scale from the very small (metabolism of a single cell) to the very big (ecosystem functions such as primary production).
 I am interested in how and why communities coexist, and the feedbacks and indirect effects between ecological and evolutionary processes on species interactions within communities.
 The aim of this blog I aim to use this blog to post helpful R scripts, hopefully describe the work I do in an understandable way and write about the challenges of coping in academia while looking after a chronically ill partner.</description>
@@ -25,19 +25,19 @@ The aim of this blog I aim to use this blog to post helpful R scripts, hopefully
     
     <item>
       <title>Recent Posts</title>
-      <link>/home/posts/</link>
+      <link>https://padpadpadpad.github.io/home/posts/</link>
       <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
       
-      <guid>/home/posts/</guid>
+      <guid>https://padpadpadpad.github.io/home/posts/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Publications</title>
-      <link>/home/publications/</link>
+      <link>https://padpadpadpad.github.io/home/publications/</link>
       <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
       
-      <guid>/home/publications/</guid>
+      <guid>https://padpadpadpad.github.io/home/publications/</guid>
       <description>2019  Padfield, D., Castledine, M., &amp;amp; Buckling, A. (2019) Temperature-dependent changes to host-parasite interactions alter the thermal performance of a bacterial host. ISME doi pending
  Hesse, E., Padfield, D., Bayer, F., Van Veen, E.M., Bryan, C.G., &amp;amp; Buckling, A. (2019) Anthropogenic remediation of heavy metals selects against natural microbial remediation. Proceedings of the Royal Society 286(1905) doi:10.1098/rspb.2019.0804
  Castledine, M., Buckling, A., &amp;amp; Padfield, D. (2019) A shared coevolutionary history does not alter the outcome of coalescence in experimental populations of Pseudomonas fluorescens.</description>
@@ -45,19 +45,19 @@ The aim of this blog I aim to use this blog to post helpful R scripts, hopefully
     
     <item>
       <title>Selected Publications</title>
-      <link>/home/publications_selected/</link>
+      <link>https://padpadpadpad.github.io/home/publications_selected/</link>
       <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
       
-      <guid>/home/publications_selected/</guid>
+      <guid>https://padpadpadpad.github.io/home/publications_selected/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Contact</title>
-      <link>/home/contact/</link>
+      <link>https://padpadpadpad.github.io/home/contact/</link>
       <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
       
-      <guid>/home/contact/</guid>
+      <guid>https://padpadpadpad.github.io/home/contact/</guid>
       <description>d.padfield@exeter.ac.uk
  https://github.com/padpadpadpad</description>
     </item>

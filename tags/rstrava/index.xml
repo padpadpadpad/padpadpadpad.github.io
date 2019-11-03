@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Rstrava on Daniel Padfield</title>
-    <link>/tags/rstrava/</link>
+    <link>https://padpadpadpad.github.io/tags/rstrava/</link>
     <description>Recent content in Rstrava on Daniel Padfield</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2016 Daniel Padfield</copyright>
     <lastBuildDate>Fri, 18 May 2018 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/tags/rstrava/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://padpadpadpad.github.io/tags/rstrava/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Animate your Strava activities in R using rStrava and gganimate</title>
-      <link>/post/animate-your-strava-activities-using-rstrava-and-gganimate/</link>
+      <link>https://padpadpadpad.github.io/post/animate-your-strava-activities-using-rstrava-and-gganimate/</link>
       <pubDate>Fri, 18 May 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/animate-your-strava-activities-using-rstrava-and-gganimate/</guid>
+      <guid>https://padpadpadpad.github.io/post/animate-your-strava-activities-using-rstrava-and-gganimate/</guid>
       <description>Getting started with rStrava rStrava is an R package that allows you to access data from Strava using the Strava API. Some of the functions of rStrava scrape data from the public Strava website but to access your own data you will need a Strava profile and an authentication token. Details on obtaining your unique token can be found on the rStrava homepage. In addition to this key, we use rgbif::elevation() to calculate the elevation of each route.</description>
     </item>
     
