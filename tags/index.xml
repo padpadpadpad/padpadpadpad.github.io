@@ -2,184 +2,184 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Daniel Padfield</title>
-    <link>https://padpadpadpad.github.io/tags/</link>
+    <link>/tags/</link>
     <description>Recent content in Tags on Daniel Padfield</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2016 Daniel Padfield</copyright>
     <lastBuildDate>Sun, 01 Jan 2017 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://padpadpadpad.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Content tagged as &#39;Academic&#39;</title>
-      <link>https://padpadpadpad.github.io/tags/academic/</link>
+      <link>/tags/academic/</link>
       <pubDate>Sun, 01 Jan 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://padpadpadpad.github.io/tags/academic/</guid>
+      <guid>/tags/academic/</guid>
       <description>Here is a list of all the content that has been tagged as academic.</description>
     </item>
     
     <item>
       <title>Blast</title>
-      <link>https://padpadpadpad.github.io/tags/blast/</link>
+      <link>/tags/blast/</link>
       <pubDate>Sun, 08 Oct 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://padpadpadpad.github.io/tags/blast/</guid>
+      <guid>/tags/blast/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Bootstrap</title>
-      <link>https://padpadpadpad.github.io/tags/bootstrap/</link>
+      <link>/tags/bootstrap/</link>
       <pubDate>Sun, 21 Jan 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://padpadpadpad.github.io/tags/bootstrap/</guid>
+      <guid>/tags/bootstrap/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Broom</title>
-      <link>https://padpadpadpad.github.io/tags/broom/</link>
+      <link>/tags/broom/</link>
       <pubDate>Sun, 21 Jan 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://padpadpadpad.github.io/tags/broom/</guid>
+      <guid>/tags/broom/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Deep Learning</title>
-      <link>https://padpadpadpad.github.io/tags/deep-learning/</link>
+      <link>/tags/deep-learning/</link>
       <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
       
-      <guid>https://padpadpadpad.github.io/tags/deep-learning/</guid>
+      <guid>/tags/deep-learning/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Demo</title>
-      <link>https://padpadpadpad.github.io/tags/demo/</link>
+      <link>/tags/demo/</link>
       <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
       
-      <guid>https://padpadpadpad.github.io/tags/demo/</guid>
+      <guid>/tags/demo/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Genomics</title>
-      <link>https://padpadpadpad.github.io/tags/genomics/</link>
+      <link>/tags/genomics/</link>
       <pubDate>Sun, 08 Oct 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://padpadpadpad.github.io/tags/genomics/</guid>
+      <guid>/tags/genomics/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Gganimate</title>
-      <link>https://padpadpadpad.github.io/tags/gganimate/</link>
+      <link>/tags/gganimate/</link>
       <pubDate>Fri, 18 May 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://padpadpadpad.github.io/tags/gganimate/</guid>
+      <guid>/tags/gganimate/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Modelr</title>
-      <link>https://padpadpadpad.github.io/tags/modelr/</link>
+      <link>/tags/modelr/</link>
       <pubDate>Sun, 21 Jan 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://padpadpadpad.github.io/tags/modelr/</guid>
+      <guid>/tags/modelr/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Nlsloop</title>
-      <link>https://padpadpadpad.github.io/tags/nlsloop/</link>
+      <link>/tags/nlsloop/</link>
       <pubDate>Thu, 08 Sep 2016 21:13:14 -0500</pubDate>
       
-      <guid>https://padpadpadpad.github.io/tags/nlsloop/</guid>
+      <guid>/tags/nlsloop/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Non Linear Regression</title>
-      <link>https://padpadpadpad.github.io/tags/non-linear-regression/</link>
+      <link>/tags/non-linear-regression/</link>
       <pubDate>Thu, 08 Sep 2016 21:13:14 -0500</pubDate>
       
-      <guid>https://padpadpadpad.github.io/tags/non-linear-regression/</guid>
+      <guid>/tags/non-linear-regression/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Nonlinear Regression</title>
-      <link>https://padpadpadpad.github.io/tags/nonlinear-regression/</link>
+      <link>/tags/nonlinear-regression/</link>
       <pubDate>Sun, 21 Jan 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://padpadpadpad.github.io/tags/nonlinear-regression/</guid>
+      <guid>/tags/nonlinear-regression/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Purrr</title>
-      <link>https://padpadpadpad.github.io/tags/purrr/</link>
+      <link>/tags/purrr/</link>
       <pubDate>Sun, 21 Jan 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://padpadpadpad.github.io/tags/purrr/</guid>
+      <guid>/tags/purrr/</guid>
       <description></description>
     </item>
     
     <item>
       <title>R</title>
-      <link>https://padpadpadpad.github.io/tags/r/</link>
+      <link>/tags/r/</link>
       <pubDate>Fri, 18 May 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://padpadpadpad.github.io/tags/r/</guid>
+      <guid>/tags/r/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Rstrava</title>
-      <link>https://padpadpadpad.github.io/tags/rstrava/</link>
+      <link>/tags/rstrava/</link>
       <pubDate>Fri, 18 May 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://padpadpadpad.github.io/tags/rstrava/</guid>
+      <guid>/tags/rstrava/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Sanger Sequencing</title>
-      <link>https://padpadpadpad.github.io/tags/sanger-sequencing/</link>
+      <link>/tags/sanger-sequencing/</link>
       <pubDate>Sun, 08 Oct 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://padpadpadpad.github.io/tags/sanger-sequencing/</guid>
+      <guid>/tags/sanger-sequencing/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Strava</title>
-      <link>https://padpadpadpad.github.io/tags/strava/</link>
+      <link>/tags/strava/</link>
       <pubDate>Fri, 18 May 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://padpadpadpad.github.io/tags/strava/</guid>
+      <guid>/tags/strava/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Taxize</title>
-      <link>https://padpadpadpad.github.io/tags/taxize/</link>
+      <link>/tags/taxize/</link>
       <pubDate>Sun, 08 Oct 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://padpadpadpad.github.io/tags/taxize/</guid>
+      <guid>/tags/taxize/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Tidy</title>
-      <link>https://padpadpadpad.github.io/tags/tidy/</link>
+      <link>/tags/tidy/</link>
       <pubDate>Sun, 21 Jan 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://padpadpadpad.github.io/tags/tidy/</guid>
+      <guid>/tags/tidy/</guid>
       <description></description>
     </item>
     

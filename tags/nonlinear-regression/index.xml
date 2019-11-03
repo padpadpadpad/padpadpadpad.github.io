@@ -2,32 +2,32 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Nonlinear Regression on Daniel Padfield</title>
-    <link>https://padpadpadpad.github.io/tags/nonlinear-regression/</link>
+    <link>/tags/nonlinear-regression/</link>
     <description>Recent content in Nonlinear Regression on Daniel Padfield</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2016 Daniel Padfield</copyright>
     <lastBuildDate>Sun, 21 Jan 2018 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://padpadpadpad.github.io/tags/nonlinear-regression/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/tags/nonlinear-regression/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Bootstrap non-linear regression with purrr and modelr</title>
-      <link>https://padpadpadpad.github.io/post/bootstrapping-non-linear-regressions-with-purrr/</link>
+      <link>/post/bootstrapping-non-linear-regressions-with-purrr/</link>
       <pubDate>Sun, 21 Jan 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://padpadpadpad.github.io/post/bootstrapping-non-linear-regressions-with-purrr/</guid>
+      <guid>/post/bootstrapping-non-linear-regressions-with-purrr/</guid>
       <description>This post was updated on the 02/03/2018 to reflect changes to nls.multstart.
 Introduction For my first academic publication, a reviewer asked for the \(r^{2}\) values of the thermal performance curves I fitted using non-linear regression. I bowed to the request as is often the case with reviewer comments, but would now resist as the \(r^{2}\) is not necessarily an effective goodness of fit measure for non-linear regression (see this SO answer).</description>
     </item>
     
     <item>
       <title>Fitting non-linear regressions with broom, purrr and nls.multstart</title>
-      <link>https://padpadpadpad.github.io/post/fitting-non-linear-regressions-with-broom-purrr-and-nls.multstart/</link>
+      <link>/post/fitting-non-linear-regressions-with-broom-purrr-and-nls.multstart/</link>
       <pubDate>Sun, 07 Jan 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://padpadpadpad.github.io/post/fitting-non-linear-regressions-with-broom-purrr-and-nls.multstart/</guid>
+      <guid>/post/fitting-non-linear-regressions-with-broom-purrr-and-nls.multstart/</guid>
       <description>This post was updated on the 02/03/2018 to reflect changes to nls.multstart.
 Introduction With my research, I often use non-linear least squares regression to fit a model with biologically meaningful parameters to data. Specifically, I measure the thermal performance of phytoplankon growth, respiration and photosynthesis over a wide range of assay temperatures to see how the organisms are adapted to the temperatures they live at.
 These thermal performance curves generally follow a unimodal shape and parameters for which are widely used in climate change research to predict whether organisms will be able to cope with increasing temperatures.</description>

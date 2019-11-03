@@ -2,23 +2,33 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Strava on Daniel Padfield</title>
-    <link>https://padpadpadpad.github.io/tags/strava/</link>
+    <link>/tags/strava/</link>
     <description>Recent content in Strava on Daniel Padfield</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2016 Daniel Padfield</copyright>
     <lastBuildDate>Fri, 18 May 2018 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://padpadpadpad.github.io/tags/strava/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/tags/strava/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Animate your Strava activities in R using rStrava and gganimate</title>
-      <link>https://padpadpadpad.github.io/post/animate-your-strava-activities-using-rstrava-and-gganimate/</link>
+      <link>/post/animate-your-strava-activities-using-rstrava-and-gganimate/</link>
       <pubDate>Fri, 18 May 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://padpadpadpad.github.io/post/animate-your-strava-activities-using-rstrava-and-gganimate/</guid>
+      <guid>/post/animate-your-strava-activities-using-rstrava-and-gganimate/</guid>
       <description>Getting started with rStrava rStrava is an R package that allows you to access data from Strava using the Strava API. Some of the functions of rStrava scrape data from the public Strava website but to access your own data you will need a Strava profile and an authentication token. Details on obtaining your unique token can be found on the rStrava homepage. In addition to this key, we use rgbif::elevation() to calculate the elevation of each route.</description>
+    </item>
+    
+    <item>
+      <title>Analysing your own Strava data in R using rStrava</title>
+      <link>/post/analysing-your-own-strava-data-in-r-using-rstrava/</link>
+      <pubDate>Sat, 03 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/analysing-your-own-strava-data-in-r-using-rstrava/</guid>
+      <description>Over the last 4 years I have consistently cycled around or over 2000 km a year around Cornwall. Almost all of these rides have been uploaded to Strava which has a suite of nice ways to visualise your performance and each ride.
+However, the ride data on Strava is mine, I have literally created it, and as such I looked for a way of accessing all of that beautiful data. One way would be to download all your .</description>
     </item>
     
   </channel>
