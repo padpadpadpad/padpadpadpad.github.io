@@ -18,9 +18,7 @@
       <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
       
       <guid>https://padpadpadpad.github.io/home/about/</guid>
-      <description>Who am I? I&amp;rsquo;m an ecologist studying how organisms adapt to change and how ecological processes scale from the very small (metabolism of a single cell) to the very big (ecosystem functions such as primary production).
-I am interested in how and why communities coexist, and the feedbacks and indirect effects between ecological and evolutionary processes on species interactions within communities.
-The aim of this blog I aim to use this blog to post helpful R scripts, hopefully describe the work I do in an understandable way and write about the challenges of coping in academia while looking after a chronically ill partner.</description>
+      <description>A little about me I am a ecologist with broad interests that span climate change, evolution, and community ecology. The common thread throughout my research so far has been the impacts of climate change on the biosphere, primarily on phytoplankton and bacteria. During my PhD with Gabriel Yvon-Durocher, I explored how warming will alter rates of photosynthesis and respiration in phytoplankton. To do this, I combined ideas from metabolic theory and experimental approaches from studying Icelandic streams to experimental evolution.</description>
     </item>
     
     <item>
@@ -33,6 +31,15 @@ The aim of this blog I aim to use this blog to post helpful R scripts, hopefully
     </item>
     
     <item>
+      <title>Selected Publications</title>
+      <link>https://padpadpadpad.github.io/home/publications_selected/</link>
+      <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://padpadpadpad.github.io/home/publications_selected/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Publications</title>
       <link>https://padpadpadpad.github.io/home/publications/</link>
       <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
@@ -41,15 +48,6 @@ The aim of this blog I aim to use this blog to post helpful R scripts, hopefully
       <description>2019  Padfield, D., Castledine, M., &amp;amp; Buckling, A. (2019) Temperature-dependent changes to host-parasite interactions alter the thermal performance of a bacterial host. ISME doi pending
  Hesse, E., Padfield, D., Bayer, F., Van Veen, E.M., Bryan, C.G., &amp;amp; Buckling, A. (2019) Anthropogenic remediation of heavy metals selects against natural microbial remediation. Proceedings of the Royal Society 286(1905) doi:10.1098/rspb.2019.0804
  Castledine, M., Buckling, A., &amp;amp; Padfield, D. (2019) A shared coevolutionary history does not alter the outcome of coalescence in experimental populations of Pseudomonas fluorescens.</description>
-    </item>
-    
-    <item>
-      <title>Selected Publications</title>
-      <link>https://padpadpadpad.github.io/home/publications_selected/</link>
-      <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
-      
-      <guid>https://padpadpadpad.github.io/home/publications_selected/</guid>
-      <description></description>
     </item>
     
     <item>
