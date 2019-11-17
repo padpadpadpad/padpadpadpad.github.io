@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="theme" content="hugo-academic">
-  <meta name="generator" content="Hugo 0.26" />
+  <meta name="generator" content="Hugo 0.44" />
   <meta name="author" content="Daniel Padfield">
   <meta name="description" content="Research Scientist">
 
@@ -132,6 +132,18 @@
         
 
         
+
+        <li class="nav-item">
+          <a href="/cv/padfield_extendedCV.pdf">
+            
+            <span>CV</span>
+          </a>
+        </li>
+
+        
+        
+
+        
       </ul>
 
     </div>
@@ -151,10 +163,10 @@
   
   
   <div>
-    <h2><a href="/post/bootstrapping-non-linear-regressions-with-purrr/">Bootstrap non-linear regression with purrr and modelr</a></h2>
+    <h2><a href="/post/calculating-microbial-growth-rates-from-od-using-rolling-regression/">Calculating microbial growth rates from OD measurements using rolling regression in the tidyverse</a></h2>
     <div class="article-style">
       
-      Introduction For my first academic publication, a reviewer asked for the (r^{2}) values of the thermal performance curves I fitted using non-linear regression. I bowed to the request as is often the case with reviewer comments, but would now resist as the (r^{2}) is not necessarily an effective goodness of fit measure for non-linear regression (see this SO answer). It does raise the question of how to determine how well a biologically meaningful model fits the data it is fitted to.
+      Introduction Microbial ecologists often measure the growth rates of their favourite microbes, commonly using an OD (optical density) reader, with growth being related to the increasing OD of the sample through time. There are loads of ways to analyse these curves. Most of these, like growthcurver and the methods I used in my recent ISME paper (nls.multstart and functions from nlsMicrobio), fit models to logistic growth. Both methods can easily be scaled up to fit multiple curves at the same time.
       
     </div>
   </div>

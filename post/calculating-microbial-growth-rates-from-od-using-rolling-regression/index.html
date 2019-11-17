@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme" content="hugo-academic">
+  <meta name="generator" content="Hugo 0.44" />
+  <meta name="author" content="Daniel Padfield">
+  <meta name="description" content="Research Scientist">
+
+  
+  
+  
+    
+  
+  
+    
+    
+    <link rel="stylesheet" href="/css/highlight.min.css">
+    
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha512-6MXa8B6uaO18Hid6blRMetEIoPqHf7Ux1tnyIQdpt9qI5OACx7C+O3IVTr98vwGnlcg0LOLa02i9Y1HpVhlfiw==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.1/css/academicons.min.css" integrity="sha512-NThgw3XKQ1absAahW6to7Ey42uycrVvfNfyjqcFNgCmOCQ5AR4AO0SiXrN+8ZtYeappp56lk1WtvjVmEa+VR6A==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous">
+  
+  
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather%7CRoboto+Mono">
+  <link rel="stylesheet" href="/css/hugo-academic.css">
+  
+
+  
+    <script>
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', 'UA-74093873-1', 'auto');
+      ga('require', 'eventTracker');
+      ga('require', 'outboundLinkTracker');
+      ga('require', 'urlChangeTracker');
+      ga('send', 'pageview');
+    </script>
+    <script async src="//www.google-analytics.com/analytics.js"></script>
+    
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/autotrack/2.4.1/autotrack.js" integrity="sha512-HUmooslVKj4m6OBu0OgzjXXr+QuFYy/k7eLI5jdeEy/F4RSgMn6XRWRGkFi5IFaFgy7uFTkegp3Z0XnJf3Jq+g==" crossorigin="anonymous"></script>
+    
+  
+
+  <link rel="alternate" href="/index.xml" type="application/rss+xml" title="Daniel Padfield">
+  <link rel="feed" href="/index.xml" type="application/rss+xml" title="Daniel Padfield">
+
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/apple-touch-icon.png">
+
+  <link rel="canonical" href="/post/calculating-microbial-growth-rates-from-od-using-rolling-regression/">
+
+  
+
+  <title>Calculating microbial growth rates from OD measurements using rolling regression in the tidyverse | Daniel Padfield</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#navbar-main" data-offset="71">
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target=".navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">Daniel Padfield</a>
+    </div>
+
+    
+    <div class="collapse navbar-collapse">
+
+      
+      <ul class="nav navbar-nav navbar-right">
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#posts">
+            
+            <span>Home</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#about">
+            
+            <span>About me</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#publications">
+            
+            <span>Publications</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#contact">
+            
+            <span>Contact</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/cv/padfield_extendedCV.pdf">
+            
+            <span>CV</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+
+
+  <div class="article-container">
+    <h1 itemprop="name">Calculating microbial growth rates from OD measurements using rolling regression in the tidyverse</h1>
+    
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="2019-11-15 00:00:00 &#43;0000 UTC" itemprop="datePublished">
+      Fri, Nov 15, 2019
+    </time>
+  </span>
+
+  
+  
+  
+  
+
+  
+  
+  
+  <span class="article-tags">
+    <i class="fa fa-tags"></i>
+    
+    <a href="/tags/r">R</a
+    >, 
+    
+    <a href="/tags/tidyverse">tidyverse</a
+    >, 
+    
+    <a href="/tags/growth-rate">growth rate</a
+    >
+    
+  </span>
+  
+  
+
+  
+  
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=%2fpost%2fcalculating-microbial-growth-rates-from-od-using-rolling-regression%2f"
+         target="_blank">
+        <i class="fa fa-facebook"></i>
+      </a>
+    </li>
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=Calculating%20microbial%20growth%20rates%20from%20OD%20measurements%20using%20rolling%20regression%20in%20the%20tidyverse&amp;url=%2fpost%2fcalculating-microbial-growth-rates-from-od-using-rolling-regression%2f"
+         target="_blank">
+        <i class="fa fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=%2fpost%2fcalculating-microbial-growth-rates-from-od-using-rolling-regression%2f&amp;title=Calculating%20microbial%20growth%20rates%20from%20OD%20measurements%20using%20rolling%20regression%20in%20the%20tidyverse"
+         target="_blank">
+        <i class="fa fa-linkedin"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=%2fpost%2fcalculating-microbial-growth-rates-from-od-using-rolling-regression%2f&amp;title=Calculating%20microbial%20growth%20rates%20from%20OD%20measurements%20using%20rolling%20regression%20in%20the%20tidyverse"
+         target="_blank">
+        <i class="fa fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=Calculating%20microbial%20growth%20rates%20from%20OD%20measurements%20using%20rolling%20regression%20in%20the%20tidyverse&amp;body=%2fpost%2fcalculating-microbial-growth-rates-from-od-using-rolling-regression%2f">
+        <i class="fa fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+    <div class="article-style" itemprop="articleBody">
+      <div id="introduction" class="section level3">
+<h3>Introduction</h3>
+<p>Microbial ecologists often measure the growth rates of their favourite microbes, commonly using an OD (optical density) reader, with growth being related to the increasing OD of the sample through time. There are loads of ways to analyse these curves. Most of these, like <a href="https://github.com/sprouffske/growthcurver"><strong>growthcurver</strong></a> and the methods I used in my recent <a href="https://github.com/padpadpadpad/Padfield_2019_ISME_bact_phage_temperature">ISME</a> paper (<a href="https://github.com/padpadpadpad/nls.multstart"><strong>nls.multstart</strong></a> and functions from <a href="https://cran.r-project.org/web/packages/nlsMicrobio/nlsMicrobio.pdf"><strong>nlsMicrobio</strong></a>), fit models to logistic growth. Both methods can easily be scaled up to fit multiple curves at the same time.</p>
+<p>However, sometimes these methods do not do a good job. The most common example when this happens is if the wee critters do not reach stationary phase. Without stationary phase, most of the models will struggle to calculate carrying capacity, which also means the estimated exponential growth rate is poor. Similar things can occur if the bacteria form biofilms. This can result in increasingly noisy measurements at higher OD readings, again making the estimation of carrying capacity and growth rates more difficult.</p>
+<p>As an alternative, we can bin off trying to model the entire growth curve, and instead implement a rolling regression, where we fit a linear regression on a shifting window of points. On natural-log transformed OD, the slope of the regression between <span class="math inline">\(logOD\)</span> and time is equivalent to the exponential growth rate.</p>
+</div>
+<div id="get-started" class="section level3">
+<h3>Get started</h3>
+<p>We will load (and install) all the packages needed to run the example here. We will use the example data from <strong>growthcurver</strong> as example OD readings from a 96-well plate. Time is in hours, and I have created stacked all the wells into a single column for OD. Finally I created a column for <span class="math inline">\(logOD\)</span>, which is needed for the rolling regression, and <span class="math inline">\(log_{10}OD\)</span> which is needed for fitting the modified gompertz growth model from <strong>nlsMicrobio</strong>.</p>
+<pre class="r"><code># load packages
+library(tidyverse) #install.packages(tidyverse)
+library(zoo) #install.packages(zoo)
+library(broom) #install.packages(broom)
+library(growthcurver) # install.packages(growthcurver)
+library(nls.multstart) # install.packages(nls.multstart)
+# remotes::install_github(&#39;padpadpadpad/MicrobioUoE)
+
+# load example data
+d &lt;- growthcurver::growthdata %&gt;%
+  gather(., well, od, -time) %&gt;%
+  mutate(ln_od = log(od),
+         log10_od = log10(od))
+
+# have a look at the data
+glimpse(d)</code></pre>
+<pre><code>## Observations: 13,920
+## Variables: 5
+## $ time     &lt;dbl&gt; 0.0000000, 0.1666667, 0.3333333, 0.5000000, 0.6666667, 0.833…
+## $ well     &lt;chr&gt; &quot;A1&quot;, &quot;A1&quot;, &quot;A1&quot;, &quot;A1&quot;, &quot;A1&quot;, &quot;A1&quot;, &quot;A1&quot;, &quot;A1&quot;, &quot;A1&quot;, &quot;A1&quot;, …
+## $ od       &lt;dbl&gt; 0.05348585, 0.04800336, 0.05587451, 0.05131749, 0.04516719, …
+## $ ln_od    &lt;dbl&gt; -2.928338, -3.036484, -2.884647, -2.969724, -3.097384, -2.93…
+## $ log10_od &lt;dbl&gt; -1.271761, -1.318728, -1.252786, -1.289735, -1.345177, -1.27…</code></pre>
+</div>
+<div id="fit-modified-gompertz-model-for-bacterial-growth" class="section level3">
+<h3>Fit modified gompertz model for bacterial growth</h3>
+<p>We will first demonstrate rolling regression against the modified gompertz model for growth. I like the inclusion of the lag parameter in this model, especially for OD readers where the initial inoculate can often be so low that the OD reader cannot measure it. It means that exponential growth is only calculated at OD readings that we are confident represent changes in biomass of the bacteria.</p>
+<p>To do this, we’ll filter the data for just the first well, A1. Then we will fit the modified gompertz model and plot the results.</p>
+<pre class="r"><code># filter for just a single well
+d_a1 &lt;- filter(d, well == &#39;A1&#39;)
+
+# define gompertz growth model
+gompertz &lt;- function(log10_nmax, log10_n0, mumax, t, lag){
+  log10_n0 + (log10_nmax - log10_n0) * exp(-exp(mumax * exp(1) * (lag - t)/((log10_nmax - log10_n0) * log(10)) + 1))
+}
+
+# fit gompertz model
+fit_gomp &lt;- nls.multstart::nls_multstart(log10_od ~ gompertz(log10_nmax, log10_n0, mumax, t = time, lag),
+           data = d_a1,
+           start_lower = c(log10_nmax = -0.75, log10_n0 = -3, mumax = 0, lag = 0),
+           start_upper = c(log10_nmax = 0.5, log10_n0 = -1, mumax = 10, lag = 25),
+           lower = c(log10_nmax = -0.6, log10_n0 = -2, mumax = 0, lag = 0),
+           iter = 500,
+           supp_errors = &#39;Y&#39;)
+
+# get predictions
+gomp_preds &lt;- augment(fit_gomp)
+
+# plot on original scale
+ggplot(d_a1, aes(time, od)) +
+  geom_line(aes(time, 10^.fitted), gomp_preds, col = &#39;red&#39;) +
+  geom_point() +
+  theme_bw(base_size = 16) +
+  labs(x = &#39;time (hours)&#39;,
+       y = &#39;OD&#39;) +
+  annotate(geom = &#39;text&#39;, x = 0, y = 0.37, label = paste(&#39;µ = &#39;, round(coef(fit_gomp)[3], 2), &#39; hr-1&#39;, sep = &#39;&#39;), hjust = 0, size = MicrobioUoE::pts(16))</code></pre>
+<p><img src="/post/2019-11-15-calculating-microbial-growth-rates-using-rolling-regression-in-the-tidyverse_files/figure-html/plot_gompz-1.png" width="768" /></p>
+<p>However, lets say our measurements end at 10 or 11 hours. When we have not reached stationary phase, the traditional bacterial growth models are likely to have trouble fitting.</p>
+<pre class="r"><code>d_a1 &lt;- filter(d_a1, time &lt; 10.5)
+
+# plot data without stationary phase
+ggplot(d_a1, aes(time, od)) +
+  geom_point() +
+  theme_bw(base_size = 16) +
+  labs(x = &#39;time (hours)&#39;,
+       y = &#39;OD&#39;)</code></pre>
+<p><img src="/post/2019-11-15-calculating-microbial-growth-rates-using-rolling-regression-in-the-tidyverse_files/figure-html/plot_short-1.png" width="768" /></p>
+</div>
+<div id="using-rolling-regression" class="section level3">
+<h3>Using rolling regression</h3>
+<p>Rolling regression allows us to calculate exponential growth rate even when we do not have the whole curve. First, we need to create our own rolling regression function. This method is mainly taken from G. Grothendieck’s <a href="https://stackoverflow.com/questions/49762128/rolling-regression-by-group-in-the-tidyverse">StackOverflow answer</a>. In the function, we specify our output from a standard <strong>lm</strong> object. So if you know how to access the output of <strong>lm()</strong>, you can add any extra details you want.</p>
+<p>One of the big decisions in rolling regression is deciding how many points you are going to calculate the growth rate over. In this example, measurements are taken every 0.167 hours, about every ten minutes. I want a shifting window to span a minimum of 1.5 hours, so I calculate <code>num_points</code> to define the number of points the rolling regression will act on.</p>
+<p>We then run the rolling regression, using <strong>zoo::rollapplyr()</strong> and <strong>dplyr::do()</strong>. Finally, in order to illustrate what the rolling regression is doing, I created a predictions dataframe for every single linear model that is fitted.</p>
+<pre class="r"><code># create the rolling regression function
+roll_regress &lt;- function(x){
+  temp &lt;- data.frame(x)
+  mod &lt;- lm(temp)
+  temp &lt;- data.frame(slope = coef(mod)[[2]],
+                     slope_lwr = confint(mod)[2, ][[1]],
+                     slope_upr = confint(mod)[2, ][[2]],
+                     intercept = coef(mod)[[1]],
+                     rsq = summary(mod)$r.squared, stringsAsFactors = FALSE)
+  return(temp)
+}
+
+# define window - here every ~1.5 hours
+num_points = ceiling(1.5*60/(60*0.167)) 
+
+# run rolling regression on ln od ~ time
+models &lt;- d_a1 %&gt;%
+  do(cbind(model = select(., ln_od, time) %&gt;% 
+           zoo::rollapplyr(width = num_points, roll_regress, by.column = FALSE, fill = NA, align = &#39;center&#39;),
+           time = select(., time),
+           ln_od = select(., ln_od))) %&gt;%
+  rename_all(., gsub, pattern = &#39;model.&#39;, replacement = &#39;&#39;)
+
+# create predictions
+preds &lt;- models %&gt;%
+  filter(., !is.na(slope)) %&gt;%
+  group_by(time) %&gt;%
+  do(data.frame(time2 = c(.$time - 2, .$time + 2))) %&gt;%
+  left_join(., models) %&gt;%
+  mutate(pred = (slope*time2) + intercept)</code></pre>
+<p>We can plot the rolling regression through time. I have extracted the exponential growth rate as the maximum slope of any of the regressions. Reassuringly the value of <span class="math inline">\(\mu\)</span> we get is very similar to that of using the gompertz model. I have also plotted the time at which the maximum slope occurred. It looks pretty close to mid-log to me.</p>
+<pre class="r"><code># calculate the exponential growth rate
+growth_rate &lt;- filter(models, slope == max(slope, na.rm = TRUE))
+
+# plot rolling regression
+ggplot(d_a1, aes(time, ln_od)) +
+  geom_point() +
+  geom_line(aes(time2, pred, group = time), col = &#39;red&#39;, preds, alpha = 0.5) +
+  theme_bw(base_size = 16) +
+  geom_segment(aes(x = time, y = -3, xend = time, yend = ln_od), growth_rate) +
+  geom_segment(aes(x = 0, y = ln_od, xend = time, yend = ln_od), growth_rate) +
+  annotate(geom = &#39;text&#39;, x = 0, y = -1, label = paste(&#39;µ = &#39;, round(growth_rate$slope, 2), &#39; hr-1\n95%CI:(&#39;,round(growth_rate$slope_lwr, 2), &#39;-&#39;, round(growth_rate$slope_upr, 2), &#39;)&#39;, sep = &#39;&#39;), hjust = 0, size = MicrobioUoE::pts(16)) +
+  labs(x = &#39;time (hours)&#39;,
+       y = &#39;OD&#39;)</code></pre>
+<p><img src="/post/2019-11-15-calculating-microbial-growth-rates-using-rolling-regression-in-the-tidyverse_files/figure-html/plot-1.png" width="768" /></p>
+</div>
+<div id="the-opportunities-are-endless" class="section level3">
+<h3>The opportunities are endless</h3>
+<p>The great thing about this approach is its flexibility. It can easily be rolled out over all the wells in that plate, using <strong>group_by()</strong>.</p>
+<pre class="r"><code># run rolling regression on ln od_cor ~ time
+models &lt;- d %&gt;%
+  group_by(well) %&gt;%
+  do(cbind(model = select(., ln_od, time) %&gt;% 
+           zoo::rollapplyr(width = num_points, roll_regress, by.column = FALSE, fill = NA, align = &#39;center&#39;),
+           time = select(., time),
+           ln_od = select(., ln_od))) %&gt;%
+  rename_all(., gsub, pattern = &#39;model.&#39;, replacement = &#39;&#39;)
+
+# calculate growth rate for each one
+growth_rates &lt;- models %&gt;%
+  filter(slope == max(slope, na.rm = TRUE)) %&gt;%
+  ungroup()
+
+glimpse(growth_rates)</code></pre>
+<pre><code>## Observations: 96
+## Variables: 8
+## $ well      &lt;chr&gt; &quot;A1&quot;, &quot;A10&quot;, &quot;A11&quot;, &quot;A12&quot;, &quot;A2&quot;, &quot;A3&quot;, &quot;A4&quot;, &quot;A5&quot;, &quot;A6&quot;, &quot;A…
+## $ slope     &lt;dbl&gt; 0.5373305, 0.5378633, 0.6723146, 0.5665508, 0.4986314, 0.43…
+## $ slope_lwr &lt;dbl&gt; 0.5164655, 0.5102408, 0.6339382, 0.5433664, 0.4706380, 0.38…
+## $ slope_upr &lt;dbl&gt; 0.5581955, 0.5654858, 0.7106910, 0.5897353, 0.5266249, 0.47…
+## $ intercept &lt;dbl&gt; -6.274261, -6.573137, -6.547136, -6.767416, -6.945429, -6.6…
+## $ rsq       &lt;dbl&gt; 0.9981159, 0.9967090, 0.9959375, 0.9979079, 0.9960698, 0.98…
+## $ time      &lt;dbl&gt; 8.166667, 8.333333, 7.166667, 8.833333, 10.166667, 10.50000…
+## $ ln_od     &lt;dbl&gt; -1.871105, -2.087377, -1.721166, -1.743515, -1.876257, -2.1…</code></pre>
+<p>These growth rates can then be used for downstream analyses, and the method can easily be used over multiple plates and for many different types of data. Finally, you could also filter the regressions by <span class="math inline">\(R^{2}\)</span> values, making sure you only kept good fitting regressions. Or do a sensitivity analysis of different sized window sizes to make sure your chosen window is suitable.</p>
+<p>How do you get your data off of the OD reader? I have written scripts to collate hundreds of plate readings into a single dataframe in R. Let me know if you would like me to do a blog post on that process! Thanks for reading.</p>
+</div>
+
+    </div>
+  </div>
+
+</article>
+
+<div class="container">
+  <nav>
+  <ul class="pager">
+    
+    <li class="previous"><a href="/post/animate-your-strava-activities-using-rstrava-and-gganimate/"><span
+      aria-hidden="true">&larr;</span> Animate your Strava activities in R using rStrava and gganimate</a></li>
+    
+
+    
+  </ul>
+</nav>
+
+</div>
+
+<div class="article-container">
+  
+<section id="comments">
+  <div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "danpadgithub" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="powered-by">
+
+      &copy; 2016 Daniel Padfield &middot; 
+
+      Powered by the <a href="https://github.com/gcushen/hugo-academic" target="_blank">Academic
+      theme</a> for <a href="http://gohugo.io" target="_blank">Hugo</a>.
+
+      <span class="pull-right" aria-hidden="true">
+        <a href="#" id="back_to_top">
+          <span class="button_icon">
+            <i class="fa fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+
+    </p>
+  </div>
+</footer>
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js" integrity="sha512-jGsMH83oKe9asCpkOVkBnUrDDTp8wl+adkB2D+//JtlxO4SrLoJdhbOysIFQJloQFD+C4Fl1rMsQZF76JjV0eQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.2/imagesloaded.pkgd.min.js" integrity="sha512-iHzEu7GbSc705hE2skyH6/AlTpOfBmkx7nUqTLGzPYR+C1tRaItbRlJ7hT/D3YQ9SV0fqLKzp4XY9wKulTBGTw==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/TweenMax.min.js" integrity="sha512-Z5heTz36xTemt1TbtbfXtTq5lMfYnOkXM2/eWcTTiLU01+Sw4ku1i7vScDc8fWhrP2abz9GQzgKH5NGBLoYlAw==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/plugins/ScrollToPlugin.min.js" integrity="sha512-CDeU7pRtkPX6XJtF/gcFWlEwyaX7mcAp5sO3VIu/ylsdR74wEw4wmBpD5yYTrmMAiAboi9thyBUr1vXRPA7t0Q==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha512-iztkobsvnjKfAtTNdHkGVjAYTrrtlC7mGp/54c40wowO7LhURYl3gVzzcEqGl/qKXQltJ2HwMrdLcNUdo+N/RQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.4/isotope.pkgd.min.js" integrity="sha512-VDBOIlDbuC4VWxGJNmuFRQ0Li0SKkDpmGyuhAG5LTDLd/dJ/S0WMVxriR2Y+CyPL5gzjpN4f/6iqWVBJlht0tQ==" crossorigin="anonymous"></script>
+    
+    <script src="/js/hugo-academic.js"></script>
+    
+
+    
+    
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+
+      
+
+      
+
+      <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_CHTML" integrity="sha512-tOav5w1OjvsSJzePRtt2uQPFwBoHt1VZcUq8l8nm5284LEKE9FSJBQryzMBzHxY5P0zRdNqEcpLIRVYFNgu1jw==" crossorigin="anonymous"></script>
+    
+    
+
+  </body>
+</html>
+

@@ -2,49 +2,49 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Homes on Daniel Padfield</title>
-    <link>https://padpadpadpad.github.io/home/</link>
+    <link>/home/</link>
     <description>Recent content in Homes on Daniel Padfield</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2016 Daniel Padfield</copyright>
     <lastBuildDate>Wed, 20 Apr 2016 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://padpadpadpad.github.io/home/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/home/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title></title>
-      <link>https://padpadpadpad.github.io/home/about/</link>
+      <link>/home/about/</link>
       <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
       
-      <guid>https://padpadpadpad.github.io/home/about/</guid>
+      <guid>/home/about/</guid>
       <description>A little about me I am an ecologist with broad interests that span climate change, evolution, and community ecology. The common thread throughout my research so far has been the impacts of climate change on the biosphere, primarily on phytoplankton and bacteria. During my PhD with Gabriel Yvon-Durocher, I explored how warming will alter rates of photosynthesis and respiration in phytoplankton. To do this, I combined ideas from metabolic theory and experimental approaches from studying Icelandic streams to experimental evolution.</description>
     </item>
     
     <item>
       <title>Recent Posts</title>
-      <link>https://padpadpadpad.github.io/home/posts/</link>
+      <link>/home/posts/</link>
       <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
       
-      <guid>https://padpadpadpad.github.io/home/posts/</guid>
+      <guid>/home/posts/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Selected Publications</title>
-      <link>https://padpadpadpad.github.io/home/publications_selected/</link>
+      <link>/home/publications_selected/</link>
       <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
       
-      <guid>https://padpadpadpad.github.io/home/publications_selected/</guid>
+      <guid>/home/publications_selected/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Publications</title>
-      <link>https://padpadpadpad.github.io/home/publications/</link>
+      <link>/home/publications/</link>
       <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
       
-      <guid>https://padpadpadpad.github.io/home/publications/</guid>
+      <guid>/home/publications/</guid>
       <description>2019  Padfield, D., Castledine, M., &amp;amp; Buckling, A. (2019) Temperature-dependent changes to host-parasite interactions alter the thermal performance of a bacterial host. ISME doi:10.1038/s41396-019-0526-5
  Hesse, E., Padfield, D., Bayer, F., Van Veen, E.M., Bryan, C.G., &amp;amp; Buckling, A. (2019) Anthropogenic remediation of heavy metals selects against natural microbial remediation. Proceedings of the Royal Society 286(1905) doi:10.1098/rspb.2019.0804
  Castledine, M., Buckling, A., &amp;amp; Padfield, D. (2019) A shared coevolutionary history does not alter the outcome of coalescence in experimental populations of Pseudomonas fluorescens.</description>
@@ -52,10 +52,10 @@
     
     <item>
       <title>Contact</title>
-      <link>https://padpadpadpad.github.io/home/contact/</link>
+      <link>/home/contact/</link>
       <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
       
-      <guid>https://padpadpadpad.github.io/home/contact/</guid>
+      <guid>/home/contact/</guid>
       <description>d.padfield@exeter.ac.uk
  https://github.com/padpadpadpad</description>
     </item>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Growth Rate on Daniel Padfield</title>
+    <link>/tags/growth-rate/</link>
+    <description>Recent content in Growth Rate on Daniel Padfield</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2016 Daniel Padfield</copyright>
+    <lastBuildDate>Fri, 15 Nov 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/growth-rate/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Calculating microbial growth rates from OD measurements using rolling regression in the tidyverse</title>
+      <link>/post/calculating-microbial-growth-rates-from-od-using-rolling-regression/</link>
+      <pubDate>Fri, 15 Nov 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/calculating-microbial-growth-rates-from-od-using-rolling-regression/</guid>
+      <description>Introduction Microbial ecologists often measure the growth rates of their favourite microbes, commonly using an OD (optical density) reader, with growth being related to the increasing OD of the sample through time. There are loads of ways to analyse these curves. Most of these, like growthcurver and the methods I used in my recent ISME paper (nls.multstart and functions from nlsMicrobio), fit models to logistic growth. Both methods can easily be scaled up to fit multiple curves at the same time.</description>
+    </item>
+    
+  </channel>
+</rss>
