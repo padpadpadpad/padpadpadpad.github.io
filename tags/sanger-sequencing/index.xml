@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Sanger Sequencing on Daniel Padfield</title>
-    <link>/tags/sanger-sequencing/</link>
+    <link>https://padpadpadpad.github.io/tags/sanger-sequencing/</link>
     <description>Recent content in Sanger Sequencing on Daniel Padfield</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2016 Daniel Padfield</copyright>
     <lastBuildDate>Sun, 08 Oct 2017 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/tags/sanger-sequencing/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://padpadpadpad.github.io/tags/sanger-sequencing/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Doing local BLAST searches on sanger sequence data in R</title>
-      <link>/post/using-blast-on-sanger-sequences-in-r/</link>
+      <link>https://padpadpadpad.github.io/post/using-blast-on-sanger-sequences-in-r/</link>
       <pubDate>Sun, 08 Oct 2017 00:00:00 +0000</pubDate>
       
-      <guid>/post/using-blast-on-sanger-sequences-in-r/</guid>
+      <guid>https://padpadpadpad.github.io/post/using-blast-on-sanger-sequences-in-r/</guid>
       <description>Introduction Moving to a microbiology group has meant I now have loads of interesting genomic and sequencing data to play with!
 One common task we have when we start with some new natural communities is to work out what is in there! We plate the samples out, look at their colony morphology, but colonies can be picked and sequenced using sanger sequencing. Once you have your sequencing data back, you can check your sequence against a database to look at the taxonomic identity of the picked colonies.</description>
     </item>

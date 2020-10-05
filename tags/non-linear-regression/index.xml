@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Non Linear Regression on Daniel Padfield</title>
-    <link>/tags/non-linear-regression/</link>
+    <link>https://padpadpadpad.github.io/tags/non-linear-regression/</link>
     <description>Recent content in Non Linear Regression on Daniel Padfield</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2016 Daniel Padfield</copyright>
     <lastBuildDate>Thu, 08 Sep 2016 21:13:14 -0500</lastBuildDate>
     
-	<atom:link href="/tags/non-linear-regression/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://padpadpadpad.github.io/tags/non-linear-regression/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Introducing nlsLoop</title>
-      <link>/post/introducing-nlsloop/</link>
+      <link>https://padpadpadpad.github.io/post/introducing-nlsloop/</link>
       <pubDate>Thu, 08 Sep 2016 21:13:14 -0500</pubDate>
       
-      <guid>/post/introducing-nlsloop/</guid>
+      <guid>https://padpadpadpad.github.io/post/introducing-nlsloop/</guid>
       <description>Introduction So you have data you want to fit to a non-linear model…
 This blog post assumes you have a non-linear model formulation you want to fit to non-linear data and are aware of the excellent nlme package by Pinheiro and Bates and their book that nicely explains how to use it. This would be my first port of call if you want to understand the simplicities and complexities of fitting non-linear models and mixed effect models in general.</description>
     </item>

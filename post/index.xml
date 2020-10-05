@@ -2,50 +2,50 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on Daniel Padfield</title>
-    <link>/post/</link>
+    <link>https://padpadpadpad.github.io/post/</link>
     <description>Recent content in Posts on Daniel Padfield</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2016 Daniel Padfield</copyright>
     <lastBuildDate>Sun, 01 Jan 2017 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://padpadpadpad.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Calculating microbial growth rates from OD measurements using rolling regression in the tidyverse</title>
-      <link>/post/calculating-microbial-growth-rates-from-od-using-rolling-regression/</link>
+      <link>https://padpadpadpad.github.io/post/calculating-microbial-growth-rates-from-od-using-rolling-regression/</link>
       <pubDate>Fri, 15 Nov 2019 00:00:00 +0000</pubDate>
       
-      <guid>/post/calculating-microbial-growth-rates-from-od-using-rolling-regression/</guid>
+      <guid>https://padpadpadpad.github.io/post/calculating-microbial-growth-rates-from-od-using-rolling-regression/</guid>
       <description>Introduction Microbial ecologists often measure the growth rates of their favourite microbes, commonly using an OD (optical density) reader, with growth being related to the increasing OD of the sample through time. There are loads of ways to analyse these curves. Most of these, like growthcurver and the methods I used in my recent ISME paper (nls.multstart and functions from nlsMicrobio), fit models to logistic growth. Both methods can easily be scaled up to fit multiple curves at the same time.</description>
     </item>
     
     <item>
       <title>Animate your Strava activities in R using rStrava and gganimate</title>
-      <link>/post/animate-your-strava-activities-using-rstrava-and-gganimate/</link>
+      <link>https://padpadpadpad.github.io/post/animate-your-strava-activities-using-rstrava-and-gganimate/</link>
       <pubDate>Fri, 18 May 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/animate-your-strava-activities-using-rstrava-and-gganimate/</guid>
+      <guid>https://padpadpadpad.github.io/post/animate-your-strava-activities-using-rstrava-and-gganimate/</guid>
       <description>Getting started with rStrava rStrava is an R package that allows you to access data from Strava using the Strava API. Some of the functions of rStrava scrape data from the public Strava website but to access your own data you will need a Strava profile and an authentication token. Details on obtaining your unique token can be found on the rStrava homepage. In addition to this key, we use rgbif::elevation() to calculate the elevation of each route.</description>
     </item>
     
     <item>
       <title>Bootstrap non-linear regression with purrr and modelr</title>
-      <link>/post/bootstrapping-non-linear-regressions-with-purrr/</link>
+      <link>https://padpadpadpad.github.io/post/bootstrapping-non-linear-regressions-with-purrr/</link>
       <pubDate>Sun, 21 Jan 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/bootstrapping-non-linear-regressions-with-purrr/</guid>
+      <guid>https://padpadpadpad.github.io/post/bootstrapping-non-linear-regressions-with-purrr/</guid>
       <description>This post was updated on the 02/03/2018 to reflect changes to nls.multstart.
 Introduction For my first academic publication, a reviewer asked for the \(r^{2}\) values of the thermal performance curves I fitted using non-linear regression. I bowed to the request as is often the case with reviewer comments, but would now resist as the \(r^{2}\) is not necessarily an effective goodness of fit measure for non-linear regression (see this SO answer).</description>
     </item>
     
     <item>
       <title>Fitting non-linear regressions with broom, purrr and nls.multstart</title>
-      <link>/post/fitting-non-linear-regressions-with-broom-purrr-and-nls.multstart/</link>
+      <link>https://padpadpadpad.github.io/post/fitting-non-linear-regressions-with-broom-purrr-and-nls.multstart/</link>
       <pubDate>Sun, 07 Jan 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/fitting-non-linear-regressions-with-broom-purrr-and-nls.multstart/</guid>
+      <guid>https://padpadpadpad.github.io/post/fitting-non-linear-regressions-with-broom-purrr-and-nls.multstart/</guid>
       <description>This post was updated on the 02/03/2018 to reflect changes to nls.multstart.
 Introduction With my research, I often use non-linear least squares regression to fit a model with biologically meaningful parameters to data. Specifically, I measure the thermal performance of phytoplankon growth, respiration and photosynthesis over a wide range of assay temperatures to see how the organisms are adapted to the temperatures they live at.
 These thermal performance curves generally follow a unimodal shape and parameters for which are widely used in climate change research to predict whether organisms will be able to cope with increasing temperatures.</description>
@@ -53,20 +53,20 @@ These thermal performance curves generally follow a unimodal shape and parameter
     
     <item>
       <title>Doing local BLAST searches on sanger sequence data in R</title>
-      <link>/post/using-blast-on-sanger-sequences-in-r/</link>
+      <link>https://padpadpadpad.github.io/post/using-blast-on-sanger-sequences-in-r/</link>
       <pubDate>Sun, 08 Oct 2017 00:00:00 +0000</pubDate>
       
-      <guid>/post/using-blast-on-sanger-sequences-in-r/</guid>
+      <guid>https://padpadpadpad.github.io/post/using-blast-on-sanger-sequences-in-r/</guid>
       <description>Introduction Moving to a microbiology group has meant I now have loads of interesting genomic and sequencing data to play with!
 One common task we have when we start with some new natural communities is to work out what is in there! We plate the samples out, look at their colony morphology, but colonies can be picked and sequenced using sanger sequencing. Once you have your sequencing data back, you can check your sequence against a database to look at the taxonomic identity of the picked colonies.</description>
     </item>
     
     <item>
       <title>Introducing nlsLoop</title>
-      <link>/post/introducing-nlsloop/</link>
+      <link>https://padpadpadpad.github.io/post/introducing-nlsloop/</link>
       <pubDate>Thu, 08 Sep 2016 21:13:14 -0500</pubDate>
       
-      <guid>/post/introducing-nlsloop/</guid>
+      <guid>https://padpadpadpad.github.io/post/introducing-nlsloop/</guid>
       <description>Introduction So you have data you want to fit to a non-linear model…
 This blog post assumes you have a non-linear model formulation you want to fit to non-linear data and are aware of the excellent nlme package by Pinheiro and Bates and their book that nicely explains how to use it. This would be my first port of call if you want to understand the simplicities and complexities of fitting non-linear models and mixed effect models in general.</description>
     </item>

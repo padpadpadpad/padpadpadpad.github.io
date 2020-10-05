@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>2 on Daniel Padfield</title>
-    <link>/publication_types/2/</link>
+    <link>https://padpadpadpad.github.io/publication_types/2/</link>
     <description>Recent content in 2 on Daniel Padfield</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2016 Daniel Padfield</copyright>
     <lastBuildDate>Fri, 18 Oct 2019 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/publication_types/2/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://padpadpadpad.github.io/publication_types/2/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Temperature-dependent changes to host–parasite interactions alter the thermal performance of a bacterial host</title>
-      <link>/publication/bacteria_phage_temperature_isme/</link>
+      <link>https://padpadpadpad.github.io/publication/bacteria_phage_temperature_isme/</link>
       <pubDate>Fri, 18 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>/publication/bacteria_phage_temperature_isme/</guid>
+      <guid>https://padpadpadpad.github.io/publication/bacteria_phage_temperature_isme/</guid>
       <description></description>
     </item>
     
