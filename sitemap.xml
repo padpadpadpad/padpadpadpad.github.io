@@ -1,418 +1,283 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
-    
-    
-    <url>
-    
-      <loc>https://padpadpadpad.github.io/post/calculating-microbial-growth-rates-from-od-using-rolling-regression/</loc>
-      <lastmod>2019-11-15T00:00:00+00:00</lastmod>
-    </url>
-    
+  <url>
+    <loc>https://padpadpadpad.github.io/home/about/</loc>
+    <lastmod>2016-04-20T00:00:00+00:00</lastmod>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://padpadpadpad.github.io/publication/bacteria_phage_temperature_isme/</loc>
-      <lastmod>2019-10-18T00:00:00+00:00</lastmod>
-    </url>
-    
+  <url>
+    <loc>https://padpadpadpad.github.io/home/posts/</loc>
+    <lastmod>2016-04-20T00:00:00+00:00</lastmod>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://padpadpadpad.github.io/post/animate-your-strava-activities-using-rstrava-and-gganimate/</loc>
-      <lastmod>2018-05-18T00:00:00+00:00</lastmod>
-    </url>
-    
+  <url>
+    <loc>https://padpadpadpad.github.io/home/publications_selected/</loc>
+    <lastmod>2016-04-20T00:00:00+00:00</lastmod>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://padpadpadpad.github.io/post/bootstrapping-non-linear-regressions-with-purrr/</loc>
-      <lastmod>2018-01-21T00:00:00+00:00</lastmod>
-    </url>
-    
+  <url>
+    <loc>https://padpadpadpad.github.io/home/publications/</loc>
+    <lastmod>2016-04-20T00:00:00+00:00</lastmod>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://padpadpadpad.github.io/post/fitting-non-linear-regressions-with-broom-purrr-and-nls.multstart/</loc>
-      <lastmod>2018-01-07T00:00:00+00:00</lastmod>
-    </url>
-    
+  <url>
+    <loc>https://padpadpadpad.github.io/home/contact/</loc>
+    <lastmod>2016-04-20T00:00:00+00:00</lastmod>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://padpadpadpad.github.io/post/using-blast-on-sanger-sequences-in-r/</loc>
-      <lastmod>2017-10-08T00:00:00+00:00</lastmod>
-    </url>
-    
+  <url>
+    <loc>https://padpadpadpad.github.io/post/calculating-microbial-growth-rates-from-od-using-rolling-regression/</loc>
+    <lastmod>2019-11-15T00:00:00+00:00</lastmod>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://padpadpadpad.github.io/publication/metabolic_compensation_iceland/</loc>
-      <lastmod>2017-08-31T00:00:00+00:00</lastmod>
-    </url>
-    
+  <url>
+    <loc>https://padpadpadpad.github.io/publication/bacteria_phage_temperature_isme/</loc>
+    <lastmod>2019-10-18T00:00:00+00:00</lastmod>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://padpadpadpad.github.io/tags/academic/</loc>
-      <lastmod>2017-01-01T00:00:00+00:00</lastmod>
-    </url>
-    
+  <url>
+    <loc>https://padpadpadpad.github.io/publication/castledine_et_al_2018_jeb/</loc>
+    <lastmod>2018-10-22T00:00:00+00:00</lastmod>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://padpadpadpad.github.io/talk/example-talk/</loc>
-      <lastmod>2017-01-01T00:00:00+00:00</lastmod>
-    </url>
-    
+  <url>
+    <loc>https://padpadpadpad.github.io/post/animate-your-strava-activities-using-rstrava-and-gganimate/</loc>
+    <lastmod>2018-05-18T00:00:00+00:00</lastmod>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://padpadpadpad.github.io/post/</loc>
-      <lastmod>2017-01-01T00:00:00+00:00</lastmod>
-    </url>
-    
+  <url>
+    <loc>https://padpadpadpad.github.io/post/bootstrapping-non-linear-regressions-with-purrr/</loc>
+    <lastmod>2018-01-21T00:00:00+00:00</lastmod>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://padpadpadpad.github.io/publication/</loc>
-      <lastmod>2017-01-01T00:00:00+00:00</lastmod>
-    </url>
-    
+  <url>
+    <loc>https://padpadpadpad.github.io/post/fitting-non-linear-regressions-with-broom-purrr-and-nls.multstart/</loc>
+    <lastmod>2018-01-07T00:00:00+00:00</lastmod>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://padpadpadpad.github.io/talk/</loc>
-      <lastmod>2017-01-01T00:00:00+00:00</lastmod>
-    </url>
-    
+  <url>
+    <loc>https://padpadpadpad.github.io/post/using-blast-on-sanger-sequences-in-r/</loc>
+    <lastmod>2017-10-08T00:00:00+00:00</lastmod>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://padpadpadpad.github.io/post/introducing-nlsloop/</loc>
-      <lastmod>2016-09-08T21:13:14-05:00</lastmod>
-    </url>
-    
+  <url>
+    <loc>https://padpadpadpad.github.io/publication/metabolic_compensation_iceland/</loc>
+    <lastmod>2017-08-31T00:00:00+00:00</lastmod>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://padpadpadpad.github.io/project/deep-learning/</loc>
-      <lastmod>2016-04-27T00:00:00+00:00</lastmod>
-    </url>
-    
+  <url>
+    <loc>https://padpadpadpad.github.io/tags/academic/</loc>
+    <lastmod>2017-01-01T00:00:00+00:00</lastmod>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://padpadpadpad.github.io/project/example-external-project/</loc>
-      <lastmod>2016-04-27T00:00:00+00:00</lastmod>
-    </url>
-    
+  <url>
+    <loc>https://padpadpadpad.github.io/talk/example-talk/</loc>
+    <lastmod>2017-01-01T00:00:00+00:00</lastmod>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://padpadpadpad.github.io/publication_types/2/</loc>
-      <lastmod>2019-10-18T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
+  <url>
+    <loc>https://padpadpadpad.github.io/post/</loc>
+    <lastmod>2017-01-01T00:00:00+00:00</lastmod>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://padpadpadpad.github.io/tags/blast/</loc>
-      <lastmod>2017-10-08T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
+  <url>
+    <loc>https://padpadpadpad.github.io/publication/</loc>
+    <lastmod>2017-01-01T00:00:00+00:00</lastmod>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://padpadpadpad.github.io/tags/bootstrap/</loc>
-      <lastmod>2018-01-21T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
+  <url>
+    <loc>https://padpadpadpad.github.io/talk/</loc>
+    <lastmod>2017-01-01T00:00:00+00:00</lastmod>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://padpadpadpad.github.io/tags/broom/</loc>
-      <lastmod>2018-01-21T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
+  <url>
+    <loc>https://padpadpadpad.github.io/post/introducing-nlsloop/</loc>
+    <lastmod>2016-09-08T21:13:14-05:00</lastmod>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://padpadpadpad.github.io/categories/</loc>
-      <priority>0</priority>
-    </url>
-    
+  <url>
+    <loc>https://padpadpadpad.github.io/project/deep-learning/</loc>
+    <lastmod>2016-04-27T00:00:00+00:00</lastmod>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://padpadpadpad.github.io/</loc>
-      <lastmod>2016-04-20T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
+  <url>
+    <loc>https://padpadpadpad.github.io/project/example-external-project/</loc>
+    <lastmod>2016-04-27T00:00:00+00:00</lastmod>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://padpadpadpad.github.io/tags/deep-learning/</loc>
-      <lastmod>2016-04-27T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
+  <url>
+    <loc>https://padpadpadpad.github.io/publication_types/2/</loc>
+    <lastmod>2019-10-18T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://padpadpadpad.github.io/tags/demo/</loc>
-      <lastmod>2016-04-27T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
+  <url>
+    <loc>https://padpadpadpad.github.io/tags/blast/</loc>
+    <lastmod>2017-10-08T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://padpadpadpad.github.io/tags/genomics/</loc>
-      <lastmod>2017-10-08T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
+  <url>
+    <loc>https://padpadpadpad.github.io/tags/bootstrap/</loc>
+    <lastmod>2018-01-21T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://padpadpadpad.github.io/tags/gganimate/</loc>
-      <lastmod>2018-05-18T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
+  <url>
+    <loc>https://padpadpadpad.github.io/tags/broom/</loc>
+    <lastmod>2018-01-21T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://padpadpadpad.github.io/tags/growth-rate/</loc>
-      <lastmod>2019-11-15T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
+  <url>
+    <loc>https://padpadpadpad.github.io/categories/</loc>
+    <priority>0</priority>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://padpadpadpad.github.io/tags/modelr/</loc>
-      <lastmod>2018-01-21T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
+  <url>
+    <loc>https://padpadpadpad.github.io/</loc>
+    <lastmod>2016-04-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://padpadpadpad.github.io/tags/nlsloop/</loc>
-      <lastmod>2016-09-08T21:13:14-05:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
+  <url>
+    <loc>https://padpadpadpad.github.io/tags/deep-learning/</loc>
+    <lastmod>2016-04-27T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://padpadpadpad.github.io/tags/non-linear-regression/</loc>
-      <lastmod>2016-09-08T21:13:14-05:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
+  <url>
+    <loc>https://padpadpadpad.github.io/tags/demo/</loc>
+    <lastmod>2016-04-27T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://padpadpadpad.github.io/tags/nonlinear-regression/</loc>
-      <lastmod>2018-01-21T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
+  <url>
+    <loc>https://padpadpadpad.github.io/tags/genomics/</loc>
+    <lastmod>2017-10-08T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://padpadpadpad.github.io/project/</loc>
-      <lastmod>2016-04-27T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
+  <url>
+    <loc>https://padpadpadpad.github.io/tags/gganimate/</loc>
+    <lastmod>2018-05-18T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://padpadpadpad.github.io/publication_types/</loc>
-      <lastmod>2019-10-18T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
+  <url>
+    <loc>https://padpadpadpad.github.io/tags/growth-rate/</loc>
+    <lastmod>2019-11-15T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://padpadpadpad.github.io/tags/purrr/</loc>
-      <lastmod>2018-01-21T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
+  <url>
+    <loc>https://padpadpadpad.github.io/home/</loc>
+    <lastmod>2016-04-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://padpadpadpad.github.io/categories/r/</loc>
-      <lastmod>2018-05-18T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
+  <url>
+    <loc>https://padpadpadpad.github.io/tags/modelr/</loc>
+    <lastmod>2018-01-21T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://padpadpadpad.github.io/tags/r/</loc>
-      <lastmod>2019-11-15T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
+  <url>
+    <loc>https://padpadpadpad.github.io/tags/nlsloop/</loc>
+    <lastmod>2016-09-08T21:13:14-05:00</lastmod>
+    <priority>0</priority>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://padpadpadpad.github.io/tags/rstrava/</loc>
-      <lastmod>2018-05-18T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
+  <url>
+    <loc>https://padpadpadpad.github.io/tags/non-linear-regression/</loc>
+    <lastmod>2016-09-08T21:13:14-05:00</lastmod>
+    <priority>0</priority>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://padpadpadpad.github.io/tags/sanger-sequencing/</loc>
-      <lastmod>2017-10-08T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
+  <url>
+    <loc>https://padpadpadpad.github.io/tags/nonlinear-regression/</loc>
+    <lastmod>2018-01-21T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://padpadpadpad.github.io/categories/strava/</loc>
-      <lastmod>2018-05-18T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
+  <url>
+    <loc>https://padpadpadpad.github.io/project/</loc>
+    <lastmod>2016-04-27T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://padpadpadpad.github.io/tags/strava/</loc>
-      <lastmod>2018-05-18T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
+  <url>
+    <loc>https://padpadpadpad.github.io/publication_types/</loc>
+    <lastmod>2019-10-18T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://padpadpadpad.github.io/tags/</loc>
-      <lastmod>2017-01-01T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
+  <url>
+    <loc>https://padpadpadpad.github.io/tags/purrr/</loc>
+    <lastmod>2018-01-21T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://padpadpadpad.github.io/tags/taxize/</loc>
-      <lastmod>2017-10-08T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
+  <url>
+    <loc>https://padpadpadpad.github.io/categories/r/</loc>
+    <lastmod>2018-05-18T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://padpadpadpad.github.io/tags/tidy/</loc>
-      <lastmod>2018-01-21T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
+  <url>
+    <loc>https://padpadpadpad.github.io/tags/r/</loc>
+    <lastmod>2019-11-15T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
   
-    
-    
-    <url>
-    
-      <loc>https://padpadpadpad.github.io/tags/tidyverse/</loc>
-      <lastmod>2019-11-15T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
+  <url>
+    <loc>https://padpadpadpad.github.io/tags/rstrava/</loc>
+    <lastmod>2018-05-18T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://padpadpadpad.github.io/tags/sanger-sequencing/</loc>
+    <lastmod>2017-10-08T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://padpadpadpad.github.io/categories/strava/</loc>
+    <lastmod>2018-05-18T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://padpadpadpad.github.io/tags/strava/</loc>
+    <lastmod>2018-05-18T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://padpadpadpad.github.io/tags/</loc>
+    <lastmod>2017-01-01T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://padpadpadpad.github.io/tags/taxize/</loc>
+    <lastmod>2017-10-08T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://padpadpadpad.github.io/tags/tidy/</loc>
+    <lastmod>2018-01-21T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://padpadpadpad.github.io/tags/tidyverse/</loc>
+    <lastmod>2019-11-15T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
   
 </urlset>

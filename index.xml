@@ -1,14 +1,62 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Daniel Padfield on Daniel Padfield</title>
+    <title>Daniel Padfield</title>
     <link>https://padpadpadpad.github.io/</link>
-    <description>Recent content in Daniel Padfield on Daniel Padfield</description>
+    <description>Recent content on Daniel Padfield</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2016 Daniel Padfield</copyright>
     <lastBuildDate>Wed, 20 Apr 2016 00:00:00 +0000</lastBuildDate>
-    <atom:link href="/" rel="self" type="application/rss+xml" />
+    
+	<atom:link href="https://padpadpadpad.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title></title>
+      <link>https://padpadpadpad.github.io/home/about/</link>
+      <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://padpadpadpad.github.io/home/about/</guid>
+      <description>A little about me I am an ecologist with broad interests that span climate change, evolution, and community ecology. The common thread throughout my research so far has been the impacts of climate change on the biosphere, primarily on phytoplankton and bacteria. During my PhD with Gabriel Yvon-Durocher, I explored how warming will alter rates of photosynthesis and respiration in phytoplankton. To do this, I combined ideas from metabolic theory and experimental approaches from studying Icelandic streams to experimental evolution.</description>
+    </item>
+    
+    <item>
+      <title>Recent Posts</title>
+      <link>https://padpadpadpad.github.io/home/posts/</link>
+      <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://padpadpadpad.github.io/home/posts/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Selected Publications</title>
+      <link>https://padpadpadpad.github.io/home/publications_selected/</link>
+      <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://padpadpadpad.github.io/home/publications_selected/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Publications</title>
+      <link>https://padpadpadpad.github.io/home/publications/</link>
+      <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://padpadpadpad.github.io/home/publications/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Contact</title>
+      <link>https://padpadpadpad.github.io/home/contact/</link>
+      <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://padpadpadpad.github.io/home/contact/</guid>
+      <description>d.padfield@exeter.ac.uk
+ https://github.com/padpadpadpad</description>
+    </item>
     
     <item>
       <title>Calculating microbial growth rates from OD measurements using rolling regression in the tidyverse</title>
@@ -16,166 +64,7 @@
       <pubDate>Fri, 15 Nov 2019 00:00:00 +0000</pubDate>
       
       <guid>https://padpadpadpad.github.io/post/calculating-microbial-growth-rates-from-od-using-rolling-regression/</guid>
-      <description>&lt;div id=&#34;introduction&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Introduction&lt;/h3&gt;
-&lt;p&gt;Microbial ecologists often measure the growth rates of their favourite microbes, commonly using an OD (optical density) reader, with growth being related to the increasing OD of the sample through time. There are loads of ways to analyse these curves. Most of these, like &lt;a href=&#34;https://github.com/sprouffske/growthcurver&#34;&gt;&lt;strong&gt;growthcurver&lt;/strong&gt;&lt;/a&gt; and the methods I used in my recent &lt;a href=&#34;https://github.com/padpadpadpad/Padfield_2019_ISME_bact_phage_temperature&#34;&gt;ISME&lt;/a&gt; paper (&lt;a href=&#34;https://github.com/padpadpadpad/nls.multstart&#34;&gt;&lt;strong&gt;nls.multstart&lt;/strong&gt;&lt;/a&gt; and functions from &lt;a href=&#34;https://cran.r-project.org/web/packages/nlsMicrobio/nlsMicrobio.pdf&#34;&gt;&lt;strong&gt;nlsMicrobio&lt;/strong&gt;&lt;/a&gt;), fit models to logistic growth. Both methods can easily be scaled up to fit multiple curves at the same time.&lt;/p&gt;
-&lt;p&gt;However, sometimes these methods do not do a good job. The most common example when this happens is if the wee critters do not reach stationary phase. Without stationary phase, most of the models will struggle to calculate carrying capacity, which also means the estimated exponential growth rate is poor. Similar things can occur if the bacteria form biofilms. This can result in increasingly noisy measurements at higher OD readings, again making the estimation of carrying capacity and growth rates more difficult.&lt;/p&gt;
-&lt;p&gt;As an alternative, we can bin off trying to model the entire growth curve, and instead implement a rolling regression, where we fit a linear regression on a shifting window of points. On natural-log transformed OD, the slope of the regression between &lt;span class=&#34;math inline&#34;&gt;\(logOD\)&lt;/span&gt; and time is equivalent to the exponential growth rate.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;get-started&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Get started&lt;/h3&gt;
-&lt;p&gt;We will load (and install) all the packages needed to run the example here. We will use the example data from &lt;strong&gt;growthcurver&lt;/strong&gt; as example OD readings from a 96-well plate. Time is in hours, and I have created stacked all the wells into a single column for OD. Finally I created a column for &lt;span class=&#34;math inline&#34;&gt;\(logOD\)&lt;/span&gt;, which is needed for the rolling regression, and &lt;span class=&#34;math inline&#34;&gt;\(log_{10}OD\)&lt;/span&gt; which is needed for fitting the modified gompertz growth model from &lt;strong&gt;nlsMicrobio&lt;/strong&gt;.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# load packages
-library(tidyverse) #install.packages(tidyverse)
-library(zoo) #install.packages(zoo)
-library(broom) #install.packages(broom)
-library(growthcurver) # install.packages(growthcurver)
-library(nls.multstart) # install.packages(nls.multstart)
-# remotes::install_github(&amp;#39;padpadpadpad/MicrobioUoE)
-
-# load example data
-d &amp;lt;- growthcurver::growthdata %&amp;gt;%
-  gather(., well, od, -time) %&amp;gt;%
-  mutate(ln_od = log(od),
-         log10_od = log10(od))
-
-# have a look at the data
-glimpse(d)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## Observations: 13,920
-## Variables: 5
-## $ time     &amp;lt;dbl&amp;gt; 0.0000000, 0.1666667, 0.3333333, 0.5000000, 0.6666667, 0.833…
-## $ well     &amp;lt;chr&amp;gt; &amp;quot;A1&amp;quot;, &amp;quot;A1&amp;quot;, &amp;quot;A1&amp;quot;, &amp;quot;A1&amp;quot;, &amp;quot;A1&amp;quot;, &amp;quot;A1&amp;quot;, &amp;quot;A1&amp;quot;, &amp;quot;A1&amp;quot;, &amp;quot;A1&amp;quot;, &amp;quot;A1&amp;quot;, …
-## $ od       &amp;lt;dbl&amp;gt; 0.05348585, 0.04800336, 0.05587451, 0.05131749, 0.04516719, …
-## $ ln_od    &amp;lt;dbl&amp;gt; -2.928338, -3.036484, -2.884647, -2.969724, -3.097384, -2.93…
-## $ log10_od &amp;lt;dbl&amp;gt; -1.271761, -1.318728, -1.252786, -1.289735, -1.345177, -1.27…&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div id=&#34;fit-modified-gompertz-model-for-bacterial-growth&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Fit modified gompertz model for bacterial growth&lt;/h3&gt;
-&lt;p&gt;We will first demonstrate rolling regression against the modified gompertz model for growth. I like the inclusion of the lag parameter in this model, especially for OD readers where the initial inoculate can often be so low that the OD reader cannot measure it. It means that exponential growth is only calculated at OD readings that we are confident represent changes in biomass of the bacteria.&lt;/p&gt;
-&lt;p&gt;To do this, we’ll filter the data for just the first well, A1. Then we will fit the modified gompertz model and plot the results.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# filter for just a single well
-d_a1 &amp;lt;- filter(d, well == &amp;#39;A1&amp;#39;)
-
-# define gompertz growth model
-gompertz &amp;lt;- function(log10_nmax, log10_n0, mumax, t, lag){
-  log10_n0 + (log10_nmax - log10_n0) * exp(-exp(mumax * exp(1) * (lag - t)/((log10_nmax - log10_n0) * log(10)) + 1))
-}
-
-# fit gompertz model
-fit_gomp &amp;lt;- nls.multstart::nls_multstart(log10_od ~ gompertz(log10_nmax, log10_n0, mumax, t = time, lag),
-           data = d_a1,
-           start_lower = c(log10_nmax = -0.75, log10_n0 = -3, mumax = 0, lag = 0),
-           start_upper = c(log10_nmax = 0.5, log10_n0 = -1, mumax = 10, lag = 25),
-           lower = c(log10_nmax = -0.6, log10_n0 = -2, mumax = 0, lag = 0),
-           iter = 500,
-           supp_errors = &amp;#39;Y&amp;#39;)
-
-# get predictions
-gomp_preds &amp;lt;- augment(fit_gomp)
-
-# plot on original scale
-ggplot(d_a1, aes(time, od)) +
-  geom_line(aes(time, 10^.fitted), gomp_preds, col = &amp;#39;red&amp;#39;) +
-  geom_point() +
-  theme_bw(base_size = 16) +
-  labs(x = &amp;#39;time (hours)&amp;#39;,
-       y = &amp;#39;OD&amp;#39;) +
-  annotate(geom = &amp;#39;text&amp;#39;, x = 0, y = 0.37, label = paste(&amp;#39;µ = &amp;#39;, round(coef(fit_gomp)[3], 2), &amp;#39; hr-1&amp;#39;, sep = &amp;#39;&amp;#39;), hjust = 0, size = MicrobioUoE::pts(16))&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://padpadpadpad.github.io/post/2019-11-15-calculating-microbial-growth-rates-using-rolling-regression-in-the-tidyverse_files/figure-html/plot_gompz-1.png&#34; width=&#34;768&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;However, lets say our measurements end at 10 or 11 hours. When we have not reached stationary phase, the traditional bacterial growth models are likely to have trouble fitting.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;d_a1 &amp;lt;- filter(d_a1, time &amp;lt; 10.5)
-
-# plot data without stationary phase
-ggplot(d_a1, aes(time, od)) +
-  geom_point() +
-  theme_bw(base_size = 16) +
-  labs(x = &amp;#39;time (hours)&amp;#39;,
-       y = &amp;#39;OD&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://padpadpadpad.github.io/post/2019-11-15-calculating-microbial-growth-rates-using-rolling-regression-in-the-tidyverse_files/figure-html/plot_short-1.png&#34; width=&#34;768&#34; /&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;using-rolling-regression&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Using rolling regression&lt;/h3&gt;
-&lt;p&gt;Rolling regression allows us to calculate exponential growth rate even when we do not have the whole curve. First, we need to create our own rolling regression function. This method is mainly taken from G. Grothendieck’s &lt;a href=&#34;https://stackoverflow.com/questions/49762128/rolling-regression-by-group-in-the-tidyverse&#34;&gt;StackOverflow answer&lt;/a&gt;. In the function, we specify our output from a standard &lt;strong&gt;lm&lt;/strong&gt; object. So if you know how to access the output of &lt;strong&gt;lm()&lt;/strong&gt;, you can add any extra details you want.&lt;/p&gt;
-&lt;p&gt;One of the big decisions in rolling regression is deciding how many points you are going to calculate the growth rate over. In this example, measurements are taken every 0.167 hours, about every ten minutes. I want a shifting window to span a minimum of 1.5 hours, so I calculate &lt;code&gt;num_points&lt;/code&gt; to define the number of points the rolling regression will act on.&lt;/p&gt;
-&lt;p&gt;We then run the rolling regression, using &lt;strong&gt;zoo::rollapplyr()&lt;/strong&gt; and &lt;strong&gt;dplyr::do()&lt;/strong&gt;. Finally, in order to illustrate what the rolling regression is doing, I created a predictions dataframe for every single linear model that is fitted.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# create the rolling regression function
-roll_regress &amp;lt;- function(x){
-  temp &amp;lt;- data.frame(x)
-  mod &amp;lt;- lm(temp)
-  temp &amp;lt;- data.frame(slope = coef(mod)[[2]],
-                     slope_lwr = confint(mod)[2, ][[1]],
-                     slope_upr = confint(mod)[2, ][[2]],
-                     intercept = coef(mod)[[1]],
-                     rsq = summary(mod)$r.squared, stringsAsFactors = FALSE)
-  return(temp)
-}
-
-# define window - here every ~1.5 hours
-num_points = ceiling(1.5*60/(60*0.167)) 
-
-# run rolling regression on ln od ~ time
-models &amp;lt;- d_a1 %&amp;gt;%
-  do(cbind(model = select(., ln_od, time) %&amp;gt;% 
-           zoo::rollapplyr(width = num_points, roll_regress, by.column = FALSE, fill = NA, align = &amp;#39;center&amp;#39;),
-           time = select(., time),
-           ln_od = select(., ln_od))) %&amp;gt;%
-  rename_all(., gsub, pattern = &amp;#39;model.&amp;#39;, replacement = &amp;#39;&amp;#39;)
-
-# create predictions
-preds &amp;lt;- models %&amp;gt;%
-  filter(., !is.na(slope)) %&amp;gt;%
-  group_by(time) %&amp;gt;%
-  do(data.frame(time2 = c(.$time - 2, .$time + 2))) %&amp;gt;%
-  left_join(., models) %&amp;gt;%
-  mutate(pred = (slope*time2) + intercept)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;We can plot the rolling regression through time. I have extracted the exponential growth rate as the maximum slope of any of the regressions. Reassuringly the value of &lt;span class=&#34;math inline&#34;&gt;\(\mu\)&lt;/span&gt; we get is very similar to that of using the gompertz model. I have also plotted the time at which the maximum slope occurred. It looks pretty close to mid-log to me.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# calculate the exponential growth rate
-growth_rate &amp;lt;- filter(models, slope == max(slope, na.rm = TRUE))
-
-# plot rolling regression
-ggplot(d_a1, aes(time, ln_od)) +
-  geom_point() +
-  geom_line(aes(time2, pred, group = time), col = &amp;#39;red&amp;#39;, preds, alpha = 0.5) +
-  theme_bw(base_size = 16) +
-  geom_segment(aes(x = time, y = -3, xend = time, yend = ln_od), growth_rate) +
-  geom_segment(aes(x = 0, y = ln_od, xend = time, yend = ln_od), growth_rate) +
-  annotate(geom = &amp;#39;text&amp;#39;, x = 0, y = -1, label = paste(&amp;#39;µ = &amp;#39;, round(growth_rate$slope, 2), &amp;#39; hr-1\n95%CI:(&amp;#39;,round(growth_rate$slope_lwr, 2), &amp;#39;-&amp;#39;, round(growth_rate$slope_upr, 2), &amp;#39;)&amp;#39;, sep = &amp;#39;&amp;#39;), hjust = 0, size = MicrobioUoE::pts(16)) +
-  labs(x = &amp;#39;time (hours)&amp;#39;,
-       y = &amp;#39;OD&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://padpadpadpad.github.io/post/2019-11-15-calculating-microbial-growth-rates-using-rolling-regression-in-the-tidyverse_files/figure-html/plot-1.png&#34; width=&#34;768&#34; /&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;the-opportunities-are-endless&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;The opportunities are endless&lt;/h3&gt;
-&lt;p&gt;The great thing about this approach is its flexibility. It can easily be rolled out over all the wells in that plate, using &lt;strong&gt;group_by()&lt;/strong&gt;.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# run rolling regression on ln od_cor ~ time
-models &amp;lt;- d %&amp;gt;%
-  group_by(well) %&amp;gt;%
-  do(cbind(model = select(., ln_od, time) %&amp;gt;% 
-           zoo::rollapplyr(width = num_points, roll_regress, by.column = FALSE, fill = NA, align = &amp;#39;center&amp;#39;),
-           time = select(., time),
-           ln_od = select(., ln_od))) %&amp;gt;%
-  rename_all(., gsub, pattern = &amp;#39;model.&amp;#39;, replacement = &amp;#39;&amp;#39;)
-
-# calculate growth rate for each one
-growth_rates &amp;lt;- models %&amp;gt;%
-  filter(slope == max(slope, na.rm = TRUE)) %&amp;gt;%
-  ungroup()
-
-glimpse(growth_rates)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## Observations: 96
-## Variables: 8
-## $ well      &amp;lt;chr&amp;gt; &amp;quot;A1&amp;quot;, &amp;quot;A10&amp;quot;, &amp;quot;A11&amp;quot;, &amp;quot;A12&amp;quot;, &amp;quot;A2&amp;quot;, &amp;quot;A3&amp;quot;, &amp;quot;A4&amp;quot;, &amp;quot;A5&amp;quot;, &amp;quot;A6&amp;quot;, &amp;quot;A…
-## $ slope     &amp;lt;dbl&amp;gt; 0.5373305, 0.5378633, 0.6723146, 0.5665508, 0.4986314, 0.43…
-## $ slope_lwr &amp;lt;dbl&amp;gt; 0.5164655, 0.5102408, 0.6339382, 0.5433664, 0.4706380, 0.38…
-## $ slope_upr &amp;lt;dbl&amp;gt; 0.5581955, 0.5654858, 0.7106910, 0.5897353, 0.5266249, 0.47…
-## $ intercept &amp;lt;dbl&amp;gt; -6.274261, -6.573137, -6.547136, -6.767416, -6.945429, -6.6…
-## $ rsq       &amp;lt;dbl&amp;gt; 0.9981159, 0.9967090, 0.9959375, 0.9979079, 0.9960698, 0.98…
-## $ time      &amp;lt;dbl&amp;gt; 8.166667, 8.333333, 7.166667, 8.833333, 10.166667, 10.50000…
-## $ ln_od     &amp;lt;dbl&amp;gt; -1.871105, -2.087377, -1.721166, -1.743515, -1.876257, -2.1…&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;These growth rates can then be used for downstream analyses, and the method can easily be used over multiple plates and for many different types of data. Finally, you could also filter the regressions by &lt;span class=&#34;math inline&#34;&gt;\(R^{2}\)&lt;/span&gt; values, making sure you only kept good fitting regressions. Or do a sensitivity analysis of different sized window sizes to make sure your chosen window is suitable.&lt;/p&gt;
-&lt;p&gt;How do you get your data off of the OD reader? I have written scripts to collate hundreds of plate readings into a single dataframe in R. Let me know if you would like me to do a blog post on that process! Thanks for reading.&lt;/p&gt;
-&lt;/div&gt;
-</description>
+      <description>Introduction Microbial ecologists often measure the growth rates of their favourite microbes, commonly using an OD (optical density) reader, with growth being related to the increasing OD of the sample through time. There are loads of ways to analyse these curves. Most of these, like growthcurver and the methods I used in my recent ISME paper (nls.multstart and functions from nlsMicrobio), fit models to logistic growth. Both methods can easily be scaled up to fit multiple curves at the same time.</description>
     </item>
     
     <item>
@@ -188,243 +77,21 @@ glimpse(growth_rates)&lt;/code&gt;&lt;/pre&gt;
     </item>
     
     <item>
+      <title>A shared coevolutionary history does not alter the outcome of coalescence in experimental populations of Pseudomonas fluorescens</title>
+      <link>https://padpadpadpad.github.io/publication/castledine_et_al_2018_jeb/</link>
+      <pubDate>Mon, 22 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://padpadpadpad.github.io/publication/castledine_et_al_2018_jeb/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Animate your Strava activities in R using rStrava and gganimate</title>
       <link>https://padpadpadpad.github.io/post/animate-your-strava-activities-using-rstrava-and-gganimate/</link>
       <pubDate>Fri, 18 May 2018 00:00:00 +0000</pubDate>
       
       <guid>https://padpadpadpad.github.io/post/animate-your-strava-activities-using-rstrava-and-gganimate/</guid>
-      <description>&lt;div id=&#34;getting-started-with-rstrava&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Getting started with rStrava&lt;/h3&gt;
-&lt;p&gt;&lt;strong&gt;rStrava&lt;/strong&gt; is an R package that allows you to access data from Strava using the Strava API. Some of the functions of &lt;strong&gt;rStrava&lt;/strong&gt; scrape data from the public Strava website but to access your own data you will need a Strava profile and an authentication token. Details on obtaining your unique token can be found on the &lt;a href=&#34;https://github.com/fawda123/rStrava#APIfunctions&#34;&gt;rStrava homepage&lt;/a&gt;. In addition to this key, we use &lt;strong&gt;rgbif::elevation()&lt;/strong&gt; to calculate the elevation of each route. This requires a Google API key which can be created &lt;a href=&#34;https://developers.google.com/maps/documentation/elevation/intro#api_key&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;Got a Strava authentication token? Got a Google API key? We are ready to create some animations! To create our animations, we use &lt;strong&gt;gganimate&lt;/strong&gt; that requires &lt;a href=&#34;https://www.imagemagick.org/script/index.php&#34;&gt;ImageMagick&lt;/a&gt; to be installed.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;loading-packages-and-defining-tokens&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Loading packages and defining tokens&lt;/h3&gt;
-&lt;p&gt;First load the packages that are used in the script and our Strava and Google authentication tokens.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# load packages ####
-library(rStrava) # devtools::install_github(&amp;#39;fawda123/rStrava&amp;#39;)
-library(gganimate) # devtools::install_github(&amp;#39;dgrtwo/gganimate&amp;#39;)
-library(dplyr)
-library(tidyr)
-library(purrr)
-library(sp)
-library(ggmap)
-library(raster)
-
-# initial setup ####
-# Strava key
-app_name &amp;lt;- &amp;#39;xxxx&amp;#39;
-app_client_id &amp;lt;- &amp;#39;xxxxx&amp;#39;
-app_secret &amp;lt;- &amp;#39;&amp;quot;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&amp;quot;&amp;#39;
-
-# create strava token
-my_token &amp;lt;- httr::config(token = strava_oauth(app_name, app_client_id, app_secret))
-
-# Google elevation API key
-GoogleAPI &amp;lt;- &amp;#39;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&amp;#39;&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;A browser window should open at this point saying &lt;code&gt;Authentication complete. Please close this page and return to R.&lt;/code&gt;. This means everything is going well!&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;download-your-data&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Download your data&lt;/h3&gt;
-&lt;p&gt;We can then download our personal activity data using the &lt;strong&gt;rStrava::get_activity_list()&lt;/strong&gt;. This function needs your strava token and your strava athlete id. For example, my strava id is &lt;code&gt;2140248&lt;/code&gt;.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# download strava data
-my_acts &amp;lt;- get_activity_list(my_token, id = 2140248)
-
-length(my_acts)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## [1] 785&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;This returns a large list of all your previous activities. Mine has 785 previous entries. If you want to explore your list, you can use &lt;code&gt;View(my_acts)&lt;/code&gt; in RStudio which opens the Data Viewer window.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;compile-your-data-into-tidy-dataframe&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Compile your data into “tidy” dataframe&lt;/h3&gt;
-&lt;p&gt;&lt;strong&gt;rStrava&lt;/strong&gt; has a function that compiles the information stored in the output of &lt;strong&gt;get_activity_list()&lt;/strong&gt; to a “tidy” dataframe, with one row for each activity. &lt;strong&gt;compile_activities()&lt;/strong&gt; finds all the columns across all activities and returns &lt;code&gt;NA&lt;/code&gt; when a column is not present in a given activity. This means that if HR was not measured across all your strava activities, the function will still work!&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# compile activities into a tidy dataframe
-my_acts &amp;lt;- compile_activities(my_acts)
-
-# have a look at the dataframe
-dplyr::glimpse(my_acts)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## Observations: 785
-## Variables: 56
-## $ achievement_count      &amp;lt;dbl&amp;gt; 4, 70, 0, 0, 1, 60, 1, 1, 1, 5, 25, 1, ...
-## $ athlete_count          &amp;lt;dbl&amp;gt; 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, ...
-## $ athlete.id             &amp;lt;chr&amp;gt; &amp;quot;2140248&amp;quot;, &amp;quot;2140248&amp;quot;, &amp;quot;2140248&amp;quot;, &amp;quot;21402...
-## $ athlete.resource_state &amp;lt;dbl&amp;gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ...
-## $ average_heartrate      &amp;lt;chr&amp;gt; &amp;quot;151.2&amp;quot;, &amp;quot;131.6&amp;quot;, &amp;quot;105.6&amp;quot;, &amp;quot;125&amp;quot;, &amp;quot;126....
-## $ average_speed          &amp;lt;dbl&amp;gt; 13.6008, 25.0308, 27.4536, 25.4844, 26....
-## $ comment_count          &amp;lt;dbl&amp;gt; 0, 2, 0, 0, 0, 3, 0, 0, 0, 0, 1, 0, 0, ...
-## $ commute                &amp;lt;chr&amp;gt; &amp;quot;FALSE&amp;quot;, &amp;quot;FALSE&amp;quot;, &amp;quot;FALSE&amp;quot;, &amp;quot;FALSE&amp;quot;, &amp;quot;FA...
-## $ distance               &amp;lt;dbl&amp;gt; 5.0064, 112.8620, 2.6385, 20.9050, 21.9...
-## $ elapsed_time           &amp;lt;dbl&amp;gt; 1325, 18600, 346, 2953, 3020, 17859, 33...
-## $ elev_high              &amp;lt;dbl&amp;gt; 86.0, 231.1, 120.0, 199.0, 199.0, 189.2...
-## $ elev_low               &amp;lt;dbl&amp;gt; 63.9, 0.3, 71.6, 66.6, 69.3, 3.9, 71.6,...
-## $ end_latlng1            &amp;lt;dbl&amp;gt; 51.92, 50.16, 50.16, 50.17, 50.16, 50.1...
-## $ end_latlng2            &amp;lt;dbl&amp;gt; -2.05, -5.12, -5.12, -5.13, -5.12, -5.1...
-## $ external_id            &amp;lt;chr&amp;gt; &amp;quot;garmin_push_2703271543&amp;quot;, &amp;quot;garmin_push_...
-## $ flagged                &amp;lt;chr&amp;gt; &amp;quot;FALSE&amp;quot;, &amp;quot;FALSE&amp;quot;, &amp;quot;FALSE&amp;quot;, &amp;quot;FALSE&amp;quot;, &amp;quot;FA...
-## $ from_accepted_tag      &amp;lt;chr&amp;gt; &amp;quot;FALSE&amp;quot;, &amp;quot;FALSE&amp;quot;, &amp;quot;FALSE&amp;quot;, &amp;quot;FALSE&amp;quot;, &amp;quot;FA...
-## $ gear_id                &amp;lt;chr&amp;gt; &amp;quot;g2482208&amp;quot;, &amp;quot;b751035&amp;quot;, &amp;quot;b751035&amp;quot;, &amp;quot;b751...
-## $ has_heartrate          &amp;lt;chr&amp;gt; &amp;quot;TRUE&amp;quot;, &amp;quot;TRUE&amp;quot;, &amp;quot;TRUE&amp;quot;, &amp;quot;TRUE&amp;quot;, &amp;quot;TRUE&amp;quot;,...
-## $ has_kudoed             &amp;lt;chr&amp;gt; &amp;quot;FALSE&amp;quot;, &amp;quot;FALSE&amp;quot;, &amp;quot;FALSE&amp;quot;, &amp;quot;FALSE&amp;quot;, &amp;quot;FA...
-## $ id                     &amp;lt;dbl&amp;gt; 1575586892, 1569537013, 1560414332, 156...
-## $ kudos_count            &amp;lt;dbl&amp;gt; 3, 13, 0, 5, 4, 11, 0, 2, 2, 2, 6, 0, 1...
-## $ location_country       &amp;lt;chr&amp;gt; &amp;quot;United Kingdom&amp;quot;, &amp;quot;United Kingdom&amp;quot;, &amp;quot;Un...
-## $ manual                 &amp;lt;chr&amp;gt; &amp;quot;FALSE&amp;quot;, &amp;quot;FALSE&amp;quot;, &amp;quot;FALSE&amp;quot;, &amp;quot;FALSE&amp;quot;, &amp;quot;FA...
-## $ map.id                 &amp;lt;chr&amp;gt; &amp;quot;a1575586892&amp;quot;, &amp;quot;a1569537013&amp;quot;, &amp;quot;a1560414...
-## $ map.resource_state     &amp;lt;dbl&amp;gt; 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, ...
-## $ map.summary_polyline   &amp;lt;chr&amp;gt; &amp;quot;cq{{H~ooKqBxJvMvInDrWM~u@l@j@eD`MtIiAr...
-## $ max_heartrate          &amp;lt;chr&amp;gt; &amp;quot;172&amp;quot;, &amp;quot;160&amp;quot;, &amp;quot;133&amp;quot;, &amp;quot;155&amp;quot;, &amp;quot;149&amp;quot;, &amp;quot;160...
-## $ max_speed              &amp;lt;dbl&amp;gt; 19.80, 59.76, 56.88, 56.16, 72.00, 70.2...
-## $ moving_time            &amp;lt;dbl&amp;gt; 1325, 16231, 346, 2953, 3020, 15492, 33...
-## $ name                   &amp;lt;chr&amp;gt; &amp;quot;Lunch Run&amp;quot;, &amp;quot;Morning Ride&amp;quot;, &amp;quot;Evening R...
-## $ photo_count            &amp;lt;dbl&amp;gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ...
-## $ pr_count               &amp;lt;chr&amp;gt; &amp;quot;0&amp;quot;, &amp;quot;28&amp;quot;, &amp;quot;0&amp;quot;, &amp;quot;0&amp;quot;, &amp;quot;0&amp;quot;, &amp;quot;20&amp;quot;, &amp;quot;0&amp;quot;, &amp;quot;1...
-## $ private                &amp;lt;chr&amp;gt; &amp;quot;FALSE&amp;quot;, &amp;quot;FALSE&amp;quot;, &amp;quot;FALSE&amp;quot;, &amp;quot;FALSE&amp;quot;, &amp;quot;FA...
-## $ resource_state         &amp;lt;dbl&amp;gt; 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, ...
-## $ start_date             &amp;lt;chr&amp;gt; &amp;quot;2018-05-16T11:26:28Z&amp;quot;, &amp;quot;2018-05-13T08:...
-## $ start_date_local       &amp;lt;chr&amp;gt; &amp;quot;2018-05-16T12:26:28Z&amp;quot;, &amp;quot;2018-05-13T09:...
-## $ start_latitude         &amp;lt;dbl&amp;gt; 51.92, 50.16, 50.17, 50.16, 50.16, 50.1...
-## $ start_latlng1          &amp;lt;dbl&amp;gt; 51.92, 50.16, 50.17, 50.16, 50.16, 50.1...
-## $ start_latlng2          &amp;lt;dbl&amp;gt; -2.05, -5.12, -5.13, -5.12, -5.12, -5.1...
-## $ start_longitude        &amp;lt;dbl&amp;gt; -2.05, -5.12, -5.13, -5.12, -5.12, -5.1...
-## $ suffer_score           &amp;lt;chr&amp;gt; &amp;quot;38&amp;quot;, &amp;quot;183&amp;quot;, &amp;quot;1&amp;quot;, &amp;quot;21&amp;quot;, &amp;quot;23&amp;quot;, &amp;quot;156&amp;quot;, &amp;quot;2...
-## $ timezone               &amp;lt;chr&amp;gt; &amp;quot;(GMT+00:00) Europe/London&amp;quot;, &amp;quot;(GMT+00:0...
-## $ total_elevation_gain   &amp;lt;dbl&amp;gt; 37.3, 1499.0, 25.4, 293.2, 288.6, 1273....
-## $ total_photo_count      &amp;lt;dbl&amp;gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ...
-## $ trainer                &amp;lt;chr&amp;gt; &amp;quot;FALSE&amp;quot;, &amp;quot;FALSE&amp;quot;, &amp;quot;FALSE&amp;quot;, &amp;quot;FALSE&amp;quot;, &amp;quot;FA...
-## $ type                   &amp;lt;chr&amp;gt; &amp;quot;Run&amp;quot;, &amp;quot;Ride&amp;quot;, &amp;quot;Ride&amp;quot;, &amp;quot;Ride&amp;quot;, &amp;quot;Ride&amp;quot;, ...
-## $ upload_id              &amp;lt;chr&amp;gt; &amp;quot;1694137366&amp;quot;, &amp;quot;1687878323&amp;quot;, &amp;quot;1678043395...
-## $ utc_offset             &amp;lt;chr&amp;gt; &amp;quot;3600&amp;quot;, &amp;quot;3600&amp;quot;, &amp;quot;3600&amp;quot;, &amp;quot;3600&amp;quot;, &amp;quot;3600&amp;quot;,...
-## $ average_cadence        &amp;lt;chr&amp;gt; NA, &amp;quot;75.3&amp;quot;, &amp;quot;73.4&amp;quot;, &amp;quot;68.4&amp;quot;, &amp;quot;70.3&amp;quot;, &amp;quot;72...
-## $ average_watts          &amp;lt;dbl&amp;gt; NA, 151.8, 121.2, 167.1, 163.9, 152.0, ...
-## $ device_watts           &amp;lt;chr&amp;gt; NA, &amp;quot;FALSE&amp;quot;, &amp;quot;FALSE&amp;quot;, &amp;quot;FALSE&amp;quot;, &amp;quot;FALSE&amp;quot;,...
-## $ kilojoules             &amp;lt;dbl&amp;gt; NA, 2464.6, 41.9, 493.6, 495.1, 2355.2,...
-## $ location_city          &amp;lt;chr&amp;gt; NA, &amp;quot;Mabe Burnthouse&amp;quot;, &amp;quot;Mabe Burnthouse...
-## $ location_state         &amp;lt;chr&amp;gt; NA, &amp;quot;England&amp;quot;, &amp;quot;England&amp;quot;, &amp;quot;England&amp;quot;, &amp;quot;E...
-## $ workout_type           &amp;lt;chr&amp;gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,...&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;There are so many columns here, so I remove some columns I am not interested in for this post and do some data transformations to get the date in a correct format.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# columns to keep
-desired_columns &amp;lt;- c(&amp;#39;distance&amp;#39;, &amp;#39;elapsed_time&amp;#39;, &amp;#39;moving_time&amp;#39;, &amp;#39;start_date&amp;#39;, &amp;#39;start_date_local&amp;#39;, &amp;#39;type&amp;#39;, &amp;#39;map.summary_polyline&amp;#39;, &amp;#39;location_city&amp;#39;, &amp;#39;upload_id&amp;#39;, &amp;#39;start_latitude&amp;#39;, &amp;#39;start_longitude&amp;#39;)
-
-# keep only desired columns
-my_acts &amp;lt;- dplyr::select(my_acts, match(desired_columns, names(my_acts)))
-
-# transformations ####
-my_acts &amp;lt;- mutate(my_acts,
-                  activity_no = seq(1,n(), 1),
-                  elapsed_time = elapsed_time/60/60,
-                  moving_time = moving_time/60/60, 
-                  date = gsub(&amp;quot;T.*$&amp;quot;, &amp;#39;&amp;#39;, start_date) %&amp;gt;%
-                    as.POSIXct(., format = &amp;#39;%Y-%m-%d&amp;#39;),
-                  EUdate = format(date, &amp;#39;%d/%m/%Y&amp;#39;),
-                  month = format(date, &amp;quot;%m&amp;quot;),
-                  day = format(date, &amp;quot;%d&amp;quot;),
-                  year = format(date, &amp;quot;%Y&amp;quot;)) %&amp;gt;%
-  mutate_at(., c(&amp;#39;month&amp;#39;, &amp;#39;day&amp;#39;), as.numeric)&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div id=&#34;get-latitude-and-longitude-for-each-activity&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Get latitude and longitude for each activity&lt;/h3&gt;
-&lt;p&gt;Each activity has a bunch of data associated with it. For mapping, I am interested in the &lt;code&gt;map.summary_polyline&lt;/code&gt;, which is a &lt;a href=&#34;https://developers.google.com/maps/documentation/utilities/polylinealgorithm&#34;&gt;Google polyline&lt;/a&gt; which allows the encoding of multiple latitude and longitude points as a single string. We can get the latitude and longitude for each of the activities by using &lt;strong&gt;get_latlon()&lt;/strong&gt; which decodes the polylines and using &lt;strong&gt;dplyr&lt;/strong&gt; and &lt;strong&gt;purrr&lt;/strong&gt; to iterate over every activity in the dataframe.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# get lat lon and distance of every ride ####
-lat_lon &amp;lt;- my_acts %&amp;gt;%
-  filter(!is.na(map.summary_polyline)) %&amp;gt;%
-  nest(., -activity_no) %&amp;gt;%
-  mutate(coords = map(data, get_latlon),
-         distance = map(coords, ~get_dists(.x$lon, .x$lat))) %&amp;gt;%
-  unnest(., data) %&amp;gt;%
-  unnest(., coords, distance)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Having got the latitude and longitude for every ride, we can now get the elevation of each point and then calculate the gradient between points.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# get elevation and calculate gradient between points
-lat_lon &amp;lt;- mutate(lat_lon, ele = rgbif::elevation(latitude = lat, longitude = lon, key = GoogleAPI)$elevation)
-
-lat_lon &amp;lt;- group_by(lat_lon, activity_no) %&amp;gt;%
-  mutate(., ele_diff = c(0, diff(ele)),
-         dist_diff = c(0, diff(distance)),
-         grad = c(0, (ele_diff[2:n()]/10)/dist_diff[2:n()])) %&amp;gt;%
-  ungroup() %&amp;gt;%
-  dplyr::select(., -c(ele_diff, dist_diff))&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;This now gives us a data frame of all the activities I have done with the latitude, longitude, cumulative distance, elevation and gradient. It would now be super easy to create elevation profiles, but I will save that for another post.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;create-a-gif-of-a-single-ride&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Create a gif of a single ride&lt;/h3&gt;
-&lt;p&gt;We now have almost all the components to create a gif of a single ride.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;lat_lon_single &amp;lt;- filter(lat_lon, activity_no == 2)
-nrow(lat_lon_single)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## [1] 143&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;However, Google polylines do not give a consistent number of latitude and longitude points. This means that it might be hard to always get enough points to make smooth transitions between frames in a gif. I have tried using &lt;a href=&#34;https://github.com/thomasp85/tweenr&#34;&gt;&lt;strong&gt;tweenr&lt;/strong&gt;&lt;/a&gt; to achieve this, but an alternative is touse geospatial packages such as &lt;strong&gt;sp&lt;/strong&gt; and &lt;strong&gt;raster&lt;/strong&gt; to interpolate a desired number of points from the current ones.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# reorder columns so lat lon are first
-lat_lon_single &amp;lt;- dplyr::select(lat_lon_single, lat, lon, everything())
-
-# make new data with Duffy&amp;#39;s method
-interp &amp;lt;- raster::spLines(as.matrix(lat_lon_single[,1:2])) %&amp;gt;%
-  sp::spsample(., n = 250, type = &amp;#39;regular&amp;#39;) %&amp;gt;%
-  data.frame() %&amp;gt;%
-  mutate(., distance = get_dists(lon, lat),
-         ele = rgbif::elevation(latitude = .$lat, longitude = .$lon, key = GoogleAPI)$elevation,
-         ele_diff = c(0, diff(ele)),
-         dist_diff = c(0, diff(distance)),
-         grad = c(0, (ele_diff[2:n()]/10)/dist_diff[2:n()]),
-         n = row_number())&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;We can now put the gif together, using &lt;strong&gt;ggmap&lt;/strong&gt; and &lt;strong&gt;ggplot2&lt;/strong&gt;. We make our normal &lt;strong&gt;ggplot2&lt;/strong&gt; plot into a gif by adding a &lt;code&gt;frame&lt;/code&gt; argument and &lt;code&gt;cumulative = TRUE&lt;/code&gt;.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# make bbox
-bbox &amp;lt;- ggmap::make_bbox(lon, lat, data = interp, f = 1.3)
-
-# download map
-map &amp;lt;- get_map(location = bbox, source = &amp;#39;google&amp;#39;, maptype = &amp;#39;terrain&amp;#39;)
-
-single_ride &amp;lt;- ggmap(map, darken = 0.15) +
-  geom_path(aes(x = lon, y = lat,  col = grad, group = 1, frame = n, cumulative = TRUE), data = interp, size = 2, alpha = 1) +
-  scale_color_distiller(&amp;#39;Gradient (%)&amp;#39;, palette = &amp;#39;Spectral&amp;#39;) +
-  labs(title = &amp;#39;Ride to St Just and back&amp;#39;) +
-  coord_cartesian() +
-  ggforce::theme_no_axes(theme_bw(base_size = 16))
-
-# animate plot
-animation::ani.options(interval = 1/20)
-gganimate::gganimate(single_ride, title_frame = FALSE, &amp;#39;where_you_want_to_save_it.gif&amp;#39;, ani.width = 800, ani.height = 700)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;The output of the &lt;strong&gt;gganimate()&lt;/strong&gt; can be seen below.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://padpadpadpad.github.io/img/20180513_ride.gif&#34; /&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;create-a-gif-of-all-the-rides&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Create a gif of ALL the rides&lt;/h3&gt;
-&lt;p&gt;We can also make a gif of multiple activities. I will filter my activities to only be bike rides, be more than 20 km in distance and to have occurred in Cornwall in the UK (where I live) so that we don’t have rides from the family home near Manchester.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# get a bbox for Cornwall
-bbox &amp;lt;- ggmap::make_bbox(lat_lon_single$lon, lat_lon_single$lat, f = 1.2)
-
-# add column for frame and total distance per ride
-lat_lon &amp;lt;- group_by(lat_lon, activity_no) %&amp;gt;%
-  mutate(n = 1:n(),
-         tot_dist = max(distance)) %&amp;gt;%
-  ungroup()
-
-# filter lat_lon for when points are within this
-lat_lon &amp;lt;- filter(lat_lon, between(start_longitude, bbox[1], bbox[3]) &amp;amp; between(start_latitude, bbox[2], bbox[4]) &amp;amp; type == &amp;#39;Ride&amp;#39; &amp;amp; tot_dist &amp;gt; 20)
-
-# add column for frame
-lat_lon &amp;lt;- group_by(lat_lon, activity_no) %&amp;gt;%
-  mutate(n = 1:n()) %&amp;gt;%
-  ungroup()
-
-# make bbox again
-bbox &amp;lt;- ggmap::make_bbox(lon, lat, data = lat_lon, f = 0.1)
-
-# download map
-map &amp;lt;- get_map(location = bbox, source = &amp;#39;google&amp;#39;, maptype = &amp;#39;terrain&amp;#39;)
-
-all_the_rides &amp;lt;- ggmap(map, darken = 0.15) +
-  geom_path(aes(x = lon, y = lat,  col = year, group = activity_no, frame = n, cumulative = TRUE), data = lat_lon, size = 1.25, alpha = 0.5) +
-  labs(title = &amp;#39;All the rides&amp;#39;) +
-  coord_cartesian() +
-  ggforce::theme_no_axes(theme_bw(base_size = 16)) +
-  guides(colour = guide_legend(override.aes = list(alpha=1)))
-
-# animate plot
-animation::ani.options(interval = 1/20)
-gganimate::gganimate(all_the_rides, title_frame = FALSE, &amp;#39;where_you_want_to_save_it.gif&amp;#39;, ani.width = 800, ani.height = 700)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;The output of this call to &lt;strong&gt;gganimate()&lt;/strong&gt; can be seen below.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://padpadpadpad.github.io/img/all_the_rides.gif&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;And there we have it. A relatively simple way to animate your strava activities in R. I personally find that saving the output as .mp4 rather than .gif gives smaller and higher quality files when uploading them to Instagram, but these options are easy to change. Take back your own data and get plotting!&lt;/p&gt;
-&lt;p&gt;There are loads of other functions and uses for the &lt;strong&gt;rStrava&lt;/strong&gt; package. I hope to blog more about them soon. In addition, the amazing Thomas Lin Pedersen is starting to rewrite &lt;strong&gt;gganimate&lt;/strong&gt;. You can follow the exciting progress &lt;a href=&#34;https://github.com/thomasp85/gganimate&#34;&gt;here&lt;/a&gt;, but I look forward to trying it out.&lt;/p&gt;
-&lt;/div&gt;
-</description>
+      <description>Getting started with rStrava rStrava is an R package that allows you to access data from Strava using the Strava API. Some of the functions of rStrava scrape data from the public Strava website but to access your own data you will need a Strava profile and an authentication token. Details on obtaining your unique token can be found on the rStrava homepage. In addition to this key, we use rgbif::elevation() to calculate the elevation of each route.</description>
     </item>
     
     <item>
@@ -433,311 +100,8 @@ gganimate::gganimate(all_the_rides, title_frame = FALSE, &amp;#39;where_you_want
       <pubDate>Sun, 21 Jan 2018 00:00:00 +0000</pubDate>
       
       <guid>https://padpadpadpad.github.io/post/bootstrapping-non-linear-regressions-with-purrr/</guid>
-      <description>&lt;p&gt;&lt;em&gt;This post was updated on the 02/03/2018 to reflect changes to nls.multstart.&lt;/em&gt;&lt;/p&gt;
-&lt;div id=&#34;introduction&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Introduction&lt;/h2&gt;
-&lt;p&gt;For my first academic publication, a reviewer asked for the &lt;span class=&#34;math inline&#34;&gt;\(r^{2}\)&lt;/span&gt; values of the thermal performance curves I fitted using non-linear regression. I bowed to the request as is often the case with reviewer comments, but would now resist as the &lt;span class=&#34;math inline&#34;&gt;\(r^{2}\)&lt;/span&gt; is not necessarily an effective goodness of fit measure for non-linear regression (see this &lt;a href=&#34;https://stackoverflow.com/questions/14530770/calculating-r2-for-a-nonlinear-model&#34;&gt;SO answer&lt;/a&gt;). It does raise the question of how to determine how well a biologically meaningful model fits the data it is fitted to. I generally just plot every curve to its data, but it tells me nothing of the uncertainty around the curve.&lt;/p&gt;
-&lt;p&gt;Step forward the bootstrap! Bootstrapping involes simulating “new” datasets produced from the existing data by sampling with replacement. The same model is then fitted separately on each individual bootstrapped dataset. Doing this over and over allows us to visualise uncertainty of predictions and produce confidence intervals of estimated parameters. This blog post was inspired by posts by &lt;a href=&#34;https://rstudio-pubs-static.s3.amazonaws.com/19698_a4c472606e3c43e4b94720506e49bb7b.html&#34;&gt;Andrew MacDonald&lt;/a&gt; and &lt;a href=&#34;https://github.com/tidyverse/dplyr/issues/269&#34;&gt;Hadley Wickham&lt;/a&gt;, as well as a &lt;a href=&#34;https://cran.r-project.org/web/packages/broom/vignettes/bootstrapping.html&#34;&gt;broom vignette&lt;/a&gt; which use this approach. I have taken their approaches and again applied them to thermal performance curves. The &lt;strong&gt;broom&lt;/strong&gt; approach in these blog posts has since been replaced by &lt;strong&gt;modelr::bootstrap()&lt;/strong&gt;, another package of the &lt;strong&gt;tidyverse&lt;/strong&gt;.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;bootstrapping-predictions-for-a-single-curve&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Bootstrapping predictions for a single curve&lt;/h2&gt;
-&lt;p&gt;I will demonstrate this approach by using the thermal performance curves for phytoplankton metabolism that I used in a previous &lt;a href=&#34;https://padpadpadpad.github.io/post/fitting-non-linear-regressions-with-broom-purrr-and-nls.multstart/&#34;&gt;post&lt;/a&gt;. The Sharpe-Schoolfield equation and meaning of the parameters can be found in more detail in the previous post.&lt;/p&gt;
-&lt;p&gt;Firstly lets load the packages used in the script and write the Sharpe-Schoolfield model as a function.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# load packages
-library(nls.multstart) # devtools::install_github(&amp;#39;padpadpadpad/nls.multstart&amp;#39;)
-library(patchwork) # devtools::install_github(&amp;#39;thomasp85/patchwork&amp;#39;)
-library(ggplot2)
-library(broom)
-library(purrr)
-library(dplyr)
-library(tidyr)
-library(nlstools)
-library(modelr)
-
-# write function for sharpe schoolfield model
-schoolfield_high &amp;lt;- function(lnc, E, Eh, Th, temp, Tc) {
-  Tc &amp;lt;- 273.15 + Tc
-  k &amp;lt;- 8.62e-5
-  boltzmann.term &amp;lt;- lnc + log(exp(E/k*(1/Tc - 1/temp)))
-  inactivation.term &amp;lt;- log(1/(1 + exp(Eh/k*(1/Th - 1/temp))))
-  return(boltzmann.term + inactivation.term)
-}&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Then load in the data and have a look at the its structure using &lt;strong&gt;glimpse()&lt;/strong&gt;.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# load in data
-data(Chlorella_TRC)
-
-# look at data
-glimpse(Chlorella_TRC)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## Observations: 649
-## Variables: 7
-## $ curve_id    &amp;lt;dbl&amp;gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2,...
-## $ growth.temp &amp;lt;dbl&amp;gt; 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20...
-## $ process     &amp;lt;chr&amp;gt; &amp;quot;acclimation&amp;quot;, &amp;quot;acclimation&amp;quot;, &amp;quot;acclimation&amp;quot;, &amp;quot;accl...
-## $ flux        &amp;lt;chr&amp;gt; &amp;quot;respiration&amp;quot;, &amp;quot;respiration&amp;quot;, &amp;quot;respiration&amp;quot;, &amp;quot;resp...
-## $ temp        &amp;lt;dbl&amp;gt; 16, 19, 22, 25, 28, 31, 34, 37, 40, 43, 46, 49, 16...
-## $ K           &amp;lt;dbl&amp;gt; 289.15, 292.15, 295.15, 298.15, 301.15, 304.15, 30...
-## $ ln.rate     &amp;lt;dbl&amp;gt; -2.06257833, -1.32437939, -0.95416807, -0.79443675...&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;There are 60 curves here, 30 each for photosynthesis and respiration. The treatments are growth temperature (20, 23, 27, 30, 33 ºC) and adaptive process (acclimation or adaptation) that reflects the number of generations cultures were grown at each temperature. Bootstrapping the uncertainty on each individual curve is difficult for thermal performance curves because rates generally rapidly decrease after the optimum temperature, &lt;span class=&#34;math inline&#34;&gt;\(T_{opt}\)&lt;/span&gt;, making data collection difficult.&lt;/p&gt;
-&lt;p&gt;This means it is likely some of the bootstraps will not include points after the optimum, making the unimodal model formulation unsuitable. Because of this I will pool the replicates curves within treatments together to demonstrate the bootstrapping approach, giving 20 curves in total. This post therefore ignores the non-independence of data points within replicates (a little naughty!).&lt;/p&gt;
-&lt;p&gt;To bootstrap a single curve, we can filter the dataset for a single flux (photosynthesis) at a singe growth temperature (20 ºC) and generations of growth (~ 100) and plot the data.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# filter for one curve
-d_examp &amp;lt;- filter(Chlorella_TRC, growth.temp == 20, flux == &amp;#39;photosynthesis&amp;#39;, process == &amp;#39;adaptation&amp;#39;)
-
-# plot 
-ggplot(d_examp, aes(K - 273.15, ln.rate)) +
-  geom_point(col = &amp;#39;green4&amp;#39;) +
-  ylab(&amp;#39;log Metabolic rate&amp;#39;) +
-  xlab(&amp;#39;Assay temperature (ºC)&amp;#39;) +
-  theme_bw(base_size = 12, base_family = &amp;#39;Helvetica&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://padpadpadpad.github.io/post/2017-12-22-bootstrapping-non-linear-models-with-broom_files/figure-html/filter_data_and_plot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;We can use &lt;strong&gt;nls_multstart()&lt;/strong&gt;, that allows for &lt;a href=&#34;https://github.com/padpadpadpad/nls.multstart&#34;&gt;multiple start parameters&lt;/a&gt;, to fit a single model to the data. We can then use &lt;strong&gt;tidy()&lt;/strong&gt; and &lt;strong&gt;augment()&lt;/strong&gt; from &lt;strong&gt;broom&lt;/strong&gt; to get the parameters and predictions of the model.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# run nls_multstart
-fit &amp;lt;- nls_multstart(ln.rate ~ schoolfield_high(lnc, E, Eh, Th, temp = K, Tc = 20),
-                     data = d_examp,
-                     iter = 500,
-                     start_lower = c(lnc = -10, E = 0.1, Eh = 0.2, Th = 285),
-                     start_upper = c(lnc = 10, E = 2, Eh = 5, Th = 330),
-                     supp_errors = &amp;#39;Y&amp;#39;,
-                     na.action = na.omit,
-                     lower = c(lnc = -10, E = 0, Eh = 0, Th = 0))
-
-# broom functions to tidy up model
-params &amp;lt;- tidy(fit)
-preds &amp;lt;- augment(fit)
-
-# plot with predictions
-ggplot(d_examp, aes(K - 273.15, ln.rate)) +
-  geom_point(col = &amp;#39;green4&amp;#39;) +
-  geom_line(aes(K - 273.15, .fitted), preds) +
-  ylab(&amp;#39;log Metabolic rate&amp;#39;) +
-  xlab(&amp;#39;Assay temperature (ºC)&amp;#39;) +
-  theme_bw(base_size = 12, base_family = &amp;#39;Helvetica&amp;#39;) +
-  ggtitle(&amp;#39;Single TPC with fitted model&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://padpadpadpad.github.io/post/2017-12-22-bootstrapping-non-linear-models-with-broom_files/figure-html/run_nls_mulstart-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;This fit provides p-values and confidence intervals can be calculated using &lt;strong&gt;nlstools::confint2()&lt;/strong&gt;. However, bootstrapping can provide confidence intervals around predictions and for estimated parameters.&lt;/p&gt;
-&lt;p&gt;The &lt;strong&gt;bootstrap()&lt;/strong&gt; function in &lt;strong&gt;modelr&lt;/strong&gt; samples bootstrap replicates (here we do 200), each of which is randomly sampled with replacement. This creates a list column in our &lt;strong&gt;tibble&lt;/strong&gt; called &lt;code&gt;strap&lt;/code&gt; which contains the bootsrapped dataset, and a new column called &lt;code&gt;boot_num&lt;/code&gt; that is the number of that bootstrap (from 1 to 200).&lt;/p&gt;
-&lt;p&gt;We can then create a new list column of the fit for each &lt;code&gt;strap&lt;/code&gt; using &lt;strong&gt;purrr::map()&lt;/strong&gt;.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;fit_boots &amp;lt;- d_examp %&amp;gt;% 
-  modelr::bootstrap(n = 200, id = &amp;#39;boot_num&amp;#39;) %&amp;gt;%
-  group_by(boot_num) %&amp;gt;%
-  mutate(fit = map(strap, ~nls_multstart(ln.rate ~ schoolfield_high(lnc, E, Eh, Th, temp = K, Tc = 20),
-                        data = data.frame(.),
-                        iter = 100,
-                        start_lower = c(lnc = -10, E = 0.1, Eh = 0.2, Th = 285),
-                        start_upper = c(lnc = 10, E = 2, Eh = 5, Th = 330),
-                        lower = c(lnc=-10, E=0, Eh=0, Th=0),
-                        supp_errors = &amp;#39;Y&amp;#39;)
-  ))
-
-fit_boots&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## # A tibble: 200 x 3
-## # Groups:   boot_num [200]
-##    strap          boot_num fit      
-##    &amp;lt;list&amp;gt;         &amp;lt;chr&amp;gt;    &amp;lt;list&amp;gt;   
-##  1 &amp;lt;S3: resample&amp;gt; 001      &amp;lt;S3: nls&amp;gt;
-##  2 &amp;lt;S3: resample&amp;gt; 002      &amp;lt;S3: nls&amp;gt;
-##  3 &amp;lt;S3: resample&amp;gt; 003      &amp;lt;S3: nls&amp;gt;
-##  4 &amp;lt;S3: resample&amp;gt; 004      &amp;lt;S3: nls&amp;gt;
-##  5 &amp;lt;S3: resample&amp;gt; 005      &amp;lt;S3: nls&amp;gt;
-##  6 &amp;lt;S3: resample&amp;gt; 006      &amp;lt;S3: nls&amp;gt;
-##  7 &amp;lt;S3: resample&amp;gt; 007      &amp;lt;S3: nls&amp;gt;
-##  8 &amp;lt;S3: resample&amp;gt; 008      &amp;lt;S3: nls&amp;gt;
-##  9 &amp;lt;S3: resample&amp;gt; 009      &amp;lt;S3: nls&amp;gt;
-## 10 &amp;lt;S3: resample&amp;gt; 010      &amp;lt;S3: nls&amp;gt;
-## # ... with 190 more rows&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Each bootstrap replicate is stored in a list column within the &lt;strong&gt;tibble&lt;/strong&gt; . This then allows us to apply the &lt;strong&gt;tidy()&lt;/strong&gt; and &lt;strong&gt;augment()&lt;/strong&gt; functions used earlier, using &lt;strong&gt;unnest()&lt;/strong&gt; to combine the list column into a dataframe.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# get parameters ####
-params_boot &amp;lt;- fit_boots %&amp;gt;%
-  unnest(fit %&amp;gt;% map(tidy)) %&amp;gt;%
-  ungroup()
-
-# get predictions
-preds_boot &amp;lt;- fit_boots %&amp;gt;%
-  unnest(fit %&amp;gt;% map(augment)) %&amp;gt;%
-  ungroup()&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Using these two dataframes, we can plot each set of bootstrapped predictions alongside the fit of the original data, &lt;code&gt;preds&lt;/code&gt;, and plot the distribution of each estimated parameter.&lt;/p&gt;
-&lt;p&gt;The relatively new package &lt;a href=&#34;https://github.com/thomasp85/patchwork&#34;&gt;patchwork&lt;/a&gt; by Thomas Lin Pedersen can help add multiple graphs together simply by saying &lt;code&gt;plot_1 + plot_2&lt;/code&gt;.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# plot distribution of estimated parameters
-p1 &amp;lt;- ggplot(params_boot, aes(estimate)) +
-  geom_histogram(col = &amp;#39;black&amp;#39;, fill = &amp;#39;white&amp;#39;) +
-  facet_wrap(~ term, scales = &amp;#39;free_x&amp;#39;)
-
-# plot points with predictions
-p2 &amp;lt;- ggplot() +
-  geom_line(aes(K - 273.15, .fitted, group = boot_num), preds_boot, alpha = .03) +
-  geom_line(aes(K - 273.15, .fitted), preds) +
-  geom_point(aes(K - 273.15, ln.rate), d_examp, col = &amp;#39;green4&amp;#39;) +
-  ylab(&amp;#39;log Metabolic rate&amp;#39;) +
-  xlab(&amp;#39;Assay temperature (ºC)&amp;#39;) +
-  theme_bw(base_size = 12, base_family = &amp;#39;Helvetica&amp;#39;)
-  
-# plot both
-p1 + p2&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://padpadpadpad.github.io/post/2017-12-22-bootstrapping-non-linear-models-with-broom_files/figure-html/get_confidence_intervals-1.png&#34; width=&#34;768&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;We can smooth our predictions over smaller increments of our predictor variable by passing a new dataset to &lt;strong&gt;augment()&lt;/strong&gt;. Alongside this, for every value of the predictor we can calculate the 2.5% and 97.5% quantiles which gives confidence bands around the predictions.&lt;/p&gt;
-&lt;p&gt;Personally I prefer this approach rather than plotting each bootstrapped replicate.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# new data frame of predictions
-new_preds &amp;lt;- d_examp %&amp;gt;%
-  do(., data.frame(K = seq(min(.$K), max(.$K), length.out = 250), stringsAsFactors = FALSE))
-
-# create smooth predictions for best fit
-preds &amp;lt;- augment(fit, newdata = new_preds)
-
-# create smoother predictions for bootstrapped replicate
-preds &amp;lt;- fit_boots %&amp;gt;%
-  unnest(fit %&amp;gt;% map(augment, newdata = new_preds)) %&amp;gt;%
-  # group by each value of K and get quantiles
-  group_by(., K) %&amp;gt;%
-  summarise(lwr_CI = quantile(.fitted, 0.025),
-            upr_CI = quantile(.fitted, 0.975)) %&amp;gt;%
-  ungroup() %&amp;gt;%
-  merge(., preds, by = &amp;#39;K&amp;#39;)
-
-# plot
-ggplot() +
-  geom_point(aes(K - 273.15, ln.rate), d_examp) +
-  geom_line(aes(K - 273.15, .fitted), preds) +
-  geom_ribbon(aes(K - 273.15, ymin = lwr_CI, ymax = upr_CI), fill = &amp;#39;green4&amp;#39;, preds, alpha = .2) +
-  ylab(&amp;#39;log Metabolic rate&amp;#39;) +
-  xlab(&amp;#39;Assay temperature (ºC)&amp;#39;) +
-  theme_bw(base_size = 12, base_family = &amp;#39;Helvetica&amp;#39;) +
-  ggtitle(&amp;#39;Single TPC with confidence intervals&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://padpadpadpad.github.io/post/2017-12-22-bootstrapping-non-linear-models-with-broom_files/figure-html/plot_smooth_preds-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;This is starting to look pretty nice, and is a great approach to visualising uncertainty of non-linear regressions for many types of data.&lt;/p&gt;
-&lt;p&gt;From &lt;code&gt;params_boot&lt;/code&gt; we can calculate confidence intervals of each estimated parameter by taking the desired quantiles of the data. This can be compared the output from &lt;strong&gt;confint2()&lt;/strong&gt; from &lt;strong&gt;nlstools&lt;/strong&gt;.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# calculate confidence intervals of estimated parameters using confint2()
-confint_1 &amp;lt;- confint2(fit) %&amp;gt;%
-  data.frame() %&amp;gt;%
-  rename(., conf_low = X2.5.., conf_high = X97.5..) %&amp;gt;%
-  mutate(method = &amp;#39;nlstools&amp;#39;) %&amp;gt;%
-  cbind(., select(params, term, estimate)) %&amp;gt;%
-  select(., term, estimate, conf_low, conf_high, method)
-
-# calculate confidence intervals using bootstraps
-confint_2 &amp;lt;- group_by(params_boot, term) %&amp;gt;%
-  summarise(.,
-            conf_low = quantile(estimate, 0.025),
-            conf_high = quantile(estimate, 0.975),
-            estimate = quantile(estimate, 0.5)) %&amp;gt;%
-  ungroup() %&amp;gt;%
-  mutate(., method = &amp;#39;boot&amp;#39;)
-
-# bind both methods
-confint &amp;lt;- bind_rows(confint_1, confint_2)
-
-# plot each method side by side
-ggplot(confint, aes(method, estimate, col = method)) +
-  geom_point(size = 3) +
-  geom_linerange(aes(ymin = conf_low, ymax = conf_high)) +
-  facet_wrap(~ term, scales = &amp;#39;free_y&amp;#39;) +
-  theme_bw() +
-  theme(legend.position = &amp;#39;none&amp;#39;) +
-  ggtitle(&amp;#39;Comparison of confidence interval calculation for estimated parameters&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://padpadpadpad.github.io/post/2017-12-22-bootstrapping-non-linear-models-with-broom_files/figure-html/confint-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;Bootstrapping gives similar mean estimates, but gives wider, asymmetric, confidence intervals compared to those calculated using &lt;strong&gt;nlstools::confint2()&lt;/strong&gt;. In this instance this could be because I am only running 200 bootstrap replicates, whereas the number of bootstraps done in published analyses are commonly around 10,000.&lt;/p&gt;
-&lt;p&gt;Crucially, bootstrapping allows the calculation of confidence intervals for parameters derived from the model that were not present in the initial fitting process. For example, the optimum temperature of a thermal performance curve, &lt;span class=&#34;math inline&#34;&gt;\(T_{opt}\)&lt;/span&gt; is calculated as:&lt;/p&gt;
-&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[T_{opt} = \frac{E_{h}T_{h}}{E_{h} + k T_{h} ln(\frac{E_{h}}{E} - 1)}\]&lt;/span&gt; We can calculate &lt;span class=&#34;math inline&#34;&gt;\(T_{opt}\)&lt;/span&gt; for each iteration of the bootstrap and then plot the distribution of derived parameters. This can be done by using &lt;strong&gt;tidyr::spread()&lt;/strong&gt; to have a column for each estimated parameter, and then calculate &lt;code&gt;Topt&lt;/code&gt; for each &lt;code&gt;boot_num&lt;/code&gt;.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# function for calculating Topt
-Topt &amp;lt;- function(E, Th, Eh){
-  return((Eh*Th)/(Eh + (8.62e-05 *Th*log((Eh/E) - 1))))
-}
-
-Topt_boot &amp;lt;- select(params_boot, boot_num, term, estimate) %&amp;gt;%
-  spread(., term, estimate) %&amp;gt;%
-  mutate(., Topt = Topt(E, Th, Eh))
-
-# plot distribution of Topt
-ggplot(Topt_boot, aes(Topt - 273.15)) +
-  geom_histogram(col = &amp;#39;black&amp;#39;, fill = &amp;#39;white&amp;#39;) +
-  xlab(&amp;#39;Optimum Temperature (ºC)&amp;#39;) +
-  ggtitle(&amp;#39;Distribution of optimum temperatures via bootstrapping&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://padpadpadpad.github.io/post/2017-12-22-bootstrapping-non-linear-models-with-broom_files/figure-html/Topt-1.png&#34; width=&#34;672&#34; /&gt; Bootstrapping allows us to get uncertainty estimates for parameters outside of the original curve fitting process!&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;bootstrapping-multiple-curves&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Bootstrapping multiple curves&lt;/h2&gt;
-&lt;p&gt;Bootstrapping over each curve can be done by combining functions from the tidyverse to the &lt;strong&gt;bootstrap()&lt;/strong&gt; call. To fit a single model to each curve, I use &lt;strong&gt;nest()&lt;/strong&gt;, &lt;strong&gt;mutate()&lt;/strong&gt; and &lt;strong&gt;map()&lt;/strong&gt; as shown &lt;a href=&#34;https://padpadpadpad.github.io/post/fitting-non-linear-regressions-with-broom-purrr-and-nls.multstart&#34;&gt;previously&lt;/a&gt;. I searched for a way of using the same workflow for bootstrapping, and finally came across the &lt;a href=&#34;https://github.com/tidyverse/broom/issues/25&#34;&gt;answer&lt;/a&gt;. Each element of &lt;code&gt;strap&lt;/code&gt; is not strictly a dataframe (more of a promise to be a dataframe), so the only difference to fitting multiple non-linear regressions is the need to specify the &lt;code&gt;data&lt;/code&gt; using &lt;code&gt;dataframe(.)&lt;/code&gt; within &lt;strong&gt;map()&lt;/strong&gt;.&lt;/p&gt;
-&lt;p&gt;After grouping the dataframe, new datasets are bootstrapped using &lt;strong&gt;modelr::bootstrap()&lt;/strong&gt;. Using &lt;strong&gt;unnest()&lt;/strong&gt; gives a new column called &lt;code&gt;boot_num&lt;/code&gt; which represents the bootstrap replicate within each group. The tibble is then re-grouped to include &lt;code&gt;boot_num&lt;/code&gt; and the model can finally be fitted to each bootstrapped dataset. Obviously the total number of models your code fits is increases as you up the number of bootstraps, so be aware this code may take a fair while to run!&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# run nls.multstart on each curve of the original data ####
-fit_many &amp;lt;- group_by(Chlorella_TRC, growth.temp, process, flux) %&amp;gt;%
-  nest() %&amp;gt;%
-  mutate(., fit = purrr::map(data, ~nls_multstart(ln.rate ~ schoolfield_high(lnc, E, Eh, Th, temp = K, Tc = 20),
-                                   data = .x,
-                                   iter = 500,
-                                   start_lower = c(lnc = -10, E = 0.1, Eh = 0.2, Th = 285),
-                                   start_upper = c(lnc = 10, E = 2, Eh = 5, Th = 330),
-                                   supp_errors = &amp;#39;Y&amp;#39;,
-                                   na.action = na.omit,
-                                   lower = c(lnc = -10, E = 0, Eh = 0, Th = 0))))
-
-# run bootstrap over many curves ####
-boot_many &amp;lt;- group_by(Chlorella_TRC, growth.temp, process, flux) %&amp;gt;%
-  # create 200 bootstrap replicates per curve
-  do(., boot = modelr::bootstrap(., n = 200, id = &amp;#39;boot_num&amp;#39;)) %&amp;gt;%
-  # unnest to show bootstrap number, .id
-  unnest() %&amp;gt;%
-  # regroup to include the boot_num
-  group_by(., growth.temp, process, flux, boot_num) %&amp;gt;%
-  # run the model using map()
-  mutate(fit = map(strap, ~nls_multstart(ln.rate ~ schoolfield_high(lnc, E, Eh, Th, temp = K, Tc = 20),
-                        data = data.frame(.),
-                        iter = 50,
-                        start_lower = c(lnc = -10, E = 0.1, Eh = 0.2, Th = 285),
-                        start_upper = c(lnc = 10, E = 2, Eh = 5, Th = 330),
-                        lower = c(lnc=-10, E=0, Eh=0, Th=0),
-                        supp_errors = &amp;#39;Y&amp;#39;)
-  ))&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Smooth predictions can then be calculated from &lt;code&gt;fit_many&lt;/code&gt; and &lt;code&gt;boot_many&lt;/code&gt; and plotted to demonstrate the uncertainty of multiple curves. I do some wrangling to get the &lt;code&gt;max&lt;/code&gt; and &lt;code&gt;min&lt;/code&gt; temperature of each curve so that I only plot predictions over the range of each specific curve (some have measurements up to 46 ºC, some to 49 ºC).&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# new data frame for smooth predictions
-new_preds &amp;lt;- Chlorella_TRC %&amp;gt;%
-  do(., data.frame(K = seq(min(.$K), max(.$K), length.out = 150), stringsAsFactors = FALSE))
-
-# get max and min for each curve
-max_min &amp;lt;- group_by(Chlorella_TRC, growth.temp, flux, process) %&amp;gt;%
-  summarise(., min_K = min(K), max_K = max(K)) %&amp;gt;%
-  ungroup()
-
-# create smoother predictions for unbootstrapped models
-preds_many &amp;lt;- fit_many %&amp;gt;%
-  unnest(fit %&amp;gt;% map(augment, newdata = new_preds))
-
-# create smoother predictions for bootstrapped replicates
-preds_many &amp;lt;- boot_many %&amp;gt;%
-  unnest(fit %&amp;gt;% map(augment, newdata = new_preds)) %&amp;gt;%
-  ungroup() %&amp;gt;%
-  # group by each value of K and get quantiles
-  group_by(., growth.temp, process, flux, K) %&amp;gt;%
-  summarise(lwr_CI = quantile(.fitted, 0.025),
-            upr_CI = quantile(.fitted, 0.975)) %&amp;gt;%
-  ungroup() %&amp;gt;%
-  merge(., preds_many, by = c(&amp;#39;K&amp;#39;, &amp;#39;growth.temp&amp;#39;, &amp;#39;flux&amp;#39;, &amp;#39;process&amp;#39;)) %&amp;gt;%
-  # merge with max_min to delete predictions outside of the max and min temperatures of each curve
-  merge(., max_min, by = c(&amp;#39;growth.temp&amp;#39;, &amp;#39;flux&amp;#39;, &amp;#39;process&amp;#39;)) %&amp;gt;%
-  group_by(., growth.temp, flux, process) %&amp;gt;%
-  filter(., K &amp;gt;= unique(min_K) &amp;amp; K &amp;lt;= unique(max_K)) %&amp;gt;%
-  rename(., ln.rate = .fitted) %&amp;gt;%
-  ungroup()
-
-# plot predictions 
-ggplot(Chlorella_TRC, aes(K - 273.15, ln.rate, group = flux)) +
-  geom_point(alpha = 0.5, size = 0.5) +
-  geom_line(data = preds_many) +
-  geom_ribbon(aes(ymin = lwr_CI, ymax = upr_CI, fill = flux), data = preds_many, alpha = .2) + 
-  scale_fill_manual(values = c(&amp;#39;green4&amp;#39;, &amp;#39;black&amp;#39;)) +
-  theme_bw(base_size = 12, base_family = &amp;#39;Helvetica&amp;#39;) +
-  ylab(&amp;#39;log Metabolic rate&amp;#39;) +
-  xlab(&amp;#39;Assay temperature (ºC)&amp;#39;) +
-  facet_wrap(~ process + growth.temp, labeller = labeller(.multi_line = FALSE)) +
-  theme_bw(base_size = 12, base_family = &amp;#39;Helvetica&amp;#39;) +
-  theme(legend.position = c(0.9, 0.15)) +
-  ggtitle(&amp;#39;Multiple TPCs with confidence intervals&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://padpadpadpad.github.io/post/2017-12-22-bootstrapping-non-linear-models-with-broom_files/figure-html/plot_many-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;When in doubt, it seems that &lt;strong&gt;purrr&lt;/strong&gt; has the answer. Bootstrapping is a super useful method for visualising the uncertainty of predictions for non-linear regressions, and better allow us to understand how well a particular model fits the data. The &lt;strong&gt;tidyverse&lt;/strong&gt;, as usual, provides a set of tools that makes this method easy to understand and implement, sort of.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;next-steps&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Next steps&lt;/h2&gt;
-&lt;p&gt;Another way of visualising uncertainty in predictions is by using a Bayesian approach. When using Stan, the &lt;code&gt;generated quantities{}&lt;/code&gt; block is a great way to create new predictions from the data. This allows for models that can account for the structure of the data (i.e. temperatures within replicates) and visualise the uncertainty of the model fits. The package &lt;strong&gt;brms&lt;/strong&gt; looks to be a great help in fitting non-linear mixed models in a Bayesian framework. Just need to get round to experimenting with it!&lt;/p&gt;
-&lt;/div&gt;
-</description>
+      <description>This post was updated on the 02/03/2018 to reflect changes to nls.multstart.
+Introduction For my first academic publication, a reviewer asked for the \(r^{2}\) values of the thermal performance curves I fitted using non-linear regression. I bowed to the request as is often the case with reviewer comments, but would now resist as the \(r^{2}\) is not necessarily an effective goodness of fit measure for non-linear regression (see this SO answer).</description>
     </item>
     
     <item>
@@ -746,222 +110,9 @@ ggplot(Chlorella_TRC, aes(K - 273.15, ln.rate, group = flux)) +
       <pubDate>Sun, 07 Jan 2018 00:00:00 +0000</pubDate>
       
       <guid>https://padpadpadpad.github.io/post/fitting-non-linear-regressions-with-broom-purrr-and-nls.multstart/</guid>
-      <description>&lt;p&gt;&lt;em&gt;This post was updated on the 02/03/2018 to reflect changes to nls.multstart.&lt;/em&gt;&lt;/p&gt;
-&lt;div id=&#34;introduction&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Introduction&lt;/h2&gt;
-&lt;p&gt;With my research, I often use non-linear least squares regression to fit a model with biologically meaningful parameters to data. Specifically, I measure the thermal performance of phytoplankon growth, respiration and photosynthesis over a wide range of assay temperatures to see how the organisms are adapted to the temperatures they live at.&lt;/p&gt;
-&lt;p&gt;These thermal performance curves generally follow a unimodal shape and parameters for which are widely used in climate change research to predict whether organisms will be able to cope with increasing temperatures.&lt;/p&gt;
-&lt;div class=&#34;figure&#34;&gt;
-&lt;img src=&#34;https://padpadpadpad.github.io/img/TPC.png&#34; alt=&#34;Example Thermal Performance Curve&#34; /&gt;
-&lt;p class=&#34;caption&#34;&gt;Example Thermal Performance Curve&lt;/p&gt;
-&lt;/div&gt;
-&lt;p&gt;These curves can be modelled with a variety of equations, such as the Sharpe-Schoolfield equation, which I have log-transformed here:&lt;/p&gt;
-&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[log(rate) = lnc + E(\frac{1}{T_{c}} - \frac{1}{kT}) - ln(1 + e^{E_h(\frac{1}{kT_h} - \frac{1}{kT})})\]&lt;/span&gt; where &lt;span class=&#34;math inline&#34;&gt;\(lnc\)&lt;/span&gt; is a normalisation constant at a common temperature, &lt;span class=&#34;math inline&#34;&gt;\(T_{c}\)&lt;/span&gt;, &lt;span class=&#34;math inline&#34;&gt;\(E\)&lt;/span&gt; is an activation energy that describes the rate of increase before the optimum temperature, &lt;span class=&#34;math inline&#34;&gt;\(T_{opt}\)&lt;/span&gt;. &lt;span class=&#34;math inline&#34;&gt;\(k\)&lt;/span&gt; is Boltzmann’s constant, &lt;span class=&#34;math inline&#34;&gt;\(E_{h}\)&lt;/span&gt; is the deactivation energy that controls the decline in rate past the optimum temperature and &lt;span class=&#34;math inline&#34;&gt;\(T_{h}\)&lt;/span&gt; is the temperature where, after the optimu, the rate is half of the maximal rate.&lt;/p&gt;
-&lt;p&gt;Say I want to fit the same equation to 10, 50, or 100s of these curves. I could loop through a call to &lt;strong&gt;nls()&lt;/strong&gt;, &lt;strong&gt;nlsLM()&lt;/strong&gt;, or use &lt;strong&gt;nlsList()&lt;/strong&gt; from &lt;strong&gt;nlme&lt;/strong&gt;. However, non-linear least squares regression in R is sensitive to the start parameters, meaning that different start parameters can give different “best estimated parameters”. This becomes more likely when fitting more curves with only a single set of start parameters, where the variation in estimated parameter values is likely to be much larger. For example, some curves could have much higher rates (&lt;span class=&#34;math inline&#34;&gt;\(lnc\)&lt;/span&gt;), higher optimum temperatures (i.e. &lt;span class=&#34;math inline&#34;&gt;\(T_{h}\)&lt;/span&gt;) or have different values of temperature-dependence (&lt;span class=&#34;math inline&#34;&gt;\(E\)&lt;/span&gt;).&lt;/p&gt;
-&lt;p&gt;To combat this, I wrote an R package which allows for multiple start parameters for non-linear regression. I wrapped this method in an R package called &lt;a href=&#34;https://github.com/padpadpadpad/nlsLoop&#34;&gt;&lt;strong&gt;nlsLoop&lt;/strong&gt;&lt;/a&gt; and submitted it to The Journal of Open Source Software. Everything was good with the world and I went to a Christmas party.&lt;/p&gt;
-&lt;p&gt;The next day, I had an epiphany surrounding the redundancies and needless complexities of my R package, withdrew my submission and rewrote the entire package in a weekend to give rise to a single function package, &lt;strong&gt;nls.multstart::nls_multstart()&lt;/strong&gt;. Essentially since I first wrote &lt;strong&gt;nlsLoop&lt;/strong&gt; ~3 years ago I have realised that &lt;strong&gt;broom&lt;/strong&gt; and &lt;strong&gt;purrr&lt;/strong&gt; can do what I wrote clunkier functions to achieve. In contrast, &lt;a href=&#34;https://github.com/padpadpadpad/nls.multstart&#34;&gt;&lt;strong&gt;nls.multstart&lt;/strong&gt;&lt;/a&gt; works perfectly with the tools of the &lt;strong&gt;tidyverse&lt;/strong&gt; to fit multiple models.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;multiple-model-fitting-in-practice&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Multiple model fitting in practice&lt;/h2&gt;
-&lt;p&gt;Load in all packages that are used in this analysis. Packages can be installed from GitHub using &lt;strong&gt;devtools&lt;/strong&gt;.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# load packages
-library(nls.multstart) # devtools::install_github(&amp;#39;padpadpadpad/nls.multstart&amp;#39;)
-library(ggplot2)
-library(broom)
-library(purrr)
-library(dplyr)
-library(tidyr)
-library(nlstools)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;We can then load in the data and have a look at it using &lt;strong&gt;glimpse()&lt;/strong&gt;. Here we shall use a dataset of thermal performance curves of metabolism of &lt;strong&gt;Chlorella vulgaris&lt;/strong&gt; from Padfield &lt;strong&gt;et al.&lt;/strong&gt; 2016.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# load in example data set
-data(&amp;quot;Chlorella_TRC&amp;quot;)
-
-glimpse(Chlorella_TRC)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## Observations: 649
-## Variables: 7
-## $ curve_id    &amp;lt;dbl&amp;gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2,...
-## $ growth.temp &amp;lt;dbl&amp;gt; 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20...
-## $ process     &amp;lt;chr&amp;gt; &amp;quot;acclimation&amp;quot;, &amp;quot;acclimation&amp;quot;, &amp;quot;acclimation&amp;quot;, &amp;quot;accl...
-## $ flux        &amp;lt;chr&amp;gt; &amp;quot;respiration&amp;quot;, &amp;quot;respiration&amp;quot;, &amp;quot;respiration&amp;quot;, &amp;quot;resp...
-## $ temp        &amp;lt;dbl&amp;gt; 16, 19, 22, 25, 28, 31, 34, 37, 40, 43, 46, 49, 16...
-## $ K           &amp;lt;dbl&amp;gt; 289.15, 292.15, 295.15, 298.15, 301.15, 304.15, 30...
-## $ ln.rate     &amp;lt;dbl&amp;gt; -2.06257833, -1.32437939, -0.95416807, -0.79443675...&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Next we define the Sharpe-Schoolfield equation discussed earlier.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# define the Sharpe-Schoolfield equation
-schoolfield_high &amp;lt;- function(lnc, E, Eh, Th, temp, Tc) {
-  Tc &amp;lt;- 273.15 + Tc
-  k &amp;lt;- 8.62e-5
-  boltzmann.term &amp;lt;- lnc + log(exp(E/k*(1/Tc - 1/temp)))
-  inactivation.term &amp;lt;- log(1/(1 + exp(Eh/k*(1/Th - 1/temp))))
-  return(boltzmann.term + inactivation.term)
-  }&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;There are 60 curves in this dataset, 30 each of photosynthesis and respiration. The treatments are growth temperature (20, 23, 27, 30, 33 ºC) and adaptive process (acclimation or adaptation) that reflects the number of generations cultures were grown at each temperature.&lt;/p&gt;
-&lt;p&gt;We can see how &lt;strong&gt;nls_multstart()&lt;/strong&gt; works by subsetting the data for a single curve.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# subset dataset
-d_1 &amp;lt;- subset(Chlorella_TRC, curve_id == 1)
-
-# run nls_multstart
-fit &amp;lt;- nls_multstart(ln.rate ~ schoolfield_high(lnc, E, Eh, Th, temp = K, Tc = 20),
-                     data = d_1,
-                     iter = 500,
-                     start_lower = c(lnc = -10, E = 0.1, Eh = 0.2, Th = 285),
-                     start_upper = c(lnc = 10, E = 2, Eh = 5, Th = 330),
-                     supp_errors = &amp;#39;Y&amp;#39;,
-                     na.action = na.omit,
-                     lower = c(lnc = -10, E = 0, Eh = 0, Th = 0))
-
-fit&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## Nonlinear regression model
-##   model: ln.rate ~ schoolfield_high(lnc, E, Eh, Th, temp = K, Tc = 20)
-##    data: data
-##      lnc        E       Eh       Th 
-##  -1.3462   0.9877   4.3326 312.1887 
-##  residual sum-of-squares: 7.257
-## 
-## Number of iterations to convergence: 10 
-## Achieved convergence tolerance: 1.49e-08&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;strong&gt;nls_multstart()&lt;/strong&gt; allows boundaries for each parameter to be set. A uniform distribution between these values is created and start values for each iteration of the fitting process are then picked randomly. The function returns the best available model by picking the model with the lowest AIC score. Additional info on the function can be found &lt;a href=&#34;https://github.com/padpadpadpad/nls.multstart&#34;&gt;here&lt;/a&gt; or by typing &lt;code&gt;?nls_multstart&lt;/code&gt; into the R console.&lt;/p&gt;
-&lt;p&gt;This fit can then be “tidied” in various ways using the R package &lt;strong&gt;broom&lt;/strong&gt;. Each different function in &lt;strong&gt;broom&lt;/strong&gt; returns a different set of information. &lt;strong&gt;tidy()&lt;/strong&gt; returns the estimated parameters, &lt;strong&gt;augment()&lt;/strong&gt; returns the predictions and &lt;strong&gt;glance()&lt;/strong&gt; returns information about the model such as the AIC score and whether the model has reached convergence. Confidence intervals of non-linear regression can also be estimated using &lt;strong&gt;nlstools::confint2()&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;The amazing thing about these tools is the ease at which they can then be used on multiple curves at once, an approach Hadley Wickham has previously &lt;a href=&#34;https://blog.rstudio.com/2016/02/02/tidyr-0-4-0/&#34;&gt;written about&lt;/a&gt;. The approach nests the data based on grouping variables using &lt;strong&gt;nest()&lt;/strong&gt;, then creates a list column of the best fit for each curve using &lt;strong&gt;map()&lt;/strong&gt;.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# fit over each set of groupings
-fits &amp;lt;- Chlorella_TRC %&amp;gt;%
-  group_by(., flux, growth.temp, process, curve_id) %&amp;gt;%
-  nest() %&amp;gt;%
-  mutate(fit = purrr::map(data, ~ nls_multstart(ln.rate ~ schoolfield_high(lnc, E, Eh, Th, temp = K, Tc = 20),
-                                   data = .x,
-                                   iter = 1000,
-                                   start_lower = c(lnc = -10, E = 0.1, Eh = 0.2, Th = 285),
-                                   start_upper = c(lnc = 10, E = 2, Eh = 5, Th = 330),
-                                   supp_errors = &amp;#39;Y&amp;#39;,
-                                   na.action = na.omit,
-                                   lower = c(lnc = -10, E = 0, Eh = 0, Th = 0))))&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;If you are confused, then you are not alone. This took me a long time to understand and I imagine there are still better ways for me to do it! However, to check it has worked, we can look at a single fit to check it looks ok. We can also look at &lt;code&gt;fits&lt;/code&gt; to see that there is now a &lt;code&gt;fit&lt;/code&gt; list column containing each of the non-linear fits for each combination of our grouping variables.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# look at a single fit
-summary(fits$fit[[1]])&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## 
-## Formula: ln.rate ~ schoolfield_high(lnc, E, Eh, Th, temp = K, Tc = 20)
-## 
-## Parameters:
-##     Estimate Std. Error t value Pr(&amp;gt;|t|)    
-## lnc  -1.3462     0.4656  -2.891   0.0202 *  
-## E     0.9877     0.4521   2.185   0.0604 .  
-## Eh    4.3326     1.4878   2.912   0.0195 *  
-## Th  312.1887     3.8782  80.499 6.32e-13 ***
-## ---
-## Signif. codes:  0 &amp;#39;***&amp;#39; 0.001 &amp;#39;**&amp;#39; 0.01 &amp;#39;*&amp;#39; 0.05 &amp;#39;.&amp;#39; 0.1 &amp;#39; &amp;#39; 1
-## 
-## Residual standard error: 0.9524 on 8 degrees of freedom
-## 
-## Number of iterations to convergence: 19 
-## Achieved convergence tolerance: 1.49e-08&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# look at output object
-select(fits, curve_id, data, fit)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## # A tibble: 60 x 3
-##    curve_id data              fit      
-##       &amp;lt;dbl&amp;gt; &amp;lt;list&amp;gt;            &amp;lt;list&amp;gt;   
-##  1     1.00 &amp;lt;tibble [12 × 3]&amp;gt; &amp;lt;S3: nls&amp;gt;
-##  2     2.00 &amp;lt;tibble [12 × 3]&amp;gt; &amp;lt;S3: nls&amp;gt;
-##  3     3.00 &amp;lt;tibble [12 × 3]&amp;gt; &amp;lt;S3: nls&amp;gt;
-##  4     4.00 &amp;lt;tibble [9 × 3]&amp;gt;  &amp;lt;S3: nls&amp;gt;
-##  5     5.00 &amp;lt;tibble [12 × 3]&amp;gt; &amp;lt;S3: nls&amp;gt;
-##  6     6.00 &amp;lt;tibble [12 × 3]&amp;gt; &amp;lt;S3: nls&amp;gt;
-##  7     7.00 &amp;lt;tibble [12 × 3]&amp;gt; &amp;lt;S3: nls&amp;gt;
-##  8     8.00 &amp;lt;tibble [10 × 3]&amp;gt; &amp;lt;S3: nls&amp;gt;
-##  9     9.00 &amp;lt;tibble [8 × 3]&amp;gt;  &amp;lt;S3: nls&amp;gt;
-## 10    10.0  &amp;lt;tibble [10 × 3]&amp;gt; &amp;lt;S3: nls&amp;gt;
-## # ... with 50 more rows&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;These fits can be cleaned up using the &lt;strong&gt;broom&lt;/strong&gt; functions and &lt;strong&gt;purrr::map()&lt;/strong&gt; to iterate over the grouping variables.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# get summary info
-info &amp;lt;- fits %&amp;gt;%
-  unnest(fit %&amp;gt;% map(glance))
-
-# get params
-params &amp;lt;- fits %&amp;gt;%
-  unnest(fit %&amp;gt;% map(tidy))
-
-# get confidence intervals
-CI &amp;lt;- fits %&amp;gt;% 
-  unnest(fit %&amp;gt;% map(~ confint2(.x) %&amp;gt;%
-  data.frame() %&amp;gt;%
-  rename(., conf.low = X2.5.., conf.high = X97.5..))) %&amp;gt;%
-  group_by(., curve_id) %&amp;gt;%
-  mutate(., term = c(&amp;#39;lnc&amp;#39;, &amp;#39;E&amp;#39;, &amp;#39;Eh&amp;#39;, &amp;#39;Th&amp;#39;)) %&amp;gt;%
-  ungroup()
-
-# merge parameters and CI estimates
-params &amp;lt;- merge(params, CI, by = intersect(names(params), names(CI)))
-
-# get predictions
-preds &amp;lt;- fits %&amp;gt;%
-  unnest(fit %&amp;gt;% map(augment))&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Looking at &lt;strong&gt;info&lt;/strong&gt; allows us to see if all the models converged.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;select(info, curve_id, logLik, AIC, BIC, deviance, df.residual)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## # A tibble: 60 x 6
-##    curve_id  logLik   AIC   BIC deviance df.residual
-##       &amp;lt;dbl&amp;gt;   &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt;    &amp;lt;dbl&amp;gt;       &amp;lt;int&amp;gt;
-##  1     1.00 -14.0   38.0  40.4     7.26            8
-##  2     2.00 - 1.20  12.4  14.8     0.858           8
-##  3     3.00 - 7.39  24.8  27.2     2.41            8
-##  4     4.00 - 0.523 11.0  12.0     0.592           5
-##  5     5.00 -10.8   31.7  34.1     4.29            8
-##  6     6.00 - 8.52  27.0  29.5     2.91            8
-##  7     7.00 - 1.29  12.6  15.0     0.871           8
-##  8     8.00 -13.4   36.7  38.2     8.48            6
-##  9     9.00   1.82   6.36  6.76    0.297           4
-## 10    10.0  - 1.27  12.5  14.1     0.755           6
-## # ... with 50 more rows&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;When plotting non-linear fits, I prefer to have a smooth curve, even when there are not many points underlying the fit. This can be achieved by including &lt;code&gt;newdata&lt;/code&gt; in the &lt;strong&gt;augment()&lt;/strong&gt; function and creating a higher resolution set of predictor values.&lt;/p&gt;
-&lt;p&gt;However, when predicting for many different fits, it is not certain that each curve has the same range of predictor variables. We can get around this by setting the limits of each prediction by the &lt;strong&gt;min()&lt;/strong&gt; and &lt;strong&gt;max()&lt;/strong&gt; of the predictor variables.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# new data frame of predictions
-new_preds &amp;lt;- Chlorella_TRC %&amp;gt;%
-  do(., data.frame(K = seq(min(.$K), max(.$K), length.out = 150), stringsAsFactors = FALSE))
-
-# max and min for each curve
-max_min &amp;lt;- group_by(Chlorella_TRC, curve_id) %&amp;gt;%
-  summarise(., min_K = min(K), max_K = max(K)) %&amp;gt;%
-  ungroup()
-
-# create new predictions
-preds2 &amp;lt;- fits %&amp;gt;%
-  unnest(fit %&amp;gt;% map(augment, newdata = new_preds)) %&amp;gt;%
-  merge(., max_min, by = &amp;#39;curve_id&amp;#39;) %&amp;gt;%
-  group_by(., curve_id) %&amp;gt;%
-  filter(., K &amp;gt; unique(min_K) &amp;amp; K &amp;lt; unique(max_K)) %&amp;gt;%
-  rename(., ln.rate = .fitted) %&amp;gt;%
-  ungroup()&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;These can then be plotted using &lt;strong&gt;ggplot2&lt;/strong&gt;.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# plot
-ggplot() +
-  geom_point(aes(K - 273.15, ln.rate, col = flux), size = 2, Chlorella_TRC) +
-  geom_line(aes(K - 273.15, ln.rate, col = flux, group = curve_id), alpha = 0.5, preds2) +
-  facet_wrap(~ growth.temp + process, labeller = labeller(.multi_line = FALSE)) +
-  scale_colour_manual(values = c(&amp;#39;green4&amp;#39;, &amp;#39;black&amp;#39;)) +
-  theme_bw(base_size = 12, base_family = &amp;#39;Helvetica&amp;#39;) +
-  ylab(&amp;#39;log Metabolic rate&amp;#39;) +
-  xlab(&amp;#39;Assay temperature (ºC)&amp;#39;) +
-  theme(legend.position = c(0.9, 0.15))&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://padpadpadpad.github.io/post/2017-12-22-fitting-many-non-linear-regressions-with-broom-purrr-and-nls-multstart_files/figure-html/plot_many_fits-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;The confidence intervals of each parameter for each curve fit can also be easily visualised.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# plot
-ggplot(params, aes(col = flux)) +
-  geom_point(aes(curve_id, estimate)) +
-  facet_wrap(~ term, scale = &amp;#39;free_x&amp;#39;, ncol = 4) +
-  geom_linerange(aes(curve_id, ymin = conf.low, ymax = conf.high)) +
-  coord_flip() +
-  scale_color_manual(values = c(&amp;#39;green4&amp;#39;, &amp;#39;black&amp;#39;)) +
-  theme_bw(base_size = 12, base_family = &amp;#39;Helvetica&amp;#39;) +
-  theme(legend.position = &amp;#39;top&amp;#39;) +
-  xlab(&amp;#39;curve&amp;#39;) +
-  ylab(&amp;#39;parameter estimate&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://padpadpadpad.github.io/post/2017-12-22-fitting-many-non-linear-regressions-with-broom-purrr-and-nls-multstart_files/figure-html/confint_plot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;This method of modelling can be used for different data, different non-linear models (and linear models for that matter) and combined with the &lt;strong&gt;tidyverse&lt;/strong&gt; can make very useful visualisations.&lt;/p&gt;
-&lt;p&gt;The next stage of these curve fits is to try and better understand the uncertainty of these curve fits and their predictions. One approach to achieve this could be bootstrapping new datasets from the existing data. I hope to demonstrate how this could be done soon in another post.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;references&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;References&lt;/h2&gt;
-&lt;p&gt;[1] Padfield, D., Yvon-durocher, G., Buckling, A., Jennings, S. &amp;amp; Yvon-durocher, G. (2016). Rapid evolution of metabolic traits explains thermal adaptation in phytoplankton. Ecology Letters, 19(2), 133-142.&lt;/p&gt;
-&lt;/div&gt;
-</description>
+      <description>This post was updated on the 02/03/2018 to reflect changes to nls.multstart.
+Introduction With my research, I often use non-linear least squares regression to fit a model with biologically meaningful parameters to data. Specifically, I measure the thermal performance of phytoplankon growth, respiration and photosynthesis over a wide range of assay temperatures to see how the organisms are adapted to the temperatures they live at.
+These thermal performance curves generally follow a unimodal shape and parameters for which are widely used in climate change research to predict whether organisms will be able to cope with increasing temperatures.</description>
     </item>
     
     <item>
@@ -970,183 +121,8 @@ ggplot(params, aes(col = flux)) +
       <pubDate>Sun, 08 Oct 2017 00:00:00 +0000</pubDate>
       
       <guid>https://padpadpadpad.github.io/post/using-blast-on-sanger-sequences-in-r/</guid>
-      <description>&lt;div id=&#34;introduction&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Introduction&lt;/h2&gt;
-&lt;p&gt;Moving to a microbiology group has meant I now have loads of interesting genomic and sequencing data to play with!&lt;/p&gt;
-&lt;p&gt;One common task we have when we start with some new natural communities is to work out what is in there! We plate the samples out, look at their colony morphology, but colonies can be picked and sequenced using sanger sequencing. Once you have your sequencing data back, you can check your sequence against a database to look at the taxonomic identity of the picked colonies.&lt;/p&gt;
-&lt;p&gt;I know that these sequences can be queried in &lt;a href=&#34;https://blast.ncbi.nlm.nih.gov/Blast.cgi&#34;&gt;BLAST&lt;/a&gt;, where you enter a sequence and it returns matches from a database based on the percentage match. That is all pretty great but I am not about inputting 96 separate sequences into a website! So on Friday I explored the ways to do BLAST searches in a more automated way and came across &lt;a href=&#34;https://github.com/mhahsler/rBLAST&#34;&gt;rBLAST&lt;/a&gt;. &lt;code&gt;rBLAST&lt;/code&gt; is an R package that allows for local blast searches to be done in R.&lt;/p&gt;
-&lt;p&gt;This blog post is the culmination of about 5 hours coding that explains how you can go from sequences in a folder, to a dataframe of species names to each sequence. To do this I use &lt;code&gt;rBLAST&lt;/code&gt; to run the local BLAST search, assign taxonomy using the &lt;code&gt;taxise&lt;/code&gt; package, as well as some tidyverse tools from &lt;code&gt;dplyr&lt;/code&gt;, &lt;code&gt;tidyr&lt;/code&gt; and &lt;code&gt;purrr&lt;/code&gt; to make everything work smoothly.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;get-everything-installed&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;1. Get everything installed&lt;/h2&gt;
-&lt;p&gt;Firstly everything that is used needs to be installed: - BLAST+ needs to be installed externally from R. Advice and instructions for installation can be found &lt;a href=&#34;https://www.ncbi.nlm.nih.gov/books/NBK279671/&#34;&gt;here&lt;/a&gt; - Install any packages available on CRAN using &lt;code&gt;install.packages(c(&amp;quot;dplyr&amp;quot;, &amp;quot;purrr&amp;quot;, &amp;quot;tidyr&amp;quot;)&lt;/code&gt; - Bioconductor provides tools for the analysis of high throughput genomic data. Some of the packages on their are not available on CRAN but can be installed using instructions on their &lt;a href=&#34;https://www.bioconductor.org/install/&#34;&gt;website&lt;/a&gt;. Specifically we need to download &lt;code&gt;Biostrings&lt;/code&gt; for &lt;code&gt;rBlast&lt;/code&gt; to work. - GitHub packages can be installed using &lt;code&gt;devtools::install_github()&lt;/code&gt;. Install &lt;code&gt;rBLAST&lt;/code&gt; using &lt;code&gt;devtools::install_github(mhahsler/rBLAST)&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;Hopefully all the necessary packages to run local BLAST searches in R are now installed. Now we can load in some data!&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;set-up-and-loading-in-data&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;2. Set up and loading in data&lt;/h2&gt;
-&lt;p&gt;The output from sanger sequencing (although I am not well versed in it) appears to be one file per sample and all the output (including consensus scores) is present in .ab1 files. However I also received .seq files that acted as .txt files that stored the output of each sequence in. So in &lt;code&gt;file_1.seq&lt;/code&gt; the output would be “CATGCAGTAGCT…” and so on.&lt;/p&gt;
-&lt;p&gt;I am going to use these .seq files to illustrate how to use rBLAST, but this script should be easily adaptable to file types as long as you can access each sequence!&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# load packages into R
-library(rBLAST)
-library(taxize)
-library(dplyr)
-library(tidyr)
-library(purrr)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Then we want to list all the files in the data folder (because you keep all your raw data in separate folders and don’t edit them under any circumstances… &lt;strong&gt;RIGHT?!?&lt;/strong&gt;). As an aside, learn about good workflows in R &lt;a href=&#34;https://github.com/jdblischak/workflowr&#34;&gt;here&lt;/a&gt; or &lt;a href=&#34;https://swcarpentry.github.io/r-novice-gapminder/02-project-intro/&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# list files in the data folder
-seq_files &amp;lt;- list.files(&amp;#39;raw_data&amp;#39;, pattern = &amp;#39;.seq&amp;#39;)
-
-# store file path
-seq_file_path &amp;lt;- &amp;#39;where_your_files_are_saved&amp;#39;
-
-# check they been found/we are in the right place
-seq_files
-
-# open a single file
-read.table(file.path(seq_file_path,seq_file[1]), blank.lines.skip = TRUE, as.is = TRUE)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;file_1.seq&amp;quot; &amp;quot;file_2.seq&amp;quot; &amp;quot;file_3.seq&amp;quot; &amp;quot;file_4.seq&amp;quot; &amp;quot;file_5.seq&amp;quot;
-## [6] &amp;quot;file_6.seq&amp;quot; &amp;quot;file_7.seq&amp;quot;&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;##                                                                                 V1
-## 1 NNNNNNNNNNNGNNNNCTGGNCNNAANCGCGCGTAGGTGGNTCGTTAAGTTGGANGTGANTCCCCGGGCTCNNCCTGGGA
-## 2 ACTGCATTCAAAACTGACGAGCTAGAGTATGGTAGAGGGTGGTGGAATTTCCTGTGTAGCGGTGAAATGCGTAGATATAG
-## 3 GAAGGAACACCAGTGGCGAAGGNGACCACCTGGACTGATACTGACACTGAGGTGCGAAAGCGTGGGGAGCAAACAGGANT
-## 4                                                                AGNNNNNNNNGTAGTNN&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;So our sequence is there, all pretty and ready for alignment. However, to do local BLAST searches, we need to download a database to query our own sequences against. So we will download a 16S Microbial database from the ncbi website. This step only has to be done once and can be done within R, you just need to make a new folder (so the database files are in a separate folder) to extract the zipped files into.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# download file
-download.file(url = &amp;quot;ftp://ftp.ncbi.nlm.nih.gov/blast/db/16SMicrobial.tar.gz&amp;quot;, destfile = &amp;quot;16SMicrobial.tar.gz&amp;quot;, mode = &amp;#39;wb&amp;#39;)
-
-# extract files from zipped file
-untar(&amp;quot;16SMicrobial.tar.gz&amp;quot;, exdir = &amp;quot;blast_16SMicrobial_db&amp;quot;)
-
-# load database into R
-bl &amp;lt;- blast(db = &amp;quot;blast_16SMicrobial_db/16SMicrobial&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;We are now ready to do local BLAST searches on each file in our sequence folder, &lt;code&gt;seq_file_path&lt;/code&gt;.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;run-multiple-local-blast-searches&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;2. Run multiple local BLAST searches&lt;/h2&gt;
-&lt;p&gt;It is common practice in R to do the same function over and over on multiple groups of a column (or elements in a vector) in R. For in my work I often take multiple .csv or .xlsx files, run them through a function where I grab only the information I want, and then bind them into a single dataframe. I used to use &lt;code&gt;plyr::ldply()&lt;/code&gt; for this purpose but have recently moved across to &lt;code&gt;purrr::map_df()&lt;/code&gt; as it is more compatible with &lt;code&gt;dplyr&lt;/code&gt; and &lt;code&gt;tidyr&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;When going about this process, I first think what I want my output to be and then get the desired output for just a single file/element. Finally, if I can, I wrap the steps up in a function so that it can be rolled out again and again! There are loads of resources on &lt;a href=&#34;http://adv-r.had.co.nz/Functions.html&#34;&gt;writing functions&lt;/a&gt; and &lt;a href=&#34;https://stackoverflow.com/questions/4442518/general-suggestions-for-debugging-in-r&#34;&gt;debugging R code&lt;/a&gt; that should put you in the right direction for your own problems better than I can here.&lt;/p&gt;
-&lt;p&gt;In this example, we want a function that takes a single &lt;code&gt;.seq&lt;/code&gt; file and returns a &lt;code&gt;data.frame&lt;/code&gt; containing the BLAST search hit results.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# function for a single local BLAST search for a single file
-rBLAST_all &amp;lt;- function(seq_file, database, keep = 0.95){
-  
-  # read in and create single sequence line
-  test &amp;lt;- read.table(seq_file, blank.lines.skip = TRUE, as.is = TRUE)
-  seq1 &amp;lt;- paste(test$V1, collapse = &amp;#39;&amp;#39;)
-  
-  # make a string set necessary for rBLAST and name file
-  seq2 &amp;lt;- Biostrings::BStringSet(seq1)
-  names(seq2) &amp;lt;- basename(seq_file)
-  
-  # use rBLAST and add sequence to subsequent dataframe
-  seq_pred &amp;lt;- predict(database, seq2) %&amp;gt;%
-    dplyr::filter(., Perc.Ident &amp;gt; keep*100) %&amp;gt;%
-    dplyr::mutate_at(., c(&amp;#39;QueryID&amp;#39;, &amp;#39;SubjectID&amp;#39;), as.character) %&amp;gt;%
-    dplyr::mutate(seq = seq1)
-  
-  # return dataframe  
-  return(seq_pred)
-}&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;This function takes a single file, e.g. &lt;code&gt;file_1.seq&lt;/code&gt;, reads it in and gets the sequence. It then makes the dataset into a &lt;code&gt;DNAStringSet&lt;/code&gt;, a special object type in R that rBLAST needs the sequence to be in. I then also assigned the name of the file to the sequence so each row in the final data frame has an identifier.&lt;/p&gt;
-&lt;p&gt;I then call &lt;code&gt;rBLAST&lt;/code&gt; and do local BLAST alignment on the sequence using its &lt;code&gt;predict()&lt;/code&gt; function. I have added a parameter, &lt;code&gt;keep&lt;/code&gt;, that controls the % similarity of the hits to retain in the dataframe. Anything under that proportion will be discarded.&lt;/p&gt;
-&lt;p&gt;The key to adapting this function for your own needs is to get the desired input and output of your start file, Once you’ve read in one of your files and made it a &lt;code&gt;DNAStringSet&lt;/code&gt; running them through BLAST should be ok.&lt;/p&gt;
-&lt;p&gt;We can run this function on a single file and see if the output is what we want.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# run on the first file
-test &amp;lt;- rBLAST_all(file.path(seq_file_path, seq_files[1]), database = bl)
-
-# look at names of columnes
-names(test)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;##  [1] &amp;quot;QueryID&amp;quot;          &amp;quot;SubjectID&amp;quot;        &amp;quot;Perc.Ident&amp;quot;      
-##  [4] &amp;quot;Alignment.Length&amp;quot; &amp;quot;Mismatches&amp;quot;       &amp;quot;Gap.Openings&amp;quot;    
-##  [7] &amp;quot;Q.start&amp;quot;          &amp;quot;Q.end&amp;quot;            &amp;quot;S.start&amp;quot;         
-## [10] &amp;quot;S.end&amp;quot;            &amp;quot;E&amp;quot;                &amp;quot;Bits&amp;quot;            
-## [13] &amp;quot;seq&amp;quot;&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# look at first 6 rows of data, seq column removed (LONG!)
-head(select(test, -seq))&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;##      QueryID   SubjectID Perc.Ident Alignment.Length Mismatches
-## 1 file_1.seq NR_029042.2     95.890              219          8
-## 2 file_1.seq NR_126220.1     95.434              219          9
-## 3 file_1.seq NR_117177.1     95.434              219          9
-## 4 file_1.seq NR_116299.1     95.434              219          9
-## 5 file_1.seq NR_028906.1     95.434              219          9
-## 6 file_1.seq NR_024950.1     95.434              219          9
-##   Gap.Openings Q.start Q.end S.start S.end         E Bits
-## 1            1      25   242     560   778 7.09e-102  368
-## 2            1      25   242     546   764 3.30e-100  363
-## 3            1      25   242     558   776 3.30e-100  363
-## 4            1      25   242     541   759 3.30e-100  363
-## 5            1      25   242     579   797 3.30e-100  363
-## 6            1      25   242     556   774 3.30e-100  363&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;strong&gt;Yay!&lt;/strong&gt; A dataframe of alignments much like you would see in BLAST. Pretty amazing. We can then run that function on all of our &lt;code&gt;.seq&lt;/code&gt; files using &lt;code&gt;purrr::map_df()&lt;/code&gt;.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# update our files to have the full names
-seq_files = paste(seq_file_path, seq_files, sep = &amp;#39;/&amp;#39;)
-
-# run rBlast all
-seq_IDs &amp;lt;- purrr::map_df(seq_files, rBLAST_all, database = bl, keep = 0.97) %&amp;gt;%
-  # create column for nrow
-  mutate(., num = 1:n())
-
-# check number of rows
-nrow(seq_IDs)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## [1] 54&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;This returns a dataframe of 54 hits across the 7 samples. The local BLAST alignments only return a &lt;code&gt;SubjectID&lt;/code&gt; by default, which is the GenBankID number, but we want the species name of each sequence!&lt;/p&gt;
-&lt;p&gt;I am going to demonstrate how this can be done using the R package &lt;code&gt;taxize&lt;/code&gt;, that uses the NCBI API to get the taxonomy information.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;using-taxize-to-get-taxonomy&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;3. Using taxize to get taxonomy&lt;/h2&gt;
-&lt;p&gt;The R package &lt;code&gt;taxize&lt;/code&gt; interacts with a suite of web APIs for taxonomic jobs, such as getting database specific taxonomic identifiers, verifying species names and (&lt;strong&gt;importantly&lt;/strong&gt;), getting species names from database IDs. A great tutorial and overview of &lt;code&gt;taxise&lt;/code&gt; is on the &lt;a href=&#34;https://ropensci.org/tutorials/taxize_tutorial.html&#34;&gt;rOpenSci website&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;As &lt;code&gt;SubjectID&lt;/code&gt; in our dataframe is a GenBankID, we need to get the NCBI taxonomy UID for each of these and then get the taxonomy. &lt;code&gt;taxize&lt;/code&gt; has functions to do this. To go from GenBankID -&amp;gt; UID we shall use &lt;code&gt;taxize::genbank2uid()&lt;/code&gt;. To go from UID -&amp;gt; taxonomy we shall use &lt;code&gt;taxize::ncbi_get_taxon_summary&lt;/code&gt;. To do the same function on row of our dataframe, I nested some of my data in a list within my existing dataframe. This gives a list column that I can use &lt;code&gt;purrr::map()&lt;/code&gt; to add another list column to my dataframe, before unnesting them both again! If this sounds complex, you are not alone (and this is the first time I did it this way too), but I did find a couple of great examples on list columns, purrr and dplyr &lt;a href=&#34;https://jennybc.github.io/purrr-tutorial/ls13_list-columns.html&#34;&gt;here&lt;/a&gt; and &lt;a href=&#34;http://ijlyttle.github.io/isugg_purrr/presentation.html#(1)&#34;&gt;here&lt;/a&gt;. Here, this method helps ensure a single API call is used for each row of the dataframe and helps us control for possible errors, using &lt;code&gt;purrr::possibly()&lt;/code&gt;.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# reduce number of columns so we drop all of the gumph
-seq_IDs &amp;lt;- select(seq_IDs, num, QueryID, SubjectID, Perc.Ident)
-
-# work out the uid from the genbank id - given as SubjectID
-# approach - nest each row in a list and call the API separately - return NA if it does not work
-seq_IDs_nest &amp;lt;- seq_IDs %&amp;gt;%
-  nest(., SubjectID) %&amp;gt;%
-  mutate(., uid = map(data, possibly(genbank2uid, otherwise = NA, quiet = TRUE))) %&amp;gt;%
-  # take just the first element of the list
-  mutate(., uid = map(uid, 1))
-
-# unnest these columns to get the dataframes out. There shall be warnings but they are ok as the correct uids are preserved
-seq_IDs &amp;lt;- seq_IDs_nest %&amp;gt;%
-  unnest(data, uid)
-
-head(seq_IDs)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## # A tibble: 6 x 5
-##     num QueryID    Perc.Ident uid     SubjectID  
-##   &amp;lt;int&amp;gt; &amp;lt;chr&amp;gt;           &amp;lt;dbl&amp;gt; &amp;lt;chr&amp;gt;   &amp;lt;chr&amp;gt;      
-## 1     1 file_3.seq       97.4 1775474 NR_134828.1
-## 2     2 file_4.seq       97.9 1649133 NR_145922.1
-## 3     3 file_4.seq       97.9 123899  NR_118635.1
-## 4     4 file_4.seq       97.9 1287737 NR_117708.1
-## 5     5 file_4.seq       97.9 1287736 NR_117707.1
-## 6     6 file_4.seq       97.9 1287735 NR_117706.1&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Now we have the NCBI taxon summary ID, we can go ahead and get the taxonomy of each row, in much the same way as we got the NCBI taxon summary ID from the GenBank ID.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# now nest uids of each row and run the get_taxon_summary API call on each list element
-seq_IDs_nest &amp;lt;- seq_IDs %&amp;gt;%
-  nest(., uid) %&amp;gt;%
-  mutate(., tax_info = map(data, possibly(ncbi_get_taxon_summary, otherwise = NA, quiet = TRUE)))
-
-# unnest this dataframe for final dataframe of what everything is
-seq_IDs &amp;lt;- seq_IDs_nest %&amp;gt;%
-  unnest(tax_info) %&amp;gt;%
-  select(., -data)
-
-# lets have a look
-head(seq_IDs)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## # A tibble: 6 x 7
-##     num QueryID    Perc.Ident SubjectID   uid     name              rank  
-##   &amp;lt;int&amp;gt; &amp;lt;chr&amp;gt;           &amp;lt;dbl&amp;gt; &amp;lt;chr&amp;gt;       &amp;lt;chr&amp;gt;   &amp;lt;chr&amp;gt;             &amp;lt;chr&amp;gt; 
-## 1     1 file_3.seq       97.4 NR_134828.1 1775474 Variovorax guang… speci…
-## 2     2 file_4.seq       97.9 NR_145922.1 1649133 Bordetella tumul… speci…
-## 3     3 file_4.seq       97.9 NR_118635.1 123899  Bordetella trema… speci…
-## 4     4 file_4.seq       97.9 NR_117708.1 1287737 Achromobacter an… speci…
-## 5     5 file_4.seq       97.9 NR_117707.1 1287736 Achromobacter ae… speci…
-## 6     6 file_4.seq       97.9 NR_117706.1 1287735 Achromobacter in… speci…&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;And there you have it. We have a dataframe that now includes the species name of each of the returned hits for each file. Pretty neat if you ask me, and better than clicking over and over in BLAST on their website! This script is now ready to go again and again. Not bad for around 5 hours work! From this we can examine consensus within samples and look for variation across samples. The opportunities are endless.&lt;/p&gt;
-&lt;p&gt;Thanks for reading. A script containing only the code chunks used here can be found &lt;a href=&#34;https://gist.github.com/padpadpadpad/d2fe494b8392d0c84b40fe158caca834&#34;&gt;here&lt;/a&gt; and the files can be found in the &lt;code&gt;data/20171008_sanger&lt;/code&gt; folder of my &lt;a href=&#34;https://github.com/padpadpadpad/blogdown_source&#34;&gt;GitHub blogdown repository&lt;/a&gt; if you want to run through my example completely. You will just have to change the directories where the files are (or preferably use R projects)!&lt;/p&gt;
-&lt;/div&gt;
-</description>
+      <description>Introduction Moving to a microbiology group has meant I now have loads of interesting genomic and sequencing data to play with!
+One common task we have when we start with some new natural communities is to work out what is in there! We plate the samples out, look at their colony morphology, but colonies can be picked and sequenced using sanger sequencing. Once you have your sequencing data back, you can check your sequence against a database to look at the taxonomic identity of the picked colonies.</description>
     </item>
     
     <item>
@@ -1164,8 +140,7 @@ head(seq_IDs)&lt;/code&gt;&lt;/pre&gt;
       <pubDate>Sun, 01 Jan 2017 00:00:00 +0000</pubDate>
       
       <guid>https://padpadpadpad.github.io/talk/example-talk/</guid>
-      <description>&lt;p&gt;Embed your slides or video here using &lt;a href=&#34;https://gcushen.github.io/hugo-academic-demo/post/writing-markdown-latex/&#34; target=&#34;_blank&#34;&gt;shortcodes&lt;/a&gt;. Further details can easily be added using &lt;em&gt;Markdown&lt;/em&gt; and $\rm \LaTeX$ math code.&lt;/p&gt;
-</description>
+      <description>Embed your slides or video here using shortcodes. Further details can easily be added using Markdown and $\rm \LaTeX$ math code.</description>
     </item>
     
     <item>
@@ -1174,164 +149,8 @@ head(seq_IDs)&lt;/code&gt;&lt;/pre&gt;
       <pubDate>Thu, 08 Sep 2016 21:13:14 -0500</pubDate>
       
       <guid>https://padpadpadpad.github.io/post/introducing-nlsloop/</guid>
-      <description>&lt;div id=&#34;introduction&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Introduction&lt;/h2&gt;
-&lt;p&gt;So you have data you want to fit to a non-linear model…&lt;/p&gt;
-&lt;p&gt;This blog post assumes you have a non-linear model formulation you want to fit to non-linear data and are aware of the excellent &lt;code&gt;nlme&lt;/code&gt; package by Pinheiro and Bates and their &lt;a href=&#34;Mixed-Effects%20Models%20in%20S%20and%20S-PLUS%20(Statistics%20and%20Computing)&#34;&gt;book&lt;/a&gt; that nicely explains how to use it. This would be my first port of call if you want to understand the simplicities and complexities of fitting non-linear models and mixed effect models in general.&lt;/p&gt;
-&lt;p&gt;This blog post is less about when to use non-linear regression or non-linear mixed effects models but more about a method of ensuring the &lt;strong&gt;best fit each curve&lt;/strong&gt; to its data.&lt;/p&gt;
-&lt;p&gt;When fitting non-linear models to data, it is common to want to fit the same model to multiple levels of a factor. In this situation &lt;code&gt;nlme::nlsList()&lt;/code&gt; is often used to loop through levels of factor such as &lt;code&gt;nlsList(Y ~ function(X)|factor)&lt;/code&gt;. However, &lt;code&gt;nlsList()&lt;/code&gt; only allows a single set of starting parameters.&lt;/p&gt;
-&lt;p&gt;If you have a dataset where every level of the factor fits the same model, but spans several magnitudes of parameter values, you will be familiar with the error:&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;Error in nlsList(Y ~ function(X)|factor): singular gradient&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;that is often caused by starting parameters being too far away from the actual values in parameter space. This often means &lt;code&gt;nlsList()&lt;/code&gt; is inadequate for fitting multiple non-linear models.&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;nlsLoop&lt;/code&gt; is a package hosted on &lt;a href=&#34;https://github.com/padpadpadpad/TeamPhytoplankton&#34;&gt;GitHub&lt;/a&gt; that allows multiple starting values to be used to ensure the best fit to each separate curve. &lt;code&gt;nlsLoop::nlsLoop()&lt;/code&gt; fits the same model over a level of a factor and allows multiple starting values and picks the best model using AIC score.&lt;/p&gt;
-&lt;div id=&#34;key-parameters-of-nlsloop&#34; class=&#34;section level4&#34;&gt;
-&lt;h4&gt;Key parameters of nlsLoop()&lt;/h4&gt;
-&lt;ul&gt;
-&lt;li&gt;model: the non-linear model specification&lt;/li&gt;
-&lt;li&gt;data: the raw data frame&lt;/li&gt;
-&lt;li&gt;tries: the number of combinations of starting values you want the model to try&lt;/li&gt;
-&lt;li&gt;id_col: the column that has a unique identifier for each specific curve you want to model&lt;/li&gt;
-&lt;li&gt;param_bds: a vector specifying the boundaries of your starting parameter estimates. It is important to &lt;strong&gt;LOOK&lt;/strong&gt; at your data and previous literature at this point to try and work what reasonable ranges of parameters are!
-&lt;ul&gt;
-&lt;li&gt;These are specified as c(lower bound parameter 1, upper bound parameter 1, lower bound parameter 2, upper bound parameter 2, lower bound parameter &lt;em&gt;n&lt;/em&gt;, upper bound parameter &lt;em&gt;n&lt;/em&gt;).&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;&lt;em&gt;r&lt;sup&gt;2&lt;/sup&gt;&lt;/em&gt; : whether or not you want to calculate an &lt;em&gt;r&lt;sup&gt;2&lt;/sup&gt;&lt;/em&gt; value for each of your fits. This parameter comes with a &lt;a href=&#34;http://stackoverflow.com/questions/14530770/calculating-r2-for-a-nonlinear-model&#34;&gt;warning&lt;/a&gt; that &lt;em&gt;r&lt;sup&gt;2&lt;/sup&gt;&lt;/em&gt; do not mean the same things for non-linear models as they do for linear models&lt;sup&gt;[1]&lt;/sup&gt;.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div id=&#34;using-nlsloop&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Using nlsLoop&lt;/h2&gt;
-&lt;div id=&#34;load-in-packages-and-install-nlsloop&#34; class=&#34;section level4&#34;&gt;
-&lt;h4&gt;1. Load in packages and install nlsLoop&lt;/h4&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(nlsLoop) # devtools::install_github(&amp;#39;padpadpadpad/nlsLoop&amp;#39;)
-library(dplyr)
-library(magrittr)
-library(tidyr)
-library(ggplot2)&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div id=&#34;load-in-data-frame-and-initial-plot&#34; class=&#34;section level4&#34;&gt;
-&lt;h4&gt;2. Load in data frame and initial plot&lt;/h4&gt;
-&lt;p&gt;The data we shall use for this tutorial are a bunch of thermal performance curves showing the relationship between metabolic rates and temperature in the aquatic alga, &lt;em&gt;Chlorella vulgaris&lt;/em&gt;&lt;sup&gt;[2]&lt;/sup&gt;.&lt;/p&gt;
-&lt;p&gt;So enough talking, lets load in the data and have an initial look at the data.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;data(&amp;quot;Chlorella_TRC&amp;quot;)
-
-head(Chlorella_TRC)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;##   curve_id growth.temp     process        flux temp      K    ln.rate
-## 1        1          20 acclimation respiration   16 289.15 -2.0625783
-## 2        1          20 acclimation respiration   19 292.15 -1.3243794
-## 3        1          20 acclimation respiration   22 295.15 -0.9541681
-## 4        1          20 acclimation respiration   25 298.15 -0.7944367
-## 5        1          20 acclimation respiration   28 301.15 -0.1820364
-## 6        1          20 acclimation respiration   31 304.15  0.1742401&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# define the Sharpe-Schoolfield equation
-schoolfield_high &amp;lt;- function(lnc, E, Eh, Th, temp, Tc) {
-    Tc &amp;lt;- 273.15 + Tc
-    k &amp;lt;- 8.62e-05
-    boltzmann.term &amp;lt;- lnc + log(exp(E/k * (1/Tc - 1/temp)))
-    inactivation.term &amp;lt;- log(1/(1 + exp(Eh/k * (1/Th - 1/temp))))
-    return(boltzmann.term + inactivation.term)
-}&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;As you can see, and read about in the &lt;a href=&#34;http://onlinelibrary.wiley.com/doi/10.1111/ele.12545/full&#34;&gt;paper&lt;/a&gt; (&lt;strong&gt;YES, THIS IS A PLUG&lt;/strong&gt;), we have rates of metabolism for both photosynthesis and respiration across 5 different growth temperatures after both 10 (acclimation) and 100 (adaptation) generations of growth, so we can have a go at an initial plot accordingly…&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(Chlorella_TRC) +
-  geom_point(aes(temp, ln.rate, col = growth.temp), shape = 21, size = 2, alpha = 0.5) +
-  facet_wrap(~flux + process, labeller = labeller(.multi_line = F)) +
-  scale_colour_gradient(low = &amp;#39;blue&amp;#39;, high = &amp;#39;red&amp;#39;, &amp;#39;Growth Temperature&amp;#39;) +
-  theme_bw(base_size = 16, base_family = &amp;#39;Helvetica&amp;#39;) +
-  ylab(&amp;#39;log Metabolic rate&amp;#39;) +
-  xlab(&amp;#39;Assay temperature (ºC)&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://padpadpadpad.github.io/post/2017-09-07-introducing-nlsloop_files/figure-html/first%20plot-1.png&#34; width=&#34;1152&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;The data follows a classic unimodal thermal performance curve and can be modelled using a modified version of the Sharpe-Schoolfield model&lt;sup&gt;[3]&lt;/sup&gt;. A function characterising the model is provided in the package as &lt;code&gt;schoolfield.high()&lt;/code&gt;. This is more about the fitting of non-linear curves than the model so that’s as in depth as I will go here!&lt;/p&gt;
-&lt;p&gt;The data has 60 separate curves and &lt;code&gt;id_col = curve_id&lt;/code&gt;. So lets fit the model!&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;run-nlsloop&#34; class=&#34;section level4&#34;&gt;
-&lt;h4&gt;3. Run nlsLoop&lt;/h4&gt;
-&lt;p&gt;&lt;code&gt;nlsLoop::nlsLoop()&lt;/code&gt; uses &lt;code&gt;minpack.lm::nlsLM()&lt;/code&gt; to fit each individual curve allows addiitional arguments such as &lt;code&gt;lower&lt;/code&gt; and &lt;code&gt;na.action&lt;/code&gt; accordingly. The best fit for each factor level is determined using AIC scores and if the best fit does not change for 100 “tries” then it will move onto the next level of the factor.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;fits &amp;lt;- nlsLoop(ln.rate ~ schoolfield_high(lnc, E, Eh, Th, temp = K, Tc = 20),
-                     data = Chlorella_TRC,
-                     tries = 500,
-                     id_col = &amp;#39;curve_id&amp;#39;,
-                     param_bds = c(-10, 10, 0.1, 2, 0.5, 5, 285, 330),
-                     r2 = &amp;#39;Y&amp;#39;,
-                     supp_errors = &amp;#39;Y&amp;#39;,
-                     AICc = &amp;#39;Y&amp;#39;,
-                     na.action = na.omit,
-                     lower = c(ln.c=-10, Ea=0, Eh=0, Th=0))&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;strong&gt;WARNING: This may take quite a while depending on how good your parameter boundaries are!&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;The result of this returns an &lt;code&gt;nlsLoop&lt;/code&gt; object that is made up of &lt;code&gt;params&lt;/code&gt; which has all of our parameter values for each individual fit and &lt;code&gt;predictions&lt;/code&gt; which is a high resolution predicted dataframe to allow for a smooth curve on a plot (which we will come to later).&lt;/p&gt;
-&lt;p&gt;These can be accessed simply using &lt;code&gt;fits$params&lt;/code&gt; or &lt;code&gt;fits$predictions&lt;/code&gt;.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;head(fits$params)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;##   curve_id       lnc         E       Eh       Th      AIC  quasi_r2
-## 1        1 -1.346211 0.9877306 4.332645 312.1887 48.01896 0.4608054
-## 2        2 -1.349431 1.0653450 4.211374 312.6591 22.39398 0.8978426
-## 3        3 -1.815315 1.1155333 4.140395 310.9545 34.77114 0.7804032
-## 4        4 -1.612615 1.0982576 3.025816 310.6412 31.04688 0.8709134
-## 5        5 -1.767711 1.1244277 9.010641 317.0688 41.69970 0.7602547
-## 6        6 -1.717258 1.1727047 4.077252 311.4596 37.03555 0.7289198&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Having all of these in a single &lt;code&gt;nlsLoop&lt;/code&gt; object allows a simple plotting method to assess how good our fits to the data are. One of the best ways to assess non-linear model is by &lt;strong&gt;ACTUALLY LOOKING&lt;/strong&gt; at how well every model fits its respective raw data.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;plotting&#34; class=&#34;section level4&#34;&gt;
-&lt;h4&gt;4. Plotting&lt;/h4&gt;
-&lt;p&gt;Firstly lets have a look at a single level of &lt;code&gt;curve_id&lt;/code&gt;, a function called &lt;code&gt;plot_id_nlsLoop()&lt;/code&gt; allows this.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;plot_id_nlsLoop(data = Chlorella_TRC, param_data = fits, id = &amp;#39;1&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://padpadpadpad.github.io/post/2017-09-07-introducing-nlsloop_files/figure-html/first%20fit%20plot-1.png&#34; width=&#34;768&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;Not a bad fit… Further to this, &lt;code&gt;plot_all_nlsLoop()&lt;/code&gt; will produce a pdf with each plot on a new sheet.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;plot_all_nlsLoop(&amp;#39;path/of/where/you/want/to/save/me.pdf&amp;#39;, data = Chlorella_TRC, param_data = fits)&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div id=&#34;exploratory-analysis&#34; class=&#34;section level4&#34;&gt;
-&lt;h4&gt;5. Exploratory analysis&lt;/h4&gt;
-&lt;p&gt;We can now edit some of the dataframes to look at the curves split by the treatments within the dataset and explore how the parameter values change across the treatments.&lt;/p&gt;
-&lt;p&gt;For example we can plot all the curves split by respiration, photosynthesis and acclimatory or adaptive timescales.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# select treatment columns from original dataset
-treatments &amp;lt;- select(Chlorella_TRC, c(curve_id, process, growth.temp, flux))
-# keep unique combinations of treatments
-treatments &amp;lt;- unique(treatments[,colnames(treatments)])
-
-# bind treatments to predictions and parameter dataframe
-fits$params &amp;lt;- merge(fits$params, treatments, by = &amp;#39;curve_id&amp;#39;)
-fits$predictions &amp;lt;- merge(fits$predictions, treatments, by = &amp;#39;curve_id&amp;#39;)
-
-# plot every curve
-ggplot() +
-  geom_point(aes(K, ln.rate, col = growth.temp), shape = 21, size = 2, alpha = 0.25, Chlorella_TRC) +
-  geom_line(aes(K, ln.rate, col = growth.temp, group = curve_id), linetype = 2, alpha = 0.5, fits$predictions) +
-  facet_wrap(~flux + process, labeller = labeller(.multi_line = F)) +
-  scale_colour_gradient(low = &amp;#39;blue&amp;#39;, high = &amp;#39;red&amp;#39;, &amp;#39;Growth Temperature&amp;#39;) +
-  theme_bw(base_size = 16, base_family = &amp;#39;Helvetica&amp;#39;) +
-  ylab(&amp;#39;log Metabolic rate&amp;#39;) +
-  xlab(&amp;#39;Assay temperature (ºC)&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://padpadpadpad.github.io/post/2017-09-07-introducing-nlsloop_files/figure-html/data%20wrangling-1.png&#34; width=&#34;1152&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;We can also start having a quick look at any differences between parameters…&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;gather(fits$params, &amp;#39;parameter&amp;#39;, &amp;#39;value&amp;#39;, c(lnc, E, Eh, Th)) %&amp;gt;%
-  ggplot(.) +
-  geom_point(aes(growth.temp, value, col = flux, shape = process), fill = &amp;#39;white&amp;#39;, size = 2, position = position_dodge(width = 0.25)) +
-  facet_wrap(~ parameter, scales = &amp;#39;free_y&amp;#39;) +
-  scale_color_manual(values = c(&amp;#39;green4&amp;#39;, &amp;#39;black&amp;#39;)) +
-  scale_shape_manual(values = c(21, 24)) +
-  theme_bw(base_size = 16, base_family = &amp;#39;Helvetica&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://padpadpadpad.github.io/post/2017-09-07-introducing-nlsloop_files/figure-html/parameter%20plots-1.png&#34; width=&#34;960&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;From here we can see that the activation energy (&lt;em&gt;E&lt;sub&gt;a&lt;/sub&gt;&lt;/em&gt;) in the model does not change systematically with growth temperature or whether it has acclimated or adapted to the growth temperature. However a body of work has shown that photosynthesis should be less sensitive to temperature change (a lower &lt;em&gt;E&lt;sub&gt;a&lt;/sub&gt;&lt;/em&gt;) than that of respiration.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(fits$params, aes(flux, E)) +
-  geom_boxplot(aes(fill = flux, col = flux), outlier.shape = NA, width = 0.5) +
-  stat_summary(geom = &amp;#39;crossbar&amp;#39;, fatten = 0, color = &amp;#39;white&amp;#39;, width = 0.5, fun.data = function(x){ return(c(y=median(x), ymin=median(x), ymax=median(x)))}) +
-  geom_jitter(aes(flux, E, col = flux), shape = 21, fill =&amp;#39;white&amp;#39;, width = 0.25, height = 0) +
-  theme_bw(base_size = 16, base_family = &amp;#39;Helvetica&amp;#39;) +
-  scale_color_manual(values = c(&amp;#39;green4&amp;#39;, &amp;#39;black&amp;#39;)) +
-  scale_fill_manual(values = c(&amp;#39;green4&amp;#39;, &amp;#39;black&amp;#39;)) +
-  ylab(&amp;#39;Activation enrrgy (eV)&amp;#39;) +
-  xlab(&amp;#39;Flux&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://padpadpadpad.github.io/post/2017-09-07-introducing-nlsloop_files/figure-html/Ea%20plots-1.png&#34; width=&#34;768&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;And as we can see it looks like we have a difference in the activation energies, with photosynthesis having a lower activation energy than respiration.&lt;/p&gt;
-&lt;p&gt;So from there we can start exploring our data and formally analysing our parameters! &lt;code&gt;nlsLoop&lt;/code&gt; allows us to have confidence in our fitting of all the curves and gives us an easy way of plotting and manipulating the data afterwards!&lt;/p&gt;
-&lt;p&gt;Happy model fitting. Any comments much appreciated.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;references&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;References:&lt;/h3&gt;
-&lt;p&gt;[1] Spiess, A.N. &amp;amp; Neumeyer, N. (2010). An evaluation of R&lt;sup&gt;2&lt;/sup&gt; as an inadequate measure for nonlinear models in pharmacological and biochemical research: a Monte Carlo approach. BMC Pharmacology, 10, 6.&lt;/p&gt;
-&lt;p&gt;[2] Padfield, D., Yvon-durocher, G., Buckling, A., Jennings, S. &amp;amp; Yvon-durocher, G. (2015). Rapid evolution of metabolic traits explains thermal adaptation in phytoplankton. Ecology Letters, 19(2), 133-142.&lt;/p&gt;
-&lt;p&gt;[3] Schoolfield, R.M., Sharpe, P.J. &amp;amp; Magnuson, C.E. (1981). Non-linear regression of biological temperature-dependent rate models based on absolute reaction-rate theory. J. Theoretical Biology, 88, 719–31.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-</description>
+      <description>Introduction So you have data you want to fit to a non-linear model…
+This blog post assumes you have a non-linear model formulation you want to fit to non-linear data and are aware of the excellent nlme package by Pinheiro and Bates and their book that nicely explains how to use it. This would be my first port of call if you want to understand the simplicities and complexities of fitting non-linear models and mixed effect models in general.</description>
     </item>
     
     <item>
@@ -1340,16 +159,7 @@ ggplot() +
       <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
       
       <guid>https://padpadpadpad.github.io/project/deep-learning/</guid>
-      <description>&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis posuere tellus ac convallis placerat. Proin tincidunt magna sed ex sollicitudin condimentum. Sed ac faucibus dolor, scelerisque sollicitudin nisi. Cras purus urna, suscipit quis sapien eu, pulvinar tempor diam. Quisque risus orci, mollis id ante sit amet, gravida egestas nisl. Sed ac tempus magna. Proin in dui enim. Donec condimentum, sem id dapibus fringilla, tellus enim condimentum arcu, nec volutpat est felis vel metus. Vestibulum sit amet erat at nulla eleifend gravida.&lt;/p&gt;
-
-&lt;p&gt;Nullam vel molestie justo. Curabitur vitae efficitur leo. In hac habitasse platea dictumst. Sed pulvinar mauris dui, eget varius purus congue ac. Nulla euismod, lorem vel elementum dapibus, nunc justo porta mi, sed tempus est est vel tellus. Nam et enim eleifend, laoreet sem sit amet, elementum sem. Morbi ut leo congue, maximus velit ut, finibus arcu. In et libero cursus, rutrum risus non, molestie leo. Nullam congue quam et volutpat malesuada. Sed risus tortor, pulvinar et dictum nec, sodales non mi. Phasellus lacinia commodo laoreet. Nam mollis, erat in feugiat consectetur, purus eros egestas tellus, in auctor urna odio at nibh. Mauris imperdiet nisi ac magna convallis, at rhoncus ligula cursus.&lt;/p&gt;
-
-&lt;p&gt;Cras aliquam rhoncus ipsum, in hendrerit nunc mattis vitae. Duis vitae efficitur metus, ac tempus leo. Cras nec fringilla lacus. Quisque sit amet risus at ipsum pharetra commodo. Sed aliquam mauris at consequat eleifend. Praesent porta, augue sed viverra bibendum, neque ante euismod ante, in vehicula justo lorem ac eros. Suspendisse augue libero, venenatis eget tincidunt ut, malesuada at lorem. Donec vitae bibendum arcu. Aenean maximus nulla non pretium iaculis. Quisque imperdiet, nulla in pulvinar aliquet, velit quam ultrices quam, sit amet fringilla leo sem vel nunc. Mauris in lacinia lacus.&lt;/p&gt;
-
-&lt;p&gt;Suspendisse a tincidunt lacus. Curabitur at urna sagittis, dictum ante sit amet, euismod magna. Sed rutrum massa id tortor commodo, vitae elementum turpis tempus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean purus turpis, venenatis a ullamcorper nec, tincidunt et massa. Integer posuere quam rutrum arcu vehicula imperdiet. Mauris ullamcorper quam vitae purus congue, quis euismod magna eleifend. Vestibulum semper vel augue eget tincidunt. Fusce eget justo sodales, dapibus odio eu, ultrices lorem. Duis condimentum lorem id eros commodo, in facilisis mauris scelerisque. Morbi sed auctor leo. Nullam volutpat a lacus quis pharetra. Nulla congue rutrum magna a ornare.&lt;/p&gt;
-
-&lt;p&gt;Aliquam in turpis accumsan, malesuada nibh ut, hendrerit justo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Quisque sed erat nec justo posuere suscipit. Donec ut efficitur arcu, in malesuada neque. Nunc dignissim nisl massa, id vulputate nunc pretium nec. Quisque eget urna in risus suscipit ultricies. Pellentesque odio odio, tincidunt in eleifend sed, posuere a diam. Nam gravida nisl convallis semper elementum. Morbi vitae felis faucibus, vulputate orci placerat, aliquet nisi. Aliquam erat volutpat. Maecenas sagittis pulvinar purus, sed porta quam laoreet at.&lt;/p&gt;
-</description>
+      <description>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis posuere tellus ac convallis placerat. Proin tincidunt magna sed ex sollicitudin condimentum. Sed ac faucibus dolor, scelerisque sollicitudin nisi. Cras purus urna, suscipit quis sapien eu, pulvinar tempor diam. Quisque risus orci, mollis id ante sit amet, gravida egestas nisl. Sed ac tempus magna. Proin in dui enim. Donec condimentum, sem id dapibus fringilla, tellus enim condimentum arcu, nec volutpat est felis vel metus.</description>
     </item>
     
     <item>
